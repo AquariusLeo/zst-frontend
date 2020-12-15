@@ -1,5 +1,5 @@
 import { Form, Input, Button, Checkbox } from 'antd';
-import axios from "/util/http/axios";
+import axios from "@/utils/http/axios";
 
 const layout = {
   labelCol: {
