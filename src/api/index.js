@@ -5,10 +5,14 @@ export const getLogin = (data) => {
   return axios.request({
     url: BASE_URL + LOGIN,
     method: 'post',
-    data: data
+    params: data
   })
 }
 
 export const getTest = (params) => {
-  return axios.get(BASE_URL + GETTEST)
+  return axios.request({
+    url: BASE_URL + GETTEST,
+    method: 'get',
+    params: params
+  })
 }
