@@ -1,18 +1,21 @@
 import { Form, Input, Button, Checkbox } from 'antd';
-import { getLogin, getTest } from '@/api'
+import axios from 'axios'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './index.scss'
 import logo from '@/assets/logo.png'
 
 const Login = () => {
   async function onFinish(values) {
-    console.log('Received values of form: ', values);
-    const {username, password} = values
-    const res = await getLogin({username, password})
-    console.log(res)
+    axios.get()
   };
-
-  return (
+  axios.get('/api/hello')
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  return ( 
     <div className="login">
       <div className="login-form-wrap">
         <header>

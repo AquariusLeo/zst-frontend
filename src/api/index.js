@@ -1,4 +1,4 @@
-import { BASE_URL, LOGIN, GETTEST } from "./urls";
+import { BASE_URL, LOGIN } from "./urls";
 import axios from "@/utils/http/axios";
 
 export const getLogin = (data) => {
@@ -11,7 +11,7 @@ export const getLogin = (data) => {
 
 export const getTest = (params) => {
   return axios.request({
-    url: BASE_URL + GETTEST,
+    url: '/hub',
     method: 'get',
     params: params
   })
