@@ -1,8 +1,6 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getLogin, getTest } from '@/api'
-import axios from 'axios'
-
 import './index.scss'
 import logo from '@/assets/logo.png'
 
