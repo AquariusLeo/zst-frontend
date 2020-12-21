@@ -1,18 +1,17 @@
-import { BASE_URL, LOGIN } from "./urls";
-import axios from "@/utils/http/axios";
+import { BASE_URL, LOGIN, TEST } from "./urls";
+import instance from "@/utils/http/axios";
 
 export const getLogin = (data) => {
-  return axios.request({
+  return instance.request({
     url: BASE_URL + LOGIN,
     method: 'post',
-    params: data
+    data: data
   })
 }
 
-export const getTest = (params) => {
-  return axios.request({
-    url: '/hub',
+export const getTest = () => {
+  return instance.request({
+    url: BASE_URL + TEST,
     method: 'get',
-    params: params
   })
 }

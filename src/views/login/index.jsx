@@ -1,20 +1,21 @@
 import { Form, Input, Button, Checkbox } from 'antd';
-import axios from 'axios'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { getLogin, getTest } from '@/api'
+import axios from 'axios'
+
 import './index.scss'
 import logo from '@/assets/logo.png'
 
 const Login = () => {
   async function onFinish(values) {
-    axios.get()
-  };
-  axios.get('/api/hello')
-    .then(res => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    const user = await getLogin({username: '111', password: '111'})
+    console.log('user', user)
+    localStorage.setItem('zst-token', user.data.token);
+    localStorage.removeItem('zst-token')
+    const success = await getTest()
+    console.log('success', success)
+  };  
+
   return ( 
     <div className="login">
       <div className="login-form-wrap">
