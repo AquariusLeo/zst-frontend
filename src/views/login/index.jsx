@@ -1,17 +1,26 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { useHistory } from 'react-router-dom'
+import { Form, Input, Button, Checkbox, message } from 'antd';
+import { throttle } from 'lodash'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getLogin, getTest } from '@/api'
 import './index.scss'
 import logo from '@/assets/logo.png'
 
-const Login = () => {
+const Login = (props) => {
+  let history = useHistory()
   async function onFinish(values) {
-    const user = await getLogin({username: '111', password: '111'})
-    console.log('user', user)
-    localStorage.setItem('zst-token', user.data.token);
-    localStorage.removeItem('zst-token')
-    const success = await getTest()
-    console.log('success', success)
+    // const user = await getLogin({username: '111', password: '111'})
+    // console.log('user', user)
+    // if (user) {
+    //   localStorage.setItem('zst-token', user.data.token);
+    //   localStorage.removeItem('zst-token')
+    //   const success = await getTest()
+    //   console.log('success', success)
+    // }
+    message.success('登陆成功！')
+    setTimeout(() => {
+      history.push("/home")
+    },1000)
   };  
 
   return ( 
@@ -27,7 +36,7 @@ const Login = () => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          onFinish={throttle(onFinish,1000)}
         >
           <Form.Item
             name="username"

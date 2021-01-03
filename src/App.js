@@ -21,6 +21,8 @@ function App() {
       window.removeEventListener('resize', remDebounced)
     }
   }, [])
+
+
   return (
     <div className="App">
       <Router>
