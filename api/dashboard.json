@@ -1,0 +1,39 @@
+{
+  "api/dashboardInfoCard": {
+    "data": {
+      "totalCustomers": 111,
+      "totalOrders": 111,
+      "totalSales": 10000
+    },
+    "status": 200,
+    "message": "success"
+  },
+  "api/dashboardAmountTrend": {
+    "data": [
+      {
+        "Data": "2020-06",
+        "amount": 1000000
+      },
+      {
+        "Data": "2020-07",
+        "amount": 200000
+      }
+    ],
+    "status": 200,
+    "message": "success"
+  },
+  "api/dashboardPlatformSlice": {
+    "data": [
+      {
+        "type": "分类一",
+        "value": 27
+      },
+      {
+        "type": "分类二",
+        "value": 25
+      }
+    ],
+    "status": 200,
+    "message": "success"
+  }
+}
