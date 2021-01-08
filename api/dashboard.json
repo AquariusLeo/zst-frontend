@@ -3,7 +3,10 @@
     "data": {
       "totalCustomers": 111,
       "totalOrders": 111,
-      "totalSales": 10000
+      "totalSales": 10000,
+      "customerIncrease": 0.01,
+      "orderIncrease": 0.01,
+      "saleIncrease": 0.01
     },
     "status": 200,
     "message": "success"
@@ -11,12 +14,12 @@
   "api/dashboardAmountTrend": {
     "data": [
       {
-        "Data": "2020-06",
-        "amount": 1000000
+        "mon": "2020-06",
+        "sum": 1000000
       },
       {
-        "Data": "2020-07",
-        "amount": 200000
+        "mon": "2020-07",
+        "sum": 200000
       }
     ],
     "status": 200,

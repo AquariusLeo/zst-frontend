@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Provider } from "react-redux"
 import { debounce } from "lodash"
 import Login from "./views/login";
 import Home from "./views/home"
+import store from "./store"
 import './App.css';
 
 function App() {
@@ -24,21 +26,23 @@ function App() {
 
 
   return (
-    <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Redirect from="/" to="login"></Redirect>
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/home">
-            <Home />
-          </Route>
-        </Switch>
-      </Router>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Redirect from="/" to="login"></Redirect>
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/home">
+              <Home />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    </Provider>
   );
 }
 

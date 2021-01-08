@@ -36,7 +36,7 @@ const Home = () => {
           </Menu.Item>
           <SubMenu key="data" title="数据中心" icon={<PieChartOutlined />}>
             <Menu.Item key="2">
-              <Link>时间维度</Link>
+              时间维度
             </Menu.Item>
             <Menu.Item key="3">
               地域维度

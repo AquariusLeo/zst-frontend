@@ -1,3 +1,6 @@
 export const BASE_URL = '/api'
+
 export const LOGIN = '/login'
-export const TEST = '/test'
+
+// dashboard
+export const DASHBOARD_INFO_CARD = '/dashboardInfoCard'

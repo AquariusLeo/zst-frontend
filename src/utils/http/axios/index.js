@@ -1,5 +1,6 @@
 import axios from "axios";
-import checkStatus from "./checkStatus";
+import checkHttpStatus from "./checkHttpStatus";
+import checkLoginStatus from "./checkLoginStatus"
 const instance = axios.create()
 
 instance.interceptors.request.use(
@@ -12,11 +13,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
+    checkLoginStatus(response.data)
     return response.data
   },
   (error) => {
     if (error.response) {
-      checkStatus(error.response.status)
+      checkHttpStatus(error.response.status)
     }
   }
 )

@@ -2,25 +2,26 @@ import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { throttle } from 'lodash'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { getLogin, getTest } from '@/api'
+import { getLogin } from '@/api'
 import './index.scss'
 import logo from '@/assets/logo.png'
 
 const Login = (props) => {
   let history = useHistory()
   async function onFinish(values) {
-    // const user = await getLogin({username: '111', password: '111'})
-    // console.log('user', user)
-    // if (user) {
-    //   localStorage.setItem('zst-token', user.data.token);
-    //   localStorage.removeItem('zst-token')
-    //   const success = await getTest()
-    //   console.log('success', success)
-    // }
-    message.success('登陆成功！')
-    setTimeout(() => {
-      history.push("/home")
-    },1000)
+    const user = await getLogin({username: 'cai', password: '1223'})
+    console.log('user', user)
+    if (user.data.token) {
+      localStorage.setItem('zst-token', user.data.token);
+      // localStorage.removeItem('zst-token')
+      // const success = await getTest()
+      // console.log('success', success)
+      message.success('登陆成功！')
+      setTimeout(() => {
+        history.push("/home/dashboard")
+      },1000)
+    }
+    
   };  
 
   return ( 

@@ -1,17 +1,22 @@
-import { BASE_URL, LOGIN, TEST } from "./urls";
+import * as URL from "./urls";
 import instance from "@/utils/http/axios";
 
 export const getLogin = (data) => {
   return instance.request({
-    url: BASE_URL + LOGIN,
+    url: URL.BASE_URL + URL.LOGIN,
     method: 'post',
     data: data
   })
 }
 
-export const getTest = () => {
+// dashboard
+export const getDashboardInfoCard = (year, month) => {
   return instance.request({
-    url: BASE_URL + TEST,
+    url: URL.BASE_URL + URL.DASHBOARD_INFO_CARD,
     method: 'get',
+    params: {
+      year: year,
+      month: month
+    }
   })
 }
