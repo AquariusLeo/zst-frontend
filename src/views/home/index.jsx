@@ -11,7 +11,10 @@ import {
   CloudUploadOutlined,
 } from '@ant-design/icons';
 import Dashboard from './dashboard'
-import Analysis from './analysisData'
+import AnalysisByArea from './analysisData/area'
+import AnalysisByPlatform from './analysisData/platform'
+import AnalysisByProduct from './analysisData/product'
+import AnalysisByTime from './analysisData/time'
 import Portrait from './portrait'
 import ManageData from './manageData'
 import UploadData from './uploadData'
@@ -36,16 +39,16 @@ const Home = () => {
           </Menu.Item>
           <SubMenu key="data" title="数据中心" icon={<PieChartOutlined />}>
             <Menu.Item key="2">
-              时间维度
+              <Link to={`${url}/analysisByTime`}>时间维度</Link>
             </Menu.Item>
             <Menu.Item key="3">
-              地域维度
+              <Link to={`${url}/analysisByArea`}>地域维度</Link>
             </Menu.Item>
             <Menu.Item key="4">
-              产品维度
+              <Link to={`${url}/analysisByProduct`}>产品维度</Link>
             </Menu.Item>
             <Menu.Item key="5">
-              平台维度
+              <Link to={`${url}/analysisByPlatform`}>平台维度</Link>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="6" icon={<UsergroupDeleteOutlined />}>
@@ -72,20 +75,22 @@ const Home = () => {
               onClick: toggle,
             })}
         </Header>
-        <Content
-          className="site-layout-background"
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
+        <Content className="site-layout-background content">
           <Switch>
             <Route exact path={`${path}/dashboard`}>
               <Dashboard/>
             </Route>
-            <Route exact path={`${path}/analysis`}>
-              <Analysis/>
+            <Route exact path={`${path}/analysisByTime`}>
+              <AnalysisByTime/>
+            </Route>
+            <Route exact path={`${path}/analysisByArea`}>
+              <AnalysisByArea/>
+            </Route>
+            <Route exact path={`${path}/analysisByPlatform`}>
+              <AnalysisByPlatform/>
+            </Route>
+            <Route exact path={`${path}/analysisByProduct`}>
+              <AnalysisByProduct/>
             </Route>
             <Route exact path={`${path}/portrait`}>
               <Portrait/>

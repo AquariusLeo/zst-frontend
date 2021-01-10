@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
+import { DatePicker, Space } from 'antd';
 
-export default class AnalysisByTime extends Component {
-  render() {
-    return (
-      <div>
-        AnalysisByTime
-      </div>
-    )
-  }
+const { RangePicker } = DatePicker;
+
+
+const AnalysisByTime = () => {
+  return (
+    <Space direction="vertical" size={12}>
+      <RangePicker />
+    </Space>
+  )
 }
+
+export default AnalysisByTime

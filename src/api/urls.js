@@ -4,3 +4,4 @@ export const LOGIN = '/login'
 
 // dashboard
 export const DASHBOARD_INFO_CARD = '/dashboardInfoCard'
+export const DASHBOARD_TREND = '/dashboardAmountTrend'

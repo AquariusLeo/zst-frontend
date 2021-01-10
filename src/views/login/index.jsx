@@ -9,8 +9,8 @@ import logo from '@/assets/logo.png'
 const Login = (props) => {
   let history = useHistory()
   async function onFinish(values) {
-    const user = await getLogin({username: 'cai', password: '1223'})
-    console.log('user', user)
+    const {username, password} = values
+    const user = await getLogin({username, password})
     if (user.data.token) {
       localStorage.setItem('zst-token', user.data.token);
       // localStorage.removeItem('zst-token')
@@ -21,7 +21,6 @@ const Login = (props) => {
         history.push("/home/dashboard")
       },1000)
     }
-    
   };  
 
   return ( 

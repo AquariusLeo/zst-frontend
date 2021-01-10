@@ -15,8 +15,18 @@ export const getDashboardInfoCard = (year, month) => {
     url: URL.BASE_URL + URL.DASHBOARD_INFO_CARD,
     method: 'get',
     params: {
-      year: year,
-      month: month
+      year,
+      month
+    }
+  })
+}
+
+export const getDashboardTrend = (year) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.DASHBOARD_TREND,
+    method: 'get',
+    params: {
+      year
     }
   })
 }
