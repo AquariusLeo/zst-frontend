@@ -1,4 +1,4 @@
-import { INITINFOCARD, INITTREND } from './actionTypes'
+import { INITINFOCARD, INITTREND, INITPIE } from './actionTypes'
 
 const initState = {
   infoCardData: {
@@ -9,7 +9,8 @@ const initState = {
     "totalOrders": 0,
     "orderIncrease": 0
   },
-  trendData: []
+  trendData: [],
+  pieData: []
 }
 
 const dashboardReducer = (state = initState, action) => {
@@ -18,6 +19,8 @@ const dashboardReducer = (state = initState, action) => {
       return { ...state, infoCardData: action.infoCardData }
     case INITTREND:
       return { ...state, trendData: action.trendData }
+    case INITPIE:
+      return { ...state, pieData: action.pieData}
     default:
       return state
   }

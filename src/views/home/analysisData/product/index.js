@@ -5,6 +5,9 @@ export default class AnalysisByProduct extends Component {
     return (
       <div>
         AnalysisByProduct
+        {
+          console.log(3)
+        }
       </div>
     )
   }

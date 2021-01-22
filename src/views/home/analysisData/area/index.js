@@ -5,6 +5,9 @@ export default class AnalysisByArea extends Component {
     return (
       <div>
         AnalysisByArea
+        {
+          console.log(1)
+        }
       </div>
     )
   }

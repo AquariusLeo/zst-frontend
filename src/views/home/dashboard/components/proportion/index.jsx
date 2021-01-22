@@ -16,19 +16,13 @@ function renderStatistic(containerWidth, text, style) {
 
 
 
-const Proportion = () => {
+const Proportion = (props) => {
   useEffect(() => {
-    const data = [
-      { type: 'WeChat', value: 34851 },
-      { type: 'TMall', value: 4217590 },
-      { type: 'other', value: 191236 },
-      { type: 'Jd', value: 836024 },
-    ];
-
+    const { pieData } =props
     const piePlot = new Pie('dashboardProportion', {
       appendPadding: 10,
-      data,
-      angleField: 'value',
+      data: pieData,
+      angleField: 'sales',
       colorField: 'type',
       radius: 1,
       innerRadius: 0.64,
@@ -52,7 +46,7 @@ const Proportion = () => {
           customHtml: (container, view, datum) => {
             const { width, height } = container.getBoundingClientRect();
             const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
-            const text = datum ? datum.type : '本月销售额总计';
+            const text = datum ? datum.type : '销售额总计';
             return renderStatistic(d, text, { fontSize: 28 });
           },
         },
@@ -63,8 +57,7 @@ const Proportion = () => {
           },
           customHtml: (container, view, datum, data) => {
             const { width } = container.getBoundingClientRect();
-    
-            const text = datum ? `¥ ${datum.value}` : `¥ ${data.reduce((r, d) => r + d.value, 0)}`;
+            const text = datum ? `¥ ${datum.value}` : `¥ ${data.reduce((r, d) => r + d.sales, 0)}`;
             return renderStatistic(width, text, { fontSize: 32 });
           },
         },
@@ -76,7 +69,7 @@ const Proportion = () => {
     return () => {
       piePlot.destroy()
     }
-  }, [])
+  }, [props, props.pieData])
   return (
     <div className="dashboard-proportion">
       <div className="dashboard-proportion-title">平台占比</div>

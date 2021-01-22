@@ -1,5 +1,5 @@
-import { INITINFOCARD, INITTREND } from './actionTypes'
-import { getDashboardInfoCard, getDashboardTrend } from '@/api'
+import { INITINFOCARD, INITTREND, INITPIE } from './actionTypes'
+import { getDashboardInfoCard, getDashboardTrend, getDashboardPie } from '@/api'
 
 export const initInfoCardAction = (infoCardData) => ({
   type: INITINFOCARD,
@@ -25,6 +25,20 @@ export const getTrend = (year) => {
     const trendData = await getDashboardTrend(year)
     if (trendData) {
       dispatch(initTrendAction(trendData.data.amountTrend))
+    }
+  }
+}
+
+export const initPieAction = (pieData) => ({
+  type: INITPIE,
+  pieData
+})
+
+export const getPie = (year, month) => {
+  return async (dispatch) => {
+    const pieData = await getDashboardPie(year, month)
+    if (pieData) {
+      dispatch(initPieAction(pieData.data.pieData))
     }
   }
 }

@@ -30,3 +30,25 @@ export const getDashboardTrend = (year) => {
     }
   })
 }
+
+export const getDashboardPie = (year, month) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.DASHBOARD_PIE,
+    method: 'get',
+    params: {
+      year,
+      month
+    }
+  })
+}
+
+// analysis
+export const getProducts = (product) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PRODUCT_SEARCH,
+    method: 'get',
+    params: {
+      product
+    }
+  })
+}

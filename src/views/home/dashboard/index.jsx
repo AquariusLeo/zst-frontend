@@ -8,7 +8,15 @@ import Proportion from './components/proportion'
 import './style.scss'
 
 const Dashboard = (props) => {
-  const { infoCard, trend } = props
+  const { infoCard, trend, pie } = props
+
+  const getTime = () => {
+    const now = new Date()
+    return Object.assign({
+      year: now.getFullYear(),
+      month: now.getMonth() + 1
+    })
+  }
   
   useEffect(() => {
     props.getInfoCard(2020,7)
@@ -16,9 +24,18 @@ const Dashboard = (props) => {
   },[])
 
   useEffect(() => {
+    // console.log('year', getTime().year)
     props.getTrend(2020)
+    // props.getTrend(getTime().year - 1)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    // console.log('year, month',getTime().year - 1, getTime().month)
+    props.getPie(2020, 7)
+    // props.getPie(getTime().year - 1, getTime().month)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
   return (
     <div className="dashboard">
       <Row gutter={32} className="dashboard-row">
@@ -34,12 +51,12 @@ const Dashboard = (props) => {
       </Row>
       <Row gutter={16} className="dashboard-row">
         <Col span={24}>
-          <Trend trendData={trend}></Trend>
+          <Trend trendData={trend} year={getTime().year}></Trend>
         </Col>
       </Row>
       <Row gutter={16} className="dashboard-row">
         <Col span={24}>
-          <Proportion></Proportion>
+          <Proportion pieData={pie}></Proportion>
         </Col>
       </Row>
     </div>
@@ -49,7 +66,8 @@ const Dashboard = (props) => {
 const mapStateToProps = (state) => {
   return {
     infoCard: state.dashboard.infoCardData,
-    trend: state.dashboard.trendData
+    trend: state.dashboard.trendData,
+    pie: state.dashboard.pieData
   }
 }
 
@@ -60,6 +78,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getTrend(year) {
       dispatch(actionCreators.getTrend(year))
+    },
+    getPie(year, month) {
+      dispatch(actionCreators.getPie(year, month))
     },
     initInfoCard(infoCardData) {
       dispatch(actionCreators.initInfoCardAction(infoCardData))

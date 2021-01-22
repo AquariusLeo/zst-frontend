@@ -5,6 +5,9 @@ export default class AnalysisByPlatform extends Component {
     return (
       <div>
         AnalysisByPlatform
+        {
+          console.log(2)
+        }
       </div>
     )
   }
