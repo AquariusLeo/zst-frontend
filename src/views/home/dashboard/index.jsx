@@ -38,24 +38,25 @@ const Dashboard = (props) => {
   },[])
   return (
     <div className="dashboard">
-      <Row gutter={32} className="dashboard-row">
-        <Col span={8}>
+      <Row gutter={16} className="dashboard-row">
+        <Col span={6}>
           <Card title="买家总数" nums={infoCard.totalCustomers} up={Number(infoCard.customerIncrease).toFixed(2)}></Card>
         </Col>
-        <Col span={8}>
+        <Col span={6}>
           <Card title="订单总数" nums={infoCard.totalOrders} up={Number(infoCard.orderIncrease).toFixed(2)}></Card>
         </Col>
-        <Col span={8}>
+        <Col span={6}>
+          <Card title="总销售额" nums={infoCard.totalSales} up={Number(infoCard.salesIncrease).toFixed(2)}></Card>
+        </Col>
+        <Col span={6}>
           <Card title="总销售额" nums={infoCard.totalSales} up={Number(infoCard.salesIncrease).toFixed(2)}></Card>
         </Col>
       </Row>
       <Row gutter={16} className="dashboard-row">
-        <Col span={24}>
+        <Col span={16}>
           <Trend trendData={trend} year={getTime().year}></Trend>
         </Col>
-      </Row>
-      <Row gutter={16} className="dashboard-row">
-        <Col span={24}>
+        <Col span={8}>
           <Proportion pieData={pie}></Proportion>
         </Col>
       </Row>

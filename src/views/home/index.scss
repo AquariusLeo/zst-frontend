@@ -1,6 +1,5 @@
 .home {
   height: 100vh;
-  overflow: auto;
 }
 .trigger {
   font-size: 18px;
@@ -26,8 +25,6 @@
 
 .content {
   overflow: auto;
-  margin: 12px;
-  padding: 0 24px 24px 24px;
   min-height: 240px;
   &::-webkit-scrollbar {
     width: 6px;

@@ -18,7 +18,7 @@ import UploadData from './uploadData'
 import './index.scss'
 // import avatar from '@/assets/avatar.svg'
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false)
   const toggle = () => {
@@ -29,7 +29,7 @@ const Home = () => {
     <Layout className="home">
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={path.replace('/','')}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']}>
           <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
             <Link to={`${url}/dashboard`}>主页</Link>
           </Menu.Item>
@@ -60,7 +60,7 @@ const Home = () => {
               onClick: toggle,
             })}
         </Header>
-        <Content className="site-layout-background content">
+        <Content className="content">
           <Switch>
             <Route exact path={`${path}/dashboard`}>
               <Dashboard/>
@@ -78,6 +78,7 @@ const Home = () => {
               <UploadData/>
             </Route>
           </Switch>
+          <Footer style={{ textAlign: 'center' }}>Analysis System ©2021 Created by MOCOM</Footer>
         </Content>
       </Layout>
     </Layout>
