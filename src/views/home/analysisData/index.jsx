@@ -12,7 +12,11 @@ function callback(key) {
 
 const Analysis = () => {
   return (
-    <Tabs defaultActiveKey="1" onChange={callback}>
+    <Tabs defaultActiveKey="1" onChange={callback} style={{
+      margin: '24px',
+      backgroundColor: '#fff',
+      padding: '24px'
+    }}>
       <TabPane tab="时间维度" key="1">
         <AnalysisByTime/>
       </TabPane>

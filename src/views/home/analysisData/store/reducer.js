@@ -1,4 +1,4 @@
-import { CHANGE_DATE, CLICK_PLATFORMS, CLICK_INDICATORS, SEARCH_PRODUCT, SELECT_PRODUCT, CHANGE_FETCH_STATUS } from './actionTypes'
+import { CHANGE_DATE, CLICK_PLATFORMS, CLICK_INDICATORS, SEARCH_PRODUCT, SELECT_PRODUCT, CHANGE_FETCH_STATUS, CLICK_TIME_LEVEL } from './actionTypes'
 
 const initState = {
   times: {},
@@ -6,11 +6,14 @@ const initState = {
   platform: '全平台',
   fetching: false,
   searchValue: [],
-  searchData: []
+  searchData: [],
+  timeLevel: '月度'
 }
 
 const analysisReducer = (state = initState, action) => {
   switch (action.type) {
+    case CLICK_TIME_LEVEL:
+      return { ...state, timeLevel: action.level}
     case CHANGE_FETCH_STATUS:
       return { ...state, fetching: action.fetching }
     case SELECT_PRODUCT:

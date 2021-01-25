@@ -1,4 +1,4 @@
-import { CHANGE_DATE, CLICK_INDICATORS, CLICK_PLATFORMS, SEARCH_PRODUCT, SELECT_PRODUCT, CHANGE_FETCH_STATUS } from './actionTypes'
+import { CHANGE_DATE, CLICK_INDICATORS, CLICK_PLATFORMS, SEARCH_PRODUCT, SELECT_PRODUCT, CHANGE_FETCH_STATUS, CLICK_TIME_LEVEL } from './actionTypes'
 import { getProducts } from '@/api'
 
 export const changeDate = (times) => ({
@@ -38,4 +38,9 @@ export const selectProduct = (list) => ({
 export const changeFetchStatus = (fetchStatus) => ({
   type: CHANGE_FETCH_STATUS,
   fetching: fetchStatus
+})
+
+export const clickTimeLevel = (level) => ({
+  type: CLICK_TIME_LEVEL,
+  level
 })

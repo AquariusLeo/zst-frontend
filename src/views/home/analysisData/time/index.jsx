@@ -3,6 +3,7 @@ import TimePicker from '../components/timePicker'
 import IndicatorPicker from '../components/indicatorPicker'
 import PlatformsPicker from '../components/platformsPicker'
 import ProductsPicker from '../components/productsPicker'
+import TimeLevelPicker from '../components/timeLevelPicker'
 import './style.scss'
 
 const AnalysisByTime = () => {
@@ -15,7 +16,10 @@ const AnalysisByTime = () => {
           <IndicatorPicker/>
           <PlatformsPicker/>
         </Space>
-        <ProductsPicker/>
+        <Space size={50}>
+          <ProductsPicker/>
+          <TimeLevelPicker/>
+        </Space>
       </Space>
       
       
