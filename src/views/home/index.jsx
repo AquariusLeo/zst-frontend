@@ -15,6 +15,7 @@ import Analysis from './analysisData'
 import Portrait from './portrait'
 import ManageData from './manageData'
 import UploadData from './uploadData'
+import UserHeader from './header'
 import './index.scss'
 // import avatar from '@/assets/avatar.svg'
 
@@ -59,6 +60,7 @@ const Home = () => {
               className: 'trigger',
               onClick: toggle,
             })}
+            <UserHeader></UserHeader>
         </Header>
         <Content className="content">
           <Switch>
