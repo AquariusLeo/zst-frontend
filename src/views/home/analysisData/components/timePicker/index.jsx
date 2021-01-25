@@ -9,8 +9,11 @@ const { RangePicker } = DatePicker;
 const TimePicker = (props) => {
   return (
     <div>
-      <span>时间范围：</span>
-      <RangePicker  onChange={props.handleChange}/>
+      <span style={{
+        display: 'inline-block',
+        width: '100px'
+      }}>时间范围：</span>
+      <RangePicker style={{width: '300px'}} onChange={props.handleChange}/>
     </div>
   )
 }

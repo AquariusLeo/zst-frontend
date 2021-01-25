@@ -24,7 +24,10 @@ const PlatformsPicker = (props) => {
 
   return (
     <div style={{width: "300px"}}>
-      <span>平台：</span>
+      <span style={{
+        display: 'inline-block',
+        width: '100px'
+      }}>平台：</span>
       <Dropdown overlay={platformMenu}>
         <Button>
           {props.platform} <DownOutlined />

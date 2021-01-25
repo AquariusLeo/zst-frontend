@@ -1,4 +1,4 @@
-import { Space } from 'antd';
+import { Space, Button } from 'antd';
 import TimePicker from '../components/timePicker'
 import IndicatorPicker from '../components/indicatorPicker'
 import PlatformsPicker from '../components/platformsPicker'
@@ -19,6 +19,7 @@ const AnalysisByTime = () => {
         <Space size={50}>
           <ProductsPicker/>
           <TimeLevelPicker/>
+          <Button type="primary" style={{width: '100px'}}>查询</Button>
         </Space>
       </Space>
       

@@ -21,7 +21,10 @@ const TimeLevelPicker = (props) => {
 
   return (
     <div style={{width: "300px"}}>
-      <span>时间层级：</span>
+      <span style={{
+        display: 'inline-block',
+        width: '100px'
+      }}>时间层级：</span>
       <Dropdown overlay={timeLevelMenu}>
         <Button>
           {props.timeLevel} <DownOutlined />

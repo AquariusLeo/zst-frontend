@@ -38,7 +38,10 @@ const IndicatorPicker = (props) => {
 
   return (
     <div style={{width: "300px"}}>
-      <span>对比指标：</span>
+      <span style={{
+        display: 'inline-block',
+        width: '100px'
+      }}>对比指标：</span>
       <Dropdown overlay={indicatorsMenu}>
         <Button>
           {props.indicator} <DownOutlined/>

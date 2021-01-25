@@ -7,8 +7,11 @@ const { Option } = Select;
 
 const ProductsPicker = (props) => {  
   return (
-    <div style={{width: "500px"}}>
-      <span>产品：</span>
+    <div style={{width: "400px"}}>
+      <span style={{
+        display: 'inline-block',
+        width: '100px'
+      }}>产品：</span>
       <Select
         mode="multiple"
         labelInValue
@@ -18,7 +21,7 @@ const ProductsPicker = (props) => {
         filterOption={false}
         onSearch={props.searchProduct}
         onChange={props.selectProduct}
-        style={{ width: '80%' }}
+        style={{ width: '300px' }}
       >
         {
           (() => {
