@@ -4,6 +4,7 @@ import IndicatorPicker from '../components/indicatorPicker'
 import PlatformsPicker from '../components/platformsPicker'
 import ProductsPicker from '../components/productsPicker'
 import TimeLevelPicker from '../components/timeLevelPicker'
+import TimeLine from './line'
 import './style.scss'
 
 const AnalysisByTime = () => {
@@ -22,7 +23,7 @@ const AnalysisByTime = () => {
           <Button type="primary" style={{width: '100px'}}>查询</Button>
         </Space>
       </Space>
-      
+      <TimeLine></TimeLine>
       
     </div>
     
