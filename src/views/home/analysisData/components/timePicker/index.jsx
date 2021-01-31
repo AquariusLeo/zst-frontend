@@ -7,6 +7,7 @@ const { RangePicker } = DatePicker;
 
 
 const TimePicker = (props) => {
+
   return (
     <div>
       <span style={{
@@ -19,9 +20,7 @@ const TimePicker = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    times: state.analysis.times
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {

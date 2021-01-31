@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { connect } from 'react-redux'
 import { Line } from '@antv/g2plot'
 
 const TimeLine = () => {
@@ -30,17 +29,7 @@ const TimeLine = () => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    indicator: state.analysis.indicator
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TimeLine)
+export default TimeLine
 
 const data = [
   {

@@ -9,3 +9,4 @@ export const DASHBOARD_PIE = '/dashboardPlatformSlice'
 
 // analysis
 export const PRODUCT_SEARCH = '/productSearch'
+export const TIMELINE = '/getTimeLine'

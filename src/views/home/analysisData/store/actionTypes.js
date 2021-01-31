@@ -1,3 +1,4 @@
+export const INITPICKER = 'initPicker'
 export const CHANGE_DATE = 'changeDate'
 export const CLICK_INDICATORS = 'clickIndicators'
 export const CLICK_PLATFORMS = 'clickPlatforms'

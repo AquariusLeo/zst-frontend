@@ -52,3 +52,18 @@ export const getProducts = (product) => {
     }
   })
 }
+
+export const postTimeLine = (startTime, endTime, indicator, platform, timeLevel, searchValue) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.TIMELINE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      index: indicator,
+      platform,
+      timeLevel,
+      product: searchValue
+    }
+  })
+}
