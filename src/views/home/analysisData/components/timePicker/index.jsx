@@ -27,9 +27,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleChange (value) {
       if ( value !== null ) {
-        const startDate = moment(value[0]).format('YYYY-MM-DD')
-        const endDate = moment(value[1]).format('YYYY-MM-DD')
-        dispatch(actionCreators.changeDate({startDate, endDate}))
+        const startTime = moment(value[0]).format('YYYY-MM-DD')
+        const endTime = moment(value[1]).format('YYYY-MM-DD')
+        dispatch(actionCreators.changeDate({startTime, endTime}))
       }
     }
   }

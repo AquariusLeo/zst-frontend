@@ -1,26 +1,10 @@
 import { connect } from 'react-redux'
-import { Menu, Dropdown, Button } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Select } from 'antd'
 import { actionCreators } from '../../store'
 
-const PlatformsPicker = (props) => {
+const { Option } = Select
 
-  const platformMenu = (
-    <Menu onClick={props.handlePlatformsMenuClick}>
-      <Menu.Item key="全平台">
-        全平台
-      </Menu.Item>
-      <Menu.Item key="天猫">
-        天猫
-      </Menu.Item>
-      <Menu.Item key="京东">
-        京东
-      </Menu.Item>
-      <Menu.Item key="微信">
-        微信
-      </Menu.Item>
-    </Menu>
-  );
+const PlatformsPicker = (props) => {
 
   return (
     <div style={{width: "300px"}}>
@@ -28,11 +12,11 @@ const PlatformsPicker = (props) => {
         display: 'inline-block',
         width: '100px'
       }}>平台：</span>
-      <Dropdown overlay={platformMenu}>
-        <Button>
-          {props.platform} <DownOutlined />
-        </Button>
-      </Dropdown>
+      <Select mode="multiple" defaultValue={["天猫", "京东", "微信"]} style={{ width: 200 }} onChange={props.handlePlatformsMenuClick}>
+        <Option value="天猫">天猫</Option>
+        <Option value="京东" >京东</Option>
+        <Option value="微信">微信</Option>
+      </Select>
     </div>
   )
 
@@ -46,8 +30,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handlePlatformsMenuClick(e) {
-      dispatch(actionCreators.clickPlatforms(e.key))
+    handlePlatformsMenuClick(value) {
+      dispatch(actionCreators.clickPlatforms(value))
     }
   }
 }

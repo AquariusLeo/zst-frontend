@@ -1,23 +1,10 @@
 import { connect } from 'react-redux'
-import { Menu, Dropdown, Button } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Select } from 'antd'
 import { actionCreators } from '../../store'
 
-const TimeLevelPicker = (props) => {
+const { Option } = Select
 
-  const timeLevelMenu = (
-    <Menu onClick={props.handleTimeLevelMenuClick}>
-      <Menu.Item key="年度">
-        年度
-      </Menu.Item>
-      <Menu.Item key="月度">
-        月度
-      </Menu.Item>
-      <Menu.Item key="每日">
-        每日
-      </Menu.Item>
-    </Menu>
-  );
+const TimeLevelPicker = (props) => {
 
   return (
     <div style={{width: "300px"}}>
@@ -25,11 +12,11 @@ const TimeLevelPicker = (props) => {
         display: 'inline-block',
         width: '100px'
       }}>时间层级：</span>
-      <Dropdown overlay={timeLevelMenu}>
-        <Button>
-          {props.timeLevel} <DownOutlined />
-        </Button>
-      </Dropdown>
+      <Select defaultValue="月度" style={{ width: 120 }} onChange={props.handleTimeLevelMenuClick}>
+        <Option value="年度">年度</Option>
+        <Option value="月度">月度</Option>
+        <Option value="每日">每日</Option>
+      </Select>
     </div>
   )
 }
@@ -42,8 +29,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleTimeLevelMenuClick(e) {
-      dispatch(actionCreators.clickTimeLevel(e.key))
+    handleTimeLevelMenuClick(value) {
+      dispatch(actionCreators.clickTimeLevel(value))
     }
   }
 }

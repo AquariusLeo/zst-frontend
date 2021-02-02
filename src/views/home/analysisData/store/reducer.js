@@ -1,12 +1,13 @@
-import { 
-  CHANGE_DATE, 
-  CLICK_PLATFORMS, 
-  CLICK_INDICATORS, 
-  SEARCH_PRODUCT, 
-  SELECT_PRODUCT, 
-  CHANGE_FETCH_STATUS, 
+import {
+  CHANGE_DATE,
+  CLICK_PLATFORMS,
+  CLICK_INDICATORS,
+  SEARCH_PRODUCT,
+  SELECT_PRODUCT,
+  CHANGE_FETCH_STATUS,
   CLICK_TIME_LEVEL,
-  INITPICKER
+  INITPICKER,
+  GET_TIME_LINE
 } from './actionTypes'
 
 const initState = {
@@ -15,28 +16,32 @@ const initState = {
     endTime: '2021-01-02'
   },
   indicator: '',
-  platform: '',
+  platform: [],
   fetching: false,
   searchValue: [],
   searchData: [],
   timeLevel: '',
-  timeLine : []
+  timeLine: [],
+  timeTable: []
 }
 
 const analysisReducer = (state = initState, action) => {
   switch (action.type) {
     case INITPICKER:
-      return { 
+      return {
         times: action.times,
         indicator: action.indicator,
         platform: action.platform,
         timeLevel: action.timeLevel,
         fetching: action.fetching,
         searchValue: action.searchValue,
-        searchData: action.searchData
+        searchData: action.searchData,
+        timeLine: action.timeLine
       }
+    case GET_TIME_LINE:
+      return { ...state, timeLine: action.timeLine }
     case CLICK_TIME_LEVEL:
-      return { ...state, timeLevel: action.level}
+      return { ...state, timeLevel: action.level }
     case CHANGE_FETCH_STATUS:
       return { ...state, fetching: action.fetching }
     case SELECT_PRODUCT:
