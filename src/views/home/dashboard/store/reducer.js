@@ -1,29 +1,29 @@
-import { INITINFOCARD, INITTREND, INITPIE } from './actionTypes'
+import { INITINFOCARD, INITTREND, INITPIE } from './actionTypes';
 
 const initState = {
   infoCardData: {
-    "totalCustomers": 0,
-    "customerIncrease": 0,
-    "salesIncrease": 0,
-    "totalSales": 0,
-    "totalOrders": 0,
-    "orderIncrease": 0
+    totalCustomers: 0,
+    customerIncrease: 0,
+    salesIncrease: 0,
+    totalSales: 0,
+    totalOrders: 0,
+    orderIncrease: 0,
   },
   trendData: [],
-  pieData: []
-}
+  pieData: [],
+};
 
 const dashboardReducer = (state = initState, action) => {
   switch (action.type) {
     case INITINFOCARD:
-      return { ...state, infoCardData: action.infoCardData }
+      return { ...state, infoCardData: action.infoCardData };
     case INITTREND:
-      return { ...state, trendData: action.trendData }
+      return { ...state, trendData: action.trendData };
     case INITPIE:
-      return { ...state, pieData: action.pieData}
+      return { ...state, pieData: action.pieData };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default dashboardReducer
+export default dashboardReducer;

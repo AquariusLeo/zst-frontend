@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import { Line } from '@antv/g2plot'
+import { useEffect } from 'react';
+import { Line } from '@antv/g2plot';
 
-const TimeLine = (props) => {
+const TimeLine = props => {
   useEffect(() => {
-    const { timeLine } = props
-    
+    const { timeLine } = props;
+
     const line = new Line('time-line', {
-      data:timeLine,
+      data: timeLine,
       padding: 'auto',
       xField: 'data',
       yField: 'value',
@@ -20,14 +20,17 @@ const TimeLine = (props) => {
     });
     line.render();
     return () => {
-      line.destroy()
-    }
-  }, [props.timeLine])
+      line.destroy();
+    };
+  }, [props, props.timeLine]);
   return (
-    <div id="time-line" style={{
-      margin: "40px 0"
-    }}></div>
-  )
-}
+    <div
+      id="time-line"
+      style={{
+        margin: '40px 0',
+      }}
+    ></div>
+  );
+};
 
-export default TimeLine
+export default TimeLine;

@@ -1,11 +1,10 @@
-import { Dropdown, Menu, Avatar  } from 'antd'
+import { Dropdown, Menu, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 const UserHeader = () => {
-
   const handleUserMenuClick = () => {
-    localStorage.removeItem("zst-token")
-  }
+    localStorage.removeItem('zst-token');
+  };
   const menu = (
     <Menu onClick={handleUserMenuClick}>
       <Menu.Item key="1" icon={<UserOutlined />}>
@@ -15,17 +14,17 @@ const UserHeader = () => {
   );
 
   return (
-    <span style={{
-      position: 'absolute',
-      right: '24px'
-    }}>
+    <span
+      style={{
+        position: 'absolute',
+        right: '24px',
+      }}
+    >
       <Dropdown overlay={menu}>
-        <Avatar icon={<UserOutlined />}/>
+        <Avatar icon={<UserOutlined />} />
       </Dropdown>
     </span>
-    
-    
-  )
-}
+  );
+};
 
-export default UserHeader
+export default UserHeader;

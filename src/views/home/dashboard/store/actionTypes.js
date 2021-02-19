@@ -1,3 +1,3 @@
-export const INITINFOCARD = 'initInfoCard'
-export const INITTREND = 'initTrend'
-export const INITPIE= 'initPie'
+export const INITINFOCARD = 'initInfoCard';
+export const INITTREND = 'initTrend';
+export const INITPIE = 'initPie';

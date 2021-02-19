@@ -1,33 +1,33 @@
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, message } from 'antd';
-import { throttle } from 'lodash'
+import { throttle } from 'lodash';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { getLogin } from '@/api'
-import './index.scss'
-import logo from '@/assets/logo.png'
+import { getLogin } from '@/api';
+import './index.scss';
+import logo from '@/assets/logo.png';
 
-const Login = (props) => {
-  let history = useHistory()
+const Login = props => {
+  let history = useHistory();
   async function onFinish(values) {
-    const {username, password} = values
-    const user = await getLogin({username, password})
+    const { username, password } = values;
+    const user = await getLogin({ username, password });
     if (user) {
       localStorage.setItem('zst-token', user.data.token);
       // localStorage.removeItem('zst-token')
       // const success = await getTest()
       // console.log('success', success)
-      message.success('登陆成功！')
+      message.success('登陆成功！');
       setTimeout(() => {
-        history.push("/home/dashboard")
-      },1000)
+        history.push('/home/dashboard');
+      }, 1000);
     }
-  };  
+  }
 
-  return ( 
+  return (
     <div className="login">
       <div className="login-form-wrap">
         <header>
-          <img src={logo} alt="logo" className="logo"/>
+          <img src={logo} alt="logo" className="logo" />
           <h1>正山堂</h1>
         </header>
         <Form
@@ -36,7 +36,7 @@ const Login = (props) => {
           initialValues={{
             remember: true,
           }}
-          onFinish={throttle(onFinish,1000)}
+          onFinish={throttle(onFinish, 1000)}
         >
           <Form.Item
             name="username"
@@ -49,7 +49,8 @@ const Login = (props) => {
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="用户名" />
+              placeholder="用户名"
+            />
           </Form.Item>
           <Form.Item
             name="password"
@@ -73,7 +74,11 @@ const Login = (props) => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
               登录
             </Button>
           </Form.Item>
@@ -83,4 +88,4 @@ const Login = (props) => {
   );
 };
 
-export default Login
+export default Login;

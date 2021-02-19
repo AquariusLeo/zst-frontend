@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class AnalysisByProduct extends Component {
   render() {
     return (
       <div>
         AnalysisByProduct
-        {
-          console.log(3)
-        }
+        {console.log(3)}
       </div>
-    )
+    );
   }
 }

@@ -7,13 +7,13 @@ import {
   CHANGE_FETCH_STATUS,
   CLICK_TIME_LEVEL,
   INITPICKER,
-  GET_TIME_LINE
-} from './actionTypes'
+  GET_TIME_LINE,
+} from './actionTypes';
 
 const initState = {
   times: {
     startTime: '2021-01-01',
-    endTime: '2021-01-02'
+    endTime: '2021-01-02',
   },
   indicator: '',
   platform: [],
@@ -22,8 +22,13 @@ const initState = {
   searchData: [],
   timeLevel: '',
   timeLine: [],
-  timeTable: []
-}
+  tableData: [],
+  pagination: {
+    current: 1,
+    pageSize: 10,
+  },
+  loading: false,
+};
 
 const analysisReducer = (state = initState, action) => {
   switch (action.type) {
@@ -36,27 +41,30 @@ const analysisReducer = (state = initState, action) => {
         fetching: action.fetching,
         searchValue: action.searchValue,
         searchData: action.searchData,
-        timeLine: action.timeLine
-      }
+        timeLine: action.timeLine,
+        tableData: action.tableData,
+        pagination: action.pagination,
+        loading: action.loading,
+      };
     case GET_TIME_LINE:
-      return { ...state, timeLine: action.timeLine }
+      return { ...state, timeLine: action.timeLine };
     case CLICK_TIME_LEVEL:
-      return { ...state, timeLevel: action.level }
+      return { ...state, timeLevel: action.level };
     case CHANGE_FETCH_STATUS:
-      return { ...state, fetching: action.fetching }
+      return { ...state, fetching: action.fetching };
     case SELECT_PRODUCT:
-      return { ...state, searchValue: action.searchValue, searchData: [] }
+      return { ...state, searchValue: action.searchValue, searchData: [] };
     case SEARCH_PRODUCT:
-      return { ...state, searchData: action.searchData }
+      return { ...state, searchData: action.searchData };
     case CLICK_PLATFORMS:
-      return { ...state, platform: action.platform }
+      return { ...state, platform: action.platform };
     case CLICK_INDICATORS:
-      return { ...state, indicator: action.indicator }
+      return { ...state, indicator: action.indicator };
     case CHANGE_DATE:
-      return { ...state, times: action.times }
+      return { ...state, times: action.times };
     default:
-      return { ...state }
+      return { ...state };
   }
-}
+};
 
-export default analysisReducer
+export default analysisReducer;

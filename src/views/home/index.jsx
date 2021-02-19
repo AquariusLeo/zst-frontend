@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, Switch, Route, useRouteMatch } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -10,21 +10,21 @@ import {
   UsergroupDeleteOutlined,
   CloudUploadOutlined,
 } from '@ant-design/icons';
-import Dashboard from './dashboard'
-import Analysis from './analysisData'
-import Portrait from './portrait'
-import ManageData from './manageData'
-import UploadData from './uploadData'
-import UserHeader from './header'
-import './index.scss'
+import Dashboard from './dashboard';
+import Analysis from './analysisData';
+import Portrait from './portrait';
+import ManageData from './manageData';
+import UploadData from './uploadData';
+import UserHeader from './header';
+import './index.scss';
 // import avatar from '@/assets/avatar.svg'
 
 const { Header, Content, Sider, Footer } = Layout;
 const Home = () => {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(false);
   const toggle = () => {
-    setCollapsed(!collapsed)
-  }
+    setCollapsed(!collapsed);
+  };
   let { path, url } = useRouteMatch();
   return (
     <Layout className="home">
@@ -38,53 +38,52 @@ const Home = () => {
             <Link to={`${url}/analysis`}>数据中心</Link>
           </Menu.Item>
           <Menu.Item key="portrait" icon={<UsergroupDeleteOutlined />}>
-            <Link to={`${url}/portrait`}>
-              用户画像
-            </Link>
+            <Link to={`${url}/portrait`}>用户画像</Link>
           </Menu.Item>
           <Menu.Item key="manageData" icon={<DatabaseOutlined />}>
-            <Link to={`${url}/manageData`}>
-              数据管理
-            </Link>
+            <Link to={`${url}/manageData`}>数据管理</Link>
           </Menu.Item>
-          <Menu.Item key="uploadData" icon={<CloudUploadOutlined/>}>
-            <Link to={`${url}/uploadData`}>
-              数据导入
-            </Link>
+          <Menu.Item key="uploadData" icon={<CloudUploadOutlined />}>
+            <Link to={`${url}/uploadData`}>数据导入</Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
               className: 'trigger',
               onClick: toggle,
-            })}
-            <UserHeader></UserHeader>
+            },
+          )}
+          <UserHeader></UserHeader>
         </Header>
         <Content className="content">
           <Switch>
             <Route exact path={`${path}/dashboard`}>
-              <Dashboard/>
+              <Dashboard />
             </Route>
             <Route exact path={`${path}/analysis`}>
-              <Analysis/>
+              <Analysis />
             </Route>
             <Route exact path={`${path}/portrait`}>
-              <Portrait/>
+              <Portrait />
             </Route>
             <Route exact path={`${path}/manageData`}>
-              <ManageData/>
+              <ManageData />
             </Route>
             <Route exact path={`${path}/uploadData`}>
-              <UploadData/>
+              <UploadData />
             </Route>
           </Switch>
-          <Footer style={{ textAlign: 'center' }}>Analysis System ©2021 Created by MOCOM</Footer>
+          <Footer style={{ textAlign: 'center' }}>
+            Analysis System ©2021 Created by MOCOM
+          </Footer>
         </Content>
       </Layout>
     </Layout>
   );
-}
+};
 
-export default Home
+export default Home;

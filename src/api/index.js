@@ -1,13 +1,13 @@
-import * as URL from "./urls";
-import instance from "@/utils/http/axios";
+import * as URL from './urls';
+import instance from '@/utils/http/axios';
 
-export const getLogin = (data) => {
+export const getLogin = data => {
   return instance.request({
     url: URL.BASE_URL + URL.LOGIN,
     method: 'post',
-    data: data
-  })
-}
+    data: data,
+  });
+};
 
 // dashboard
 export const getDashboardInfoCard = (year, month) => {
@@ -16,20 +16,20 @@ export const getDashboardInfoCard = (year, month) => {
     method: 'get',
     params: {
       year,
-      month
-    }
-  })
-}
+      month,
+    },
+  });
+};
 
-export const getDashboardTrend = (year) => {
+export const getDashboardTrend = year => {
   return instance.request({
     url: URL.BASE_URL + URL.DASHBOARD_TREND,
     method: 'get',
     params: {
-      year
-    }
-  })
-}
+      year,
+    },
+  });
+};
 
 export const getDashboardPie = (year, month) => {
   return instance.request({
@@ -37,23 +37,30 @@ export const getDashboardPie = (year, month) => {
     method: 'get',
     params: {
       year,
-      month
-    }
-  })
-}
+      month,
+    },
+  });
+};
 
 // analysis
-export const getProducts = (product) => {
+export const getProducts = product => {
   return instance.request({
     url: URL.BASE_URL + URL.PRODUCT_SEARCH,
     method: 'get',
     params: {
-      product
-    }
-  })
-}
+      product,
+    },
+  });
+};
 
-export const postTimeLine = (startTime, endTime, indicator, platform, timeLevel, product) => {
+export const postTimeLine = (
+  startTime,
+  endTime,
+  indicator,
+  platform,
+  timeLevel,
+  product,
+) => {
   return instance.request({
     url: URL.BASE_URL + URL.TIMELINE,
     method: 'post',
@@ -63,7 +70,31 @@ export const postTimeLine = (startTime, endTime, indicator, platform, timeLevel,
       index: indicator,
       platform,
       timeLevel,
-      product
-    }
-  })
-}
+      product,
+    },
+  });
+};
+
+export const postTimeTable = (
+  startTime,
+  endTime,
+  platform,
+  timeLevel,
+  product,
+  pageNum,
+  pageSize,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.TIMETABLE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      pageNum,
+      pageSize,
+      platform,
+      timeLevel,
+      product,
+    },
+  });
+};

@@ -1,24 +1,35 @@
-import { useEffect } from 'react'
-import { Pie, measureTextWidth } from '@antv/g2plot'
-import './style.scss'
+import { useEffect } from 'react';
+import { Pie, measureTextWidth } from '@antv/g2plot';
+import './style.scss';
 
 function renderStatistic(containerWidth, text, style) {
-  const { width: textWidth, height: textHeight } = measureTextWidth(text, style);
+  const { width: textWidth, height: textHeight } = measureTextWidth(
+    text,
+    style,
+  );
   const R = containerWidth / 2;
   // r^2 = (w / 2)^2 + (h - offsetY)^2
   let scale = 1;
   if (containerWidth < textWidth) {
-    scale = Math.min(Math.sqrt(Math.abs(Math.pow(R, 2) / (Math.pow(textWidth / 2, 2) + Math.pow(textHeight, 2)))), 1);
+    scale = Math.min(
+      Math.sqrt(
+        Math.abs(
+          Math.pow(R, 2) /
+            (Math.pow(textWidth / 2, 2) + Math.pow(textHeight, 2)),
+        ),
+      ),
+      1,
+    );
   }
   const textStyleStr = `width:${containerWidth}px;`;
-  return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`;
+  return `<div style="${textStyleStr};font-size:${scale}em;line-height:${
+    scale < 1 ? 1 : 'inherit'
+  };">${text}</div>`;
 }
 
-
-
-const Proportion = (props) => {
+const Proportion = props => {
   useEffect(() => {
-    const { pieData } =props
+    const { pieData } = props;
     const piePlot = new Pie('dashboardProportion', {
       appendPadding: 10,
       data: pieData,
@@ -28,7 +39,7 @@ const Proportion = (props) => {
       innerRadius: 0.64,
       meta: {
         value: {
-          formatter: (v) => `${v} ¥`,
+          formatter: v => `${v} ¥`,
         },
       },
       label: {
@@ -45,7 +56,9 @@ const Proportion = (props) => {
           offsetY: -4,
           customHtml: (container, view, datum) => {
             const { width, height } = container.getBoundingClientRect();
-            const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
+            const d = Math.sqrt(
+              Math.pow(width / 2, 2) + Math.pow(height / 2, 2),
+            );
             const text = datum ? datum.type : '销售额总计';
             return renderStatistic(d, text, { fontSize: 28 });
           },
@@ -57,25 +70,31 @@ const Proportion = (props) => {
           },
           customHtml: (container, view, datum, data) => {
             const { width } = container.getBoundingClientRect();
-            const text = datum ? `¥ ${datum.value}` : `¥ ${data.reduce((r, d) => r + d.sales, 0)}`;
+            const text = datum
+              ? `¥ ${datum.value}`
+              : `¥ ${data.reduce((r, d) => r + d.sales, 0)}`;
             return renderStatistic(width, text, { fontSize: 32 });
           },
         },
       },
-      interactions: [{ type: 'element-selected' }, { type: 'element-active' }, { type: 'pie-statistic-active' }],
+      interactions: [
+        { type: 'element-selected' },
+        { type: 'element-active' },
+        { type: 'pie-statistic-active' },
+      ],
     });
 
-    piePlot.render()
+    piePlot.render();
     return () => {
-      piePlot.destroy()
-    }
-  }, [props, props.pieData])
+      piePlot.destroy();
+    };
+  }, [props, props.pieData]);
   return (
     <div className="dashboard-proportion">
       <div className="dashboard-proportion-title">平台占比</div>
       <div id="dashboardProportion"></div>
     </div>
-  )
-}
+  );
+};
 
-export default Proportion
+export default Proportion;
