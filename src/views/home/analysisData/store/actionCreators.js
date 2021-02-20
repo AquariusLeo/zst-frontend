@@ -9,7 +9,7 @@ import {
   INITPICKER,
   GET_TIME_LINE,
   GET_TIME_TABLE,
-  CHANGE_TABLE_LOADING
+  CHANGE_TABLE_LOADING,
 } from './actionTypes';
 import { getProducts, postTimeLine, postTimeTable } from '@/api';
 
@@ -108,8 +108,8 @@ export const getTimeLine = (
 
 export const changeTableLoading = loadingStatus => ({
   type: CHANGE_TABLE_LOADING,
-  loading: loadingStatus
-})
+  loading: loadingStatus,
+});
 
 export const getTimeTable = (
   startTime,
@@ -120,12 +120,7 @@ export const getTimeTable = (
   pagination,
 ) => {
   return async dispatch => {
-    console.log(startTime,
-      endTime,
-      platform,
-      timeLevel,
-      product,
-      pagination)
+    console.log(startTime, endTime, platform, timeLevel, product, pagination);
     const res = await postTimeTable(
       startTime,
       endTime,
@@ -135,7 +130,7 @@ export const getTimeTable = (
       pagination.current,
       pagination.pageSize,
     );
-    console.log(res)
+    console.log(res);
     if (res) {
       dispatch({
         type: GET_TIME_TABLE,
@@ -144,7 +139,7 @@ export const getTimeTable = (
           total: res.data.total,
           ...pagination,
         },
-        loading: false
+        loading: false,
       });
     }
   };

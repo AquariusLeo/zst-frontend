@@ -71,7 +71,14 @@ const AnalysisByTime = props => {
   ]);
 
   const handleClick = () => {
-    const { times, indicator, platform, timeLevel, searchValue, pagination } = props;
+    const {
+      times,
+      indicator,
+      platform,
+      timeLevel,
+      searchValue,
+      pagination,
+    } = props;
     const product = searchValue.map(item => item.key);
     props.getTimeLine(
       times.startTime,
@@ -81,23 +88,23 @@ const AnalysisByTime = props => {
       timeLevel,
       product,
     );
-    handlePageClick(pagination)
+    handlePageClick(pagination);
   };
 
-  const handlePageClick = (pagination) => {
+  const handlePageClick = pagination => {
     const { times, platform, timeLevel, searchValue } = props;
-    console.log('product', searchValue)
+    console.log('product', searchValue);
     const product = searchValue.map(item => item.key);
-    props.changeTableLoading(true)
+    props.changeTableLoading(true);
     props.getTimeTable(
       times.startTime,
       times.endTime,
       platform,
       timeLevel,
       product,
-      pagination
-    )
-  }
+      pagination,
+    );
+  };
 
   return (
     <div className="analysis-by-time-container">
@@ -162,7 +169,16 @@ const mapDispatchToProps = dispatch => {
         ),
       );
     },
-    getTimeTable(startTime, endTime, platform, timeLevel, product, pageNum, pageSize, pagination) {
+    getTimeTable(
+      startTime,
+      endTime,
+      platform,
+      timeLevel,
+      product,
+      pageNum,
+      pageSize,
+      pagination,
+    ) {
       dispatch(
         actionCreators.getTimeTable(
           startTime,
@@ -177,8 +193,8 @@ const mapDispatchToProps = dispatch => {
       );
     },
     changeTableLoading(loadingStatus) {
-      dispatch(actionCreators.changeTableLoading(loadingStatus))
-    }
+      dispatch(actionCreators.changeTableLoading(loadingStatus));
+    },
   };
 };
 

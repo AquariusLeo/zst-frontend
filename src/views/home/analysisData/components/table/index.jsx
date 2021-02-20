@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 
-const AnalysisTable = (props) => {
+const AnalysisTable = props => {
   // constructor(props){
   //   super(props)
   //   this.state = {
@@ -18,12 +18,12 @@ const AnalysisTable = (props) => {
   //   request({ pagination });
   // }, [])
 
-  const handleTableChange = (pagination) => {
+  const handleTableChange = pagination => {
     // request({
     //   pagination,
     // });
-    console.log(props.loading)
-    props.handlePageClick(pagination)
+    console.log(props.loading);
+    props.handlePageClick(pagination);
   };
 
   // const request = (params = {}) => {
@@ -54,6 +54,6 @@ const AnalysisTable = (props) => {
       onChange={handleTableChange}
     />
   );
-}
+};
 
-export default AnalysisTable
+export default AnalysisTable;
