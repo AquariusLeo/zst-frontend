@@ -40,14 +40,6 @@ const columns = [
   },
 ];
 
-const pagination = {
-  current: 1,
-  pageSize: 10,
-  total: 100,
-};
-
-const loading = false;
-
 const AnalysisByTime = props => {
   const setTime = () => {
     const now = new Date();
@@ -79,9 +71,8 @@ const AnalysisByTime = props => {
   ]);
 
   const handleClick = () => {
-    const { times, indicator, platform, timeLevel, searchValue } = props;
+    const { times, indicator, platform, timeLevel, searchValue, pagination } = props;
     const product = searchValue.map(item => item.key);
-    // console.log('handleClick', times, indicator, platform, timeLevel, product)
     props.getTimeLine(
       times.startTime,
       times.endTime,
@@ -90,7 +81,23 @@ const AnalysisByTime = props => {
       timeLevel,
       product,
     );
+    handlePageClick(pagination)
   };
+
+  const handlePageClick = (pagination) => {
+    const { times, platform, timeLevel, searchValue } = props;
+    console.log('product', searchValue)
+    const product = searchValue.map(item => item.key);
+    props.changeTableLoading(true)
+    props.getTimeTable(
+      times.startTime,
+      times.endTime,
+      platform,
+      timeLevel,
+      product,
+      pagination
+    )
+  }
 
   return (
     <div className="analysis-by-time-container">
@@ -115,9 +122,10 @@ const AnalysisByTime = props => {
       <TimeLine timeLine={props.timeLine}></TimeLine>
       <AnalysisTable
         columns={columns}
-        tableData={tableData}
-        pagination={pagination}
-        loading={loading}
+        tableData={props.tableData}
+        pagination={props.pagination}
+        loading={props.loading}
+        handlePageClick={handlePageClick}
       ></AnalysisTable>
     </div>
   );
@@ -168,6 +176,9 @@ const mapDispatchToProps = dispatch => {
         ),
       );
     },
+    changeTableLoading(loadingStatus) {
+      dispatch(actionCreators.changeTableLoading(loadingStatus))
+    }
   };
 };
 

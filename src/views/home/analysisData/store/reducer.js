@@ -8,6 +8,8 @@ import {
   CLICK_TIME_LEVEL,
   INITPICKER,
   GET_TIME_LINE,
+  CHANGE_TABLE_LOADING,
+  GET_TIME_TABLE
 } from './actionTypes';
 
 const initState = {
@@ -48,6 +50,10 @@ const analysisReducer = (state = initState, action) => {
       };
     case GET_TIME_LINE:
       return { ...state, timeLine: action.timeLine };
+    case CHANGE_TABLE_LOADING:
+      return { ...state, loading: action.loading };
+    case GET_TIME_TABLE:
+      return { ...state, tableData: action.tableData, pagination: action.pagination, loading: action.loading }
     case CLICK_TIME_LEVEL:
       return { ...state, timeLevel: action.level };
     case CHANGE_FETCH_STATUS:
