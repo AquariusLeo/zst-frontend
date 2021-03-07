@@ -10,7 +10,6 @@ import TimeLine from './line';
 import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
 import moment from 'moment';
-import './style.scss';
 
 const columns = [
   {
@@ -107,7 +106,7 @@ const AnalysisByTime = props => {
   };
 
   return (
-    <div className="analysis-by-time-container">
+    <div>
       <Space direction="vertical">
         <Space size={50}>
           <TimePicker />
