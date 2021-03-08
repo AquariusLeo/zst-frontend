@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 import { Column } from '@antv/g2plot';
 
-const ColumnPlot = (props) => {
+const ColumnPlot = props => {
   useEffect(() => {
     const columnPlot = new Column('columnPlot', {
       data,
@@ -34,15 +34,13 @@ const ColumnPlot = (props) => {
 
     columnPlot.render();
     return () => {
-      columnPlot.destroy()
-    }
-  }, [])
-  return (
-    <div id="columnPlot"></div>
-  )
-}
+      columnPlot.destroy();
+    };
+  }, []);
+  return <div id="columnPlot"></div>;
+};
 
-export default ColumnPlot
+export default ColumnPlot;
 
 const data = [
   {

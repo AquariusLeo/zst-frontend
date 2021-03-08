@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Switch, Route, useRouteMatch } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -11,7 +11,10 @@ import {
   CloudUploadOutlined,
 } from '@ant-design/icons';
 import Dashboard from './dashboard';
-import Analysis from './analysisData';
+import AnalysisByArea from './analysisData/area';
+import AnalysisByPlatform from './analysisData/platform';
+import AnalysisByProduct from './analysisData/product';
+import AnalysisByTime from './analysisData/time';
 import Portrait from './portrait';
 import ManageData from './manageData';
 import UploadData from './uploadData';
@@ -20,6 +23,8 @@ import './index.scss';
 // import avatar from '@/assets/avatar.svg'
 
 const { Header, Content, Sider, Footer } = Layout;
+const { SubMenu } = Menu;
+
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
   const toggle = () => {
@@ -34,9 +39,20 @@ const Home = () => {
           <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
             <Link to={`${url}/dashboard`}>主页</Link>
           </Menu.Item>
-          <Menu.Item key="analysis" icon={<PieChartOutlined />}>
-            <Link to={`${url}/analysis`}>数据中心</Link>
-          </Menu.Item>
+          <SubMenu key="analysis" icon={<PieChartOutlined />} title="数据中心">
+            <Menu.Item key="analysisByArea">
+              <Link to={`${url}/analysisByArea`}>地区维度</Link>
+            </Menu.Item>
+            <Menu.Item key="analysisByPlatform">
+              <Link to={`${url}/analysisByPlatform`}>平台维度</Link>
+            </Menu.Item>
+            <Menu.Item key="analysisByProduct">
+              <Link to={`${url}/analysisByProduct`}>产品维度</Link>
+            </Menu.Item>
+            <Menu.Item key="analysisByTime">
+              <Link to={`${url}/analysisByTime`}>时间维度</Link>
+            </Menu.Item>
+          </SubMenu>
           <Menu.Item key="portrait" icon={<UsergroupDeleteOutlined />}>
             <Link to={`${url}/portrait`}>用户画像</Link>
           </Menu.Item>
@@ -57,6 +73,7 @@ const Home = () => {
               onClick: toggle,
             },
           )}
+          <Breadcrumb></Breadcrumb>
           <UserHeader></UserHeader>
         </Header>
         <Content className="content">
@@ -64,8 +81,17 @@ const Home = () => {
             <Route exact path={`${path}/dashboard`}>
               <Dashboard />
             </Route>
-            <Route exact path={`${path}/analysis`}>
-              <Analysis />
+            <Route exact path={`${path}/analysisByArea`}>
+              <AnalysisByArea />
+            </Route>
+            <Route exact path={`${path}/analysisByPlatform`}>
+              <AnalysisByPlatform />
+            </Route>
+            <Route exact path={`${path}/analysisByProduct`}>
+              <AnalysisByProduct />
+            </Route>
+            <Route exact path={`${path}/analysisByTime`}>
+              <AnalysisByTime />
             </Route>
             <Route exact path={`${path}/portrait`}>
               <Portrait />

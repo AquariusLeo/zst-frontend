@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Space, Row, Col } from 'antd';
+import { Space, Row, Col, Divider } from 'antd';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
@@ -61,33 +61,52 @@ const AnalysisByArea = props => {
   const handlePageClick = () => {};
 
   return (
-    <div>
-      <Space direction="vertical" style={{ marginBottom: '20px' }}>
-        <Space size={50}>
-          <TimePicker />
-          <IndicatorPicker />
-          <PlatformsPicker />
+    <>
+      <div
+        style={{
+          backgroundColor: '#fff',
+          fontSize: '24px',
+          padding: '12px 28px',
+        }}
+      >
+        地区维度
+        <div style={{ fontSize: '16px' }}>根据不同地区的销售情况进行分析</div>
+      </div>
+      <div
+        style={{
+          margin: '24px',
+          backgroundColor: '#fff',
+          padding: '24px',
+        }}
+      >
+        <Space direction="vertical">
+          <Space size={50}>
+            <TimePicker />
+            <IndicatorPicker />
+            <PlatformsPicker />
+          </Space>
+          <Space size={50}>
+            <ProductsPicker />
+          </Space>
         </Space>
-        <Space size={50}>
-          <ProductsPicker />
-        </Space>
-      </Space>
-      <Row gutter={16} style={{ marginBottom: '20px' }}>
-        <Col span={14}>
-          <Map></Map>
-        </Col>
-        <Col span={10}>
-          <ColumnPlot />
-        </Col>
-      </Row>
-      <AnalysisTable
-        columns={columns}
-        tableData={tableData}
-        pagination={props.pagination}
-        loading={props.loading}
-        handlePageClick={handlePageClick}
-      ></AnalysisTable>
-    </div>
+        <Divider />
+        <Row gutter={16} style={{ margin: '40px 0px' }}>
+          <Col span={14}>
+            <Map></Map>
+          </Col>
+          <Col span={10}>
+            <ColumnPlot />
+          </Col>
+        </Row>
+        <AnalysisTable
+          columns={columns}
+          tableData={tableData}
+          pagination={props.pagination}
+          loading={props.loading}
+          handlePageClick={handlePageClick}
+        ></AnalysisTable>
+      </div>
+    </>
   );
 };
 

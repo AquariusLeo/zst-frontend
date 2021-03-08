@@ -9,7 +9,13 @@ import AnalysisTable from '../components/table';
 
 const AnalysisByPlatform = () => {
   return (
-    <div>
+    <div
+      style={{
+        margin: '24px',
+        backgroundColor: '#fff',
+        padding: '24px',
+      }}
+    >
       <Space size={50} style={{ marginBottom: '20px' }}>
         <TimePicker />
         <ProductsPicker />

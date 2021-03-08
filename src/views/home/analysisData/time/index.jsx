@@ -106,7 +106,13 @@ const AnalysisByTime = props => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        margin: '24px',
+        backgroundColor: '#fff',
+        padding: '24px',
+      }}
+    >
       <Space direction="vertical">
         <Space size={50}>
           <TimePicker />
