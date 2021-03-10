@@ -80,14 +80,22 @@ const AnalysisByArea = props => {
         }}
       >
         <Space direction="vertical">
-          <Space size={50}>
-            <TimePicker />
-            <IndicatorPicker />
-            <PlatformsPicker />
-          </Space>
-          <Space size={50}>
-            <ProductsPicker />
-          </Space>
+          <Row gutter={24}>
+            <Col span={8}>
+              <TimePicker />
+            </Col>
+            <Col span={8}>
+              <IndicatorPicker />
+            </Col>
+            <Col span={8}>
+              <ProductsPicker />
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <PlatformsPicker />
+            </Col>
+          </Row>
         </Space>
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
@@ -127,7 +135,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(AnalysisByArea);
 const tableData = [
   {
     key: 1,
-    time: '2021-01-01',
+    province: 'hubei',
     sales: 0,
     orders: 0,
     numbers: 10,
@@ -135,7 +143,7 @@ const tableData = [
   },
   {
     key: 2,
-    time: '2021-01-10',
+    province: 'fujian',
     sales: 99,
     orders: 8,
     numbers: 11,
@@ -143,7 +151,7 @@ const tableData = [
   },
   {
     key: 3,
-    time: '2021-01-20',
+    province: 'guangdong',
     sales: 71,
     orders: 6,
     numbers: 7,
@@ -151,7 +159,7 @@ const tableData = [
   },
   {
     key: 4,
-    time: '2021-01-01',
+    province: 'shanghai',
     sales: 68,
     orders: 2,
     numbers: 13,
@@ -159,7 +167,7 @@ const tableData = [
   },
   {
     key: 5,
-    time: '2021-01-10',
+    province: 'beijing',
     sales: 36,
     orders: 6,
     numbers: 13,
@@ -167,7 +175,7 @@ const tableData = [
   },
   {
     key: 6,
-    time: '2021-01-20',
+    province: 'hunan',
     sales: 23,
     orders: 4,
     numbers: 0,
@@ -175,7 +183,7 @@ const tableData = [
   },
   {
     key: 7,
-    time: '2021-01-01',
+    province: 'hebei',
     sales: 15,
     orders: 3,
     numbers: 5,
@@ -183,7 +191,7 @@ const tableData = [
   },
   {
     key: 8,
-    time: '2021-01-10',
+    province: 'henan',
     sales: 43,
     orders: 9,
     numbers: 8,
@@ -191,7 +199,7 @@ const tableData = [
   },
   {
     key: 9,
-    time: '2021-01-20',
+    province: 'jiangsu',
     sales: 3,
     orders: 0,
     numbers: 6,
@@ -199,7 +207,7 @@ const tableData = [
   },
   {
     key: 10,
-    time: '2021-01-01',
+    province: 'xinjiang',
     sales: 7,
     orders: 5,
     numbers: 12,

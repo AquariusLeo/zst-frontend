@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Space, Button } from 'antd';
+import { Space, Button, Divider } from 'antd';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
@@ -131,6 +131,7 @@ const AnalysisByTime = props => {
           </Button>
         </Space>
       </Space>
+      <Divider />
       <TimeLine timeLine={props.timeLine}></TimeLine>
       <AnalysisTable
         columns={columns}

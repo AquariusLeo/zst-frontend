@@ -37,7 +37,14 @@ const ColumnPlot = props => {
       columnPlot.destroy();
     };
   }, []);
-  return <div id="columnPlot"></div>;
+  return (
+    <div
+      id="columnPlot"
+      style={{
+        margin: '40px 0',
+      }}
+    ></div>
+  );
 };
 
 export default ColumnPlot;

@@ -54,6 +54,7 @@ const Map = () => {
         minHeight: '400px',
         justifyContent: 'center',
         position: 'relative',
+        margin: '40px 0',
       }}
     ></div>
   );
