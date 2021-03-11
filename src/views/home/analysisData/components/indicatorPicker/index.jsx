@@ -36,7 +36,7 @@ const IndicatorPicker = props => {
 
 const mapStateToProps = state => {
   return {
-    indicator: state.analysis.indicator,
+    indicator: state.analysis.public.indicator,
   };
 };
 

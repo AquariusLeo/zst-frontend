@@ -7,11 +7,10 @@ import {
   CHANGE_FETCH_STATUS,
   CLICK_TIME_LEVEL,
   INITPICKER,
-  GET_TIME_LINE,
   GET_TIME_TABLE,
   CHANGE_TABLE_LOADING,
 } from './actionTypes';
-import { getProducts, postTimeLine, postTimeTable } from '@/api';
+import { getProducts, postTimeTable } from '@/api';
 
 export const initPicker = times => ({
   type: INITPICKER,
@@ -22,7 +21,6 @@ export const initPicker = times => ({
   fetching: false,
   searchValue: [],
   searchData: [],
-  timeLine: [],
   tableData: [],
   pagination: {
     current: 1,
@@ -77,34 +75,6 @@ export const clickTimeLevel = level => ({
   type: CLICK_TIME_LEVEL,
   level,
 });
-
-export const getTimeLine = (
-  startTime,
-  endTime,
-  indicator,
-  platform,
-  timeLevel,
-  product,
-) => {
-  return async dispatch => {
-    // console.log(startTime, endTime, indicator, platform, timeLevel, product)
-    const res = await postTimeLine(
-      startTime,
-      endTime,
-      indicator,
-      platform,
-      timeLevel,
-      product,
-    );
-    // console.log(res)
-    if (res) {
-      dispatch({
-        type: GET_TIME_LINE,
-        timeLine: res.data.timeLine,
-      });
-    }
-  };
-};
 
 export const changeTableLoading = loadingStatus => ({
   type: CHANGE_TABLE_LOADING,

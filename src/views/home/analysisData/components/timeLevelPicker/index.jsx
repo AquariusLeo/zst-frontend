@@ -30,7 +30,7 @@ const TimeLevelPicker = props => {
 
 const mapStateToProps = state => {
   return {
-    timeLevel: state.analysis.timeLevel,
+    timeLevel: state.analysis.public.timeLevel,
   };
 };
 

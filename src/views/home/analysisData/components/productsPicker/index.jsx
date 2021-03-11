@@ -50,9 +50,9 @@ const ProductsPicker = props => {
 
 const mapStateToProps = state => {
   return {
-    searchValue: state.analysis.searchValue,
-    searchData: state.analysis.searchData,
-    fetching: state.analysis.fetching,
+    searchValue: state.analysis.public.searchValue,
+    searchData: state.analysis.public.searchData,
+    fetching: state.analysis.public.fetching,
   };
 };
 

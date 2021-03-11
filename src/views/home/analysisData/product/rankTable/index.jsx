@@ -1,4 +1,4 @@
-import { Table, Tag } from 'antd';
+import { Table } from 'antd';
 
 // const columns = [
 //   {

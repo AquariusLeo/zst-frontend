@@ -31,7 +31,7 @@ const PlatformsPicker = props => {
 
 const mapStateToProps = state => {
   return {
-    platform: state.analysis.platform,
+    platform: state.analysis.public.platform,
   };
 };
 

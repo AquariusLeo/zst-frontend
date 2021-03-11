@@ -9,6 +9,7 @@ import TimeLevelPicker from '../components/timeLevelPicker';
 import TimeLine from './line';
 import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
+import { timeActionCreators } from './store'
 import moment from 'moment';
 
 const columns = [
@@ -146,15 +147,15 @@ const AnalysisByTime = props => {
 
 const mapStateToProps = state => {
   return {
-    times: state.analysis.times,
-    indicator: state.analysis.indicator,
-    platform: state.analysis.platform,
-    timeLevel: state.analysis.timeLevel,
-    searchValue: state.analysis.searchValue,
-    timeLine: state.analysis.timeLine,
-    tableData: state.analysis.tableData,
-    pagination: state.analysis.pagination,
-    loading: state.analysis.loading,
+    times: state.analysis.public.times,
+    indicator: state.analysis.public.indicator,
+    platform: state.analysis.public.platform,
+    timeLevel: state.analysis.public.timeLevel,
+    searchValue: state.analysis.public.searchValue,
+    timeLine: state.analysis.analysisTime.timeLine,
+    tableData: state.analysis.public.tableData,
+    pagination: state.analysis.public.pagination,
+    loading: state.analysis.public.loading,
   };
 };
 
@@ -165,7 +166,7 @@ const mapDispatchToProps = dispatch => {
     },
     getTimeLine(startTime, endTime, indicator, platform, timeLevel, product) {
       dispatch(
-        actionCreators.getTimeLine(
+        timeActionCreators.getTimeLine(
           startTime,
           endTime,
           indicator,

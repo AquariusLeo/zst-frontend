@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+import { analysisTimeReducer } from '../time/store'
 import {
   CHANGE_DATE,
   CLICK_PLATFORMS,
@@ -7,9 +9,8 @@ import {
   CHANGE_FETCH_STATUS,
   CLICK_TIME_LEVEL,
   INITPICKER,
-  GET_TIME_LINE,
-  CHANGE_TABLE_LOADING,
   GET_TIME_TABLE,
+  CHANGE_TABLE_LOADING,
 } from './actionTypes';
 
 const initState = {
@@ -23,7 +24,6 @@ const initState = {
   searchValue: [],
   searchData: [],
   timeLevel: '',
-  timeLine: [],
   tableData: [],
   pagination: {
     current: 1,
@@ -43,13 +43,10 @@ const analysisReducer = (state = initState, action) => {
         fetching: action.fetching,
         searchValue: action.searchValue,
         searchData: action.searchData,
-        timeLine: action.timeLine,
         tableData: action.tableData,
         pagination: action.pagination,
         loading: action.loading,
       };
-    case GET_TIME_LINE:
-      return { ...state, timeLine: action.timeLine };
     case CHANGE_TABLE_LOADING:
       return { ...state, loading: action.loading };
     case GET_TIME_TABLE:
@@ -78,4 +75,7 @@ const analysisReducer = (state = initState, action) => {
   }
 };
 
-export default analysisReducer;
+export default combineReducers({
+  public: analysisReducer,
+  analysisTime: analysisTimeReducer,
+});

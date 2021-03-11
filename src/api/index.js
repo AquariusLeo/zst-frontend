@@ -53,6 +53,7 @@ export const getProducts = product => {
   });
 };
 
+// analysis time
 export const postTimeLine = (
   startTime,
   endTime,
@@ -94,6 +95,27 @@ export const postTimeTable = (
       pageSize,
       platform,
       timeLevel,
+      product,
+    },
+  });
+};
+
+// analysis area
+export const postProvinceMap = (
+  startTime,
+  endTime,
+  indicator,
+  platform,
+  product,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PROVINCE_MAP,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      index: indicator,
+      platform,
       product,
     },
   });
