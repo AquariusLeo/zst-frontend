@@ -9,6 +9,7 @@ import Map from './map';
 import ColumnPlot from './columnPlot';
 import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
+import { areaActionCreators } from './store';
 import moment from 'moment';
 
 const columns = [
@@ -58,6 +59,22 @@ const AnalysisByArea = props => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    handleClick();
+  }, [props.times, props.indicator, props.platform, props.searchValue]);
+
+  const handleClick = () => {
+    const { times, indicator, platform, searchValue } = props;
+    const product = searchValue.map(item => item.key);
+    props.getProvinceMap(
+      times.startTime,
+      times.endTime,
+      indicator,
+      platform,
+      product,
+    );
+  };
+
   const handlePageClick = () => {};
 
   return (
@@ -100,7 +117,7 @@ const AnalysisByArea = props => {
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
           <Col span={14}>
-            <Map></Map>
+            <Map provinceMap={props.provinceMap}></Map>
           </Col>
           <Col span={10}>
             <ColumnPlot />
@@ -119,13 +136,31 @@ const AnalysisByArea = props => {
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    provinceMap: state.analysis.analysisArea.provinceMap,
+    provinceTop: state.analysis.analysisArea.provinceTop,
+    times: state.analysis.public.times,
+    indicator: state.analysis.public.indicator,
+    platform: state.analysis.public.platform,
+    searchValue: state.analysis.public.searchValue,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     initPicker(times) {
       dispatch(actionCreators.initPicker(times));
+    },
+    getProvinceMap(startTime, endTime, indicator, platform, product) {
+      dispatch(
+        areaActionCreators.getProvinceMap(
+          startTime,
+          endTime,
+          indicator,
+          platform,
+          product,
+        ),
+      );
     },
   };
 };

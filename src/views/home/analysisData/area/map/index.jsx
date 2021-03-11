@@ -4,7 +4,7 @@ import { CountryLayer } from '@antv/l7-district';
 import { Mapbox } from '@antv/l7-maps';
 const colors = ['#B8E1FF', '#7DAAFF', '#3D76DD', '#0047A5', '#001D70'];
 
-const Map = () => {
+const Map = props => {
   useEffect(() => {
     const scene = new Scene({
       id: 'map',
@@ -12,16 +12,15 @@ const Map = () => {
         center: [116.2825, 39.9],
         pitch: 0,
         style: 'blank',
-        zoom: 3,
+        zoom: 5,
         minZoom: 0,
         maxZoom: 10,
       }),
       logoVisible: false,
     });
-
     scene.on('loaded', () => {
       new CountryLayer(scene, {
-        data: ProvinceData,
+        data: props.provinceMap,
         joinBy: ['NAME_CHN', 'name'],
         depth: 1,
         provinceStroke: '#fff',
@@ -45,7 +44,7 @@ const Map = () => {
     return () => {
       scene.destroy();
     };
-  }, []);
+  }, [props, props.provinceMap]);
 
   return (
     <div

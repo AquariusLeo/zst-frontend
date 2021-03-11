@@ -47,7 +47,7 @@ export const clickPlatforms = platform => ({
 export const searchProduct = str => {
   return async dispatch => {
     const res = await getProducts(str);
-    console.log(res);
+    // console.log(res);
     if (res) {
       dispatch({
         type: SEARCH_PRODUCT,
@@ -90,7 +90,7 @@ export const getTimeTable = (
   pagination,
 ) => {
   return async dispatch => {
-    console.log(startTime, endTime, platform, timeLevel, product, pagination);
+    // console.log(startTime, endTime, platform, timeLevel, product, pagination);
     const res = await postTimeTable(
       startTime,
       endTime,
@@ -100,7 +100,7 @@ export const getTimeTable = (
       pagination.current,
       pagination.pageSize,
     );
-    console.log(res);
+    // console.log(res);
     if (res) {
       dispatch({
         type: GET_TIME_TABLE,

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { analysisTimeReducer } from '../time/store'
+import { analysisAreaReducer } from '../area/store'
 import {
   CHANGE_DATE,
   CLICK_PLATFORMS,
@@ -78,4 +79,5 @@ const analysisReducer = (state = initState, action) => {
 export default combineReducers({
   public: analysisReducer,
   analysisTime: analysisTimeReducer,
+  analysisArea: analysisAreaReducer,
 });

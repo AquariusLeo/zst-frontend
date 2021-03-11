@@ -120,3 +120,23 @@ export const postProvinceMap = (
     },
   });
 };
+
+export const postProvinceTop = (
+  startTime,
+  endTime,
+  indicator,
+  platform,
+  product,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.TOP_PROVINCE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      index: indicator,
+      platform,
+      product,
+    },
+  });
+};
