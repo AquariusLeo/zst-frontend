@@ -1,12 +1,15 @@
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Space, Divider, Col, Row, Tag } from 'antd';
+import { Divider, Col, Row, Tag } from 'antd';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
 import ColumnPlot from './columnPlot';
 import RankTable from './rankTable';
-import AnalysisTable from '../components/table'
+import AnalysisTable from '../components/table';
+import { actionCreators } from '../store';
+import { productActionCreators } from './store';
+import moment from 'moment';
 
 const columns1 = [
   {
@@ -78,7 +81,30 @@ const columns2 = [
   },
 ];
 
-const AnalysisByProduct = () => {
+const AnalysisByProduct = props => {
+  const setTime = () => {
+    const now = new Date();
+    return {
+      endTime: moment(
+        `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+      ).format('YYYY-MM-DD'),
+      startTime: moment(
+        `${now.getFullYear() - 1}-${now.getMonth() + 1}-${now.getDate()}`,
+      ).format('YYYY-MM-DD'),
+    };
+  };
+
+  useEffect(() => {
+    const times = setTime();
+    props.initPicker(times);
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    const { startTime, endTime, indicator, platform } = props;
+    props.getProductLine(startTime, endTime, indicator, platform);
+  }, [props.startTime, props.endTime, props.indicator, props.platform]);
+
   return (
     <div
       style={{
@@ -87,15 +113,21 @@ const AnalysisByProduct = () => {
         padding: '24px',
       }}
     >
-      <Space size={50} style={{ marginBottom: '20px' }}>
-        <TimePicker />
-        <IndicatorPicker />
-        <PlatformsPicker />
-      </Space>
+      <Row gutter={[16, 28]}>
+        <Col span={8}>
+          <TimePicker />
+        </Col>
+        <Col span={8}>
+          <IndicatorPicker />
+        </Col>
+        <Col span={8}>
+          <PlatformsPicker />
+        </Col>
+      </Row>
       <Divider />
       <Row gutter={24} style={{ margin: '40px 0px' }}>
         <Col span={8}>
-          <ColumnPlot />
+          <ColumnPlot productLine={props.productLine} columnPlotName={props.indicator}/>
         </Col>
         <Col span={8}>
           <RankTable columns={columns1} dataSource={dataSource} />
@@ -110,11 +142,31 @@ const AnalysisByProduct = () => {
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    startTime: state.analysis.public.times.startTime,
+    endTime: state.analysis.public.times.endTime,
+    indicator: state.analysis.public.indicator,
+    platform: state.analysis.public.platform,
+    productLine: state.analysis.analysisProduct.productLine,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    initPicker(times) {
+      dispatch(actionCreators.initPicker(times));
+    },
+    getProductLine(startTime, endTime, indicator, platform) {
+      dispatch(
+        productActionCreators.getProductLine(
+          startTime,
+          endTime,
+          indicator,
+          platform,
+        ),
+      );
+    },
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnalysisByProduct);

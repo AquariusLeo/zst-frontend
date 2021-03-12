@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { analysisTimeReducer } from '../time/store';
 import { analysisAreaReducer } from '../area/store';
 import { analysisPlatformReducer } from '../platform/store';
+import { analysisProductReducer } from '../product/store'
 import {
   CHANGE_DATE,
   CLICK_PLATFORMS,
@@ -90,4 +91,5 @@ export default combineReducers({
   analysisTime: analysisTimeReducer,
   analysisArea: analysisAreaReducer,
   analysisPlatform: analysisPlatformReducer,
+  analysisProduct: analysisProductReducer,
 });

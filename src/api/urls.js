@@ -22,3 +22,6 @@ export const PROVINCE_TABLE = '/getProvinceTable'
 // analysis platform
 export const PLATFORM_LINE = '/getPlatformLine'
 export const PLATFORM_TABLE = '/getPlatformTable'
+
+// analysis product
+export const PRODUCT_LINE = '/getProductLine'

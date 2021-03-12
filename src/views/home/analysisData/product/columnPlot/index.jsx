@@ -4,9 +4,9 @@ import { Column } from '@antv/g2plot';
 const ColumnPlot = props => {
   useEffect(() => {
     const columnPlot = new Column('product-columnPlot', {
-      data,
-      xField: 'type',
-      yField: 'sales',
+      data: props.productLine,
+      xField: 'productName',
+      yField: 'value',
       label: {
         // 可手动配置 label 数据标签位置
         position: 'middle', // 'top', 'bottom', 'middle',
@@ -36,14 +36,17 @@ const ColumnPlot = props => {
     return () => {
       columnPlot.destroy();
     };
-  }, []);
+  }, [props.productLine, props.columnPlotName]);
   return (
-    <div
-      id="product-columnPlot"
-      style={{
-        margin: '40px 0',
-      }}
-    ></div>
+    <div>
+      <div style={{ fontSize: '20px' }}>{props.columnPlotName}Top 10</div>
+      <div
+        id="product-columnPlot"
+        style={{
+          margin: '40px 0',
+        }}
+      ></div>
+    </div>
   );
 };
 

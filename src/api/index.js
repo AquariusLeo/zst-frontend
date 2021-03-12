@@ -179,3 +179,22 @@ export const postPlatformTable = (
     }
   })
 }
+
+// analysis product
+export const postProductLine = (
+  startTime,
+  endTime,
+  indicator,
+  platform,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PRODUCT_LINE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      index: indicator,
+      platform
+    }
+  })
+}
