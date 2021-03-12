@@ -73,6 +73,13 @@ const AnalysisByArea = props => {
       platform,
       product,
     );
+    props.getProvinceTop(
+      times.startTime,
+      times.endTime,
+      indicator,
+      platform,
+      product,
+    );
   };
 
   const handlePageClick = () => {};
@@ -162,6 +169,17 @@ const mapDispatchToProps = dispatch => {
         ),
       );
     },
+    getProvinceTop(startTime, endTime, indicator, platform, product) {
+      dispatch(
+        areaActionCreators.getProvinceTop(
+          startTime,
+          endTime,
+          indicator,
+          platform,
+          product,
+        ),
+      );
+    }
   };
 };
 
