@@ -6,7 +6,6 @@ import { actionCreators } from '../../store';
 const { RangePicker } = DatePicker;
 
 const TimePicker = props => {
-  console.log('times', props.startTime, props.endTime);
   return (
     <div>
       <span
@@ -25,11 +24,7 @@ const TimePicker = props => {
           moment(props.endTime, 'YYYY-MM-DD'),
         ]}
         format={'YYYY/MM/DD'}
-      >
-        {(() => {
-          console.log('startTime', props.startTime);
-        })()}
-      </RangePicker>
+      />
     </div>
   );
 };
