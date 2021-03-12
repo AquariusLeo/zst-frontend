@@ -61,19 +61,15 @@ const AnalysisByPlatform = props => {
     const { startTime, endTime, indicator, searchValue, pagination } = props;
     const product = searchValue.map(item => item.key);
     props.getPlatformLine(startTime, endTime, indicator, product);
-    handlePageClick(pagination)
-  }, [
-    props.times,
-    props.indicator,
-    props.searchValue,
-  ]);
+    handlePageClick(pagination);
+  }, [props.times, props.indicator, props.searchValue]);
 
   const handlePageClick = pagination => {
     const { startTime, endTime, searchValue } = props;
     const product = searchValue.map(item => item.key);
     props.changeTableLoading(true);
     props.getPlatformTable(startTime, endTime, product, pagination);
-  }
+  };
 
   return (
     <div
@@ -84,18 +80,18 @@ const AnalysisByPlatform = props => {
       }}
     >
       <Row gutter={[16, 28]}>
-        <Col>
+        <Col span={8}>
           <TimePicker />
         </Col>
-        <Col>
+        <Col span={8}>
           <ProductsPicker />
         </Col>
-        <Col>
+        <Col span={8}>
           <IndicatorPicker />
         </Col>
       </Row>
       <Divider />
-      <ColumnPlot platformLine={props.platformLine} />
+      <ColumnPlot platformLine={props.platformLine} indicator={props.indicator}/>
       <AnalysisTable
         columns={columns}
         tableData={props.tableData}
@@ -141,9 +137,9 @@ const mapDispatchToProps = dispatch => {
           startTime,
           endTime,
           product,
-          pagination
-        )
-      )
+          pagination,
+        ),
+      );
     },
     changeTableLoading(loadingStatus) {
       dispatch(actionCreators.changeTableLoading(loadingStatus));

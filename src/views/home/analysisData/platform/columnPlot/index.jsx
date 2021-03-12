@@ -37,10 +37,10 @@ const ColumnPlot = props => {
     return () => {
       columnPlot.destroy();
     };
-  }, [props.platformLine]);
+  }, [props.platformLine, props.indicator]);
   return (
     <div>
-      <div style={{ fontSize: '20px' }}>销售总金额</div>
+      <div style={{ fontSize: '20px' }}>{props.indicator}</div>
       <div
         id="platform-columnPlot"
         style={{
