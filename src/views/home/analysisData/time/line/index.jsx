@@ -8,7 +8,7 @@ const TimeLine = props => {
     const line = new Line('time-line', {
       data: timeLine,
       padding: 'auto',
-      xField: 'data',
+      xField: 'date',
       yField: 'value',
       xAxis: {
         tickCount: 5,

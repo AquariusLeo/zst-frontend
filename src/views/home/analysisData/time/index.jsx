@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Space, Button, Divider } from 'antd';
+import { Button, Divider, Row, Col } from 'antd';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
@@ -44,10 +44,10 @@ const AnalysisByTime = props => {
   const setTime = () => {
     const now = new Date();
     return {
-      startTime: moment(
+      endTime: moment(
         `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
       ).format('YYYY-MM-DD'),
-      endTime: moment(
+      startTime: moment(
         `${now.getFullYear() - 1}-${now.getMonth() + 1}-${now.getDate()}`,
       ).format('YYYY-MM-DD'),
     };
@@ -93,7 +93,7 @@ const AnalysisByTime = props => {
 
   const handlePageClick = pagination => {
     const { times, platform, timeLevel, searchValue } = props;
-    console.log('product', searchValue);
+    // console.log('product', searchValue);
     const product = searchValue.map(item => item.key);
     props.changeTableLoading(true);
     props.getTimeTable(
@@ -114,15 +114,23 @@ const AnalysisByTime = props => {
         padding: '24px',
       }}
     >
-      <Space direction="vertical">
-        <Space size={50}>
+      <Row gutter={[16, 28]}>
+        <Col span={8}>
           <TimePicker />
+        </Col>
+        <Col span={8}>
           <IndicatorPicker />
+        </Col>
+        <Col span={8}>
           <PlatformsPicker />
-        </Space>
-        <Space size={50}>
+        </Col>
+        <Col span={8}>
           <ProductsPicker />
+        </Col>
+        <Col span={8}>
           <TimeLevelPicker />
+        </Col>
+        <Col span={8}>
           <Button
             type="primary"
             style={{ width: '100px', marginLeft: '200px' }}
@@ -130,8 +138,8 @@ const AnalysisByTime = props => {
           >
             查询
           </Button>
-        </Space>
-      </Space>
+        </Col>
+      </Row>
       <Divider />
       <TimeLine timeLine={props.timeLine}></TimeLine>
       <AnalysisTable

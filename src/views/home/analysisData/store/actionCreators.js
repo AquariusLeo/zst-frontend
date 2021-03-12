@@ -47,11 +47,11 @@ export const clickPlatforms = platform => ({
 export const searchProduct = str => {
   return async dispatch => {
     const res = await getProducts(str);
-    // console.log(res);
+    console.log(res);
     if (res) {
       dispatch({
         type: SEARCH_PRODUCT,
-        searchData: res.data.products.map(value => ({
+        searchData: res.data.productList.map(value => ({
           value: value,
           key: value,
         })),
@@ -102,11 +102,14 @@ export const getTimeTable = (
     );
     // console.log(res);
     if (res) {
+      console.log(startTime, endTime, platform, timeLevel, product, pagination);
+      console.log(res.data);
+      // console.log('list', res.data.list.endRow === 0);
       dispatch({
         type: GET_TIME_TABLE,
-        tableData: res.data.timeTable,
+        tableData: res.data.list.list,
         pagination: {
-          total: res.data.total,
+          total: res.data.list.total,
           ...pagination,
         },
         loading: false,
