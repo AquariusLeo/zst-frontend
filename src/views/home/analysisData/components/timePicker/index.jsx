@@ -6,6 +6,7 @@ import { actionCreators } from '../../store';
 const { RangePicker } = DatePicker;
 
 const TimePicker = props => {
+  console.log('times', props.startTime, props.endTime);
   return (
     <div>
       <span
@@ -16,13 +17,28 @@ const TimePicker = props => {
       >
         时间范围：
       </span>
-      <RangePicker style={{ width: '300px' }} onChange={props.handleChange} />
+      <RangePicker
+        style={{ width: '300px' }}
+        onChange={props.handleChange}
+        defaultValue={[
+          moment(props.startTime, 'YYYY-MM-DD'),
+          moment(props.endTime, 'YYYY-MM-DD'),
+        ]}
+        format={'YYYY/MM/DD'}
+      >
+        {(() => {
+          console.log('startTime', props.startTime);
+        })()}
+      </RangePicker>
     </div>
   );
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    startTime: state.analysis.public.times.startTime,
+    endTime: state.analysis.public.times.endTime,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
