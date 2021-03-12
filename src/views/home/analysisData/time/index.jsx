@@ -190,8 +190,6 @@ const mapDispatchToProps = dispatch => {
       platform,
       timeLevel,
       product,
-      pageNum,
-      pageSize,
       pagination,
     ) {
       dispatch(
@@ -201,8 +199,6 @@ const mapDispatchToProps = dispatch => {
           platform,
           timeLevel,
           product,
-          pageNum,
-          pageSize,
           pagination,
         ),
       );
