@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import { analysisTimeReducer } from '../time/store'
-import { analysisAreaReducer } from '../area/store'
+import { analysisTimeReducer } from '../time/store';
+import { analysisAreaReducer } from '../area/store';
+import { analysisPlatformReducer } from '../platform/store';
 import {
   CHANGE_DATE,
   CLICK_PLATFORMS,
@@ -11,6 +12,7 @@ import {
   CLICK_TIME_LEVEL,
   INITPICKER,
   GET_TIME_TABLE,
+  GET_PLATFORM_TABLE,
   CHANGE_TABLE_LOADING,
 } from './actionTypes';
 
@@ -28,7 +30,7 @@ const initState = {
   tableData: [],
   pagination: {
     current: 1,
-    pageSize: 10,
+    pageSize: 5,
   },
   loading: false,
 };
@@ -51,6 +53,13 @@ const analysisReducer = (state = initState, action) => {
     case CHANGE_TABLE_LOADING:
       return { ...state, loading: action.loading };
     case GET_TIME_TABLE:
+      return {
+        ...state,
+        tableData: action.tableData,
+        pagination: action.pagination,
+        loading: action.loading,
+      };
+    case GET_PLATFORM_TABLE:
       return {
         ...state,
         tableData: action.tableData,
@@ -80,4 +89,5 @@ export default combineReducers({
   public: analysisReducer,
   analysisTime: analysisTimeReducer,
   analysisArea: analysisAreaReducer,
+  analysisPlatform: analysisPlatformReducer,
 });

@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Space, Divider } from 'antd';
+import { Divider, Row, Col } from 'antd';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import ProductsPicker from '../components/productsPicker';
 import ColumnPlot from './columnPlot';
 import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
+import { platformActionCreators } from './store';
 import moment from 'moment';
 
 const columns = [
@@ -41,10 +42,10 @@ const AnalysisByPlatform = props => {
   const setTime = () => {
     const now = new Date();
     return {
-      startTime: moment(
+      endTime: moment(
         `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
       ).format('YYYY-MM-DD'),
-      endTime: moment(
+      startTime: moment(
         `${now.getFullYear() - 1}-${now.getMonth() + 1}-${now.getDate()}`,
       ).format('YYYY-MM-DD'),
     };
@@ -56,7 +57,23 @@ const AnalysisByPlatform = props => {
     // eslint-disable-next-line
   }, []);
 
-  const handlePageClick = () => {};
+  useEffect(() => {
+    const { startTime, endTime, indicator, searchValue, pagination } = props;
+    const product = searchValue.map(item => item.key);
+    props.getPlatformLine(startTime, endTime, indicator, product);
+    handlePageClick(pagination)
+  }, [
+    props.times,
+    props.indicator,
+    props.searchValue,
+  ]);
+
+  const handlePageClick = pagination => {
+    const { startTime, endTime, searchValue } = props;
+    const product = searchValue.map(item => item.key);
+    props.changeTableLoading(true);
+    props.getPlatformTable(startTime, endTime, product, pagination);
+  }
 
   return (
     <div
@@ -66,16 +83,22 @@ const AnalysisByPlatform = props => {
         padding: '24px',
       }}
     >
-      <Space size={50} style={{ marginBottom: '20px' }}>
-        <TimePicker />
-        <ProductsPicker />
-        <IndicatorPicker />
-      </Space>
+      <Row gutter={[16, 28]}>
+        <Col>
+          <TimePicker />
+        </Col>
+        <Col>
+          <ProductsPicker />
+        </Col>
+        <Col>
+          <IndicatorPicker />
+        </Col>
+      </Row>
       <Divider />
-      <ColumnPlot style={{ marginBottom: '20px' }} />
+      <ColumnPlot platformLine={props.platformLine} />
       <AnalysisTable
         columns={columns}
-        tableData={tableData}
+        tableData={props.tableData}
         pagination={props.pagination}
         loading={props.loading}
         handlePageClick={handlePageClick}
@@ -85,13 +108,45 @@ const AnalysisByPlatform = props => {
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    startTime: state.analysis.public.times.startTime,
+    endTime: state.analysis.public.times.endTime,
+    indicator: state.analysis.public.indicator,
+    searchValue: state.analysis.public.searchValue,
+    platformLine: state.analysis.analysisPlatform.platformLine,
+    tableData: state.analysis.public.tableData,
+    pagination: state.analysis.public.pagination,
+    loading: state.analysis.public.loading,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     initPicker(times) {
       dispatch(actionCreators.initPicker(times));
+    },
+    getPlatformLine(startTime, endTime, indicator, product) {
+      dispatch(
+        platformActionCreators.getPlatformLine(
+          startTime,
+          endTime,
+          indicator,
+          product,
+        ),
+      );
+    },
+    getPlatformTable(startTime, endTime, product, pagination) {
+      dispatch(
+        actionCreators.getPlatformTable(
+          startTime,
+          endTime,
+          product,
+          pagination
+        )
+      )
+    },
+    changeTableLoading(loadingStatus) {
+      dispatch(actionCreators.changeTableLoading(loadingStatus));
     },
   };
 };

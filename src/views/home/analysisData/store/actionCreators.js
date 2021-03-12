@@ -8,9 +8,10 @@ import {
   CLICK_TIME_LEVEL,
   INITPICKER,
   GET_TIME_TABLE,
+  GET_PLATFORM_TABLE,
   CHANGE_TABLE_LOADING,
 } from './actionTypes';
-import { getProducts, postTimeTable } from '@/api';
+import { getProducts, postTimeTable, postPlatformTable } from '@/api';
 
 export const initPicker = times => ({
   type: INITPICKER,
@@ -24,7 +25,7 @@ export const initPicker = times => ({
   tableData: [],
   pagination: {
     current: 1,
-    pageSize: 10,
+    pageSize: 5,
   },
   loading: false,
 });
@@ -102,8 +103,8 @@ export const getTimeTable = (
     );
     // console.log(res);
     if (res) {
-      console.log(startTime, endTime, platform, timeLevel, product, pagination);
-      console.log(res.data);
+      // console.log(startTime, endTime, platform, timeLevel, product, pagination);
+      // console.log(res.data);
       // console.log('list', res.data.list.endRow === 0);
       dispatch({
         type: GET_TIME_TABLE,
@@ -117,3 +118,32 @@ export const getTimeTable = (
     }
   };
 };
+
+export const getPlatformTable = (
+  startTime,
+  endTime,
+  product,
+  pagination
+) => {
+  return async dispatch => {
+    const res = await postPlatformTable(
+      startTime,
+      endTime,
+      product,
+      pagination.current,
+      pagination.pageSize
+    )
+    console.log('res', res)
+    if (res) {
+      dispatch({
+        type: GET_PLATFORM_TABLE,
+        tableData: res.data.list.list,
+        pagination: {
+          total: res.data.list.total,
+          ...pagination,
+        },
+        loading: false
+      })
+    }
+  }
+}

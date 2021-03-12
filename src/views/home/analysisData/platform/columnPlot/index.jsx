@@ -3,10 +3,11 @@ import { Column } from '@antv/g2plot';
 
 const ColumnPlot = props => {
   useEffect(() => {
+    // console.log('platformLine', props.platformLine);
     const columnPlot = new Column('platform-columnPlot', {
-      data,
-      xField: 'type',
-      yField: 'sales',
+      data: props.platformLine,
+      xField: 'platformName',
+      yField: 'value',
       label: {
         // 可手动配置 label 数据标签位置
         position: 'middle', // 'top', 'bottom', 'middle',
@@ -36,58 +37,61 @@ const ColumnPlot = props => {
     return () => {
       columnPlot.destroy();
     };
-  }, []);
+  }, [props.platformLine]);
   return (
-    <div
-      id="platform-columnPlot"
-      style={{
-        margin: '40px 0',
-      }}
-    ></div>
+    <div>
+      <div style={{ fontSize: '20px' }}>销售总金额</div>
+      <div
+        id="platform-columnPlot"
+        style={{
+          margin: '40px 0',
+        }}
+      ></div>
+    </div>
   );
 };
 
 export default ColumnPlot;
 
-const data = [
-  {
-    type: '家具家电',
-    sales: 38,
-  },
-  {
-    type: '粮油副食',
-    sales: 52,
-  },
-  {
-    type: '生鲜水果',
-    sales: 61,
-  },
-  {
-    type: '美容洗护',
-    sales: 145,
-  },
-  {
-    type: '母婴用品',
-    sales: 48,
-  },
-  {
-    type: '进口食品',
-    sales: 38,
-  },
-  {
-    type: '食品饮料',
-    sales: 38,
-  },
-  {
-    type: '家庭清洁1',
-    sales: 38,
-  },
-  {
-    type: '食品饮料1',
-    sales: 38,
-  },
-  {
-    type: '家庭清洁2',
-    sales: 38,
-  },
-];
+// const data = [
+//   {
+//     type: '家具家电',
+//     sales: 38,
+//   },
+//   {
+//     type: '粮油副食',
+//     sales: 52,
+//   },
+//   {
+//     type: '生鲜水果',
+//     sales: 61,
+//   },
+//   {
+//     type: '美容洗护',
+//     sales: 145,
+//   },
+//   {
+//     type: '母婴用品',
+//     sales: 48,
+//   },
+//   {
+//     type: '进口食品',
+//     sales: 38,
+//   },
+//   {
+//     type: '食品饮料',
+//     sales: 38,
+//   },
+//   {
+//     type: '家庭清洁1',
+//     sales: 38,
+//   },
+//   {
+//     type: '食品饮料1',
+//     sales: 38,
+//   },
+//   {
+//     type: '家庭清洁2',
+//     sales: 38,
+//   },
+// ];

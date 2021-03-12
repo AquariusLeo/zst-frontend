@@ -18,3 +18,7 @@ export const TIMETABLE = '/getTimeTable';
 export const PROVINCE_MAP = '/getProvinceMap';
 export const TOP_PROVINCE = '/getTopProvince';
 export const PROVINCE_TABLE = '/getProvinceTable'
+
+// analysis platform
+export const PLATFORM_LINE = '/getPlatformLine'
+export const PLATFORM_TABLE = '/getPlatformTable'

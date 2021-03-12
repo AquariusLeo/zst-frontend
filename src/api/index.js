@@ -140,3 +140,42 @@ export const postProvinceTop = (
     },
   });
 };
+
+// analysis platform
+export const postPlatformLine = (
+  startTime,
+  endTime,
+  indicator,
+  product
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PLATFORM_LINE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      index: indicator,
+      product
+    }
+  })
+}
+
+export const postPlatformTable = (
+  startTime,
+  endTime,
+  product,
+  pageNum,
+  pageSize,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PLATFORM_TABLE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      product,
+      pageNum,
+      pageSize
+    }
+  })
+}
