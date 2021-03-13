@@ -34,13 +34,16 @@ import { Table } from 'antd';
 //     key: 'percent',
 //   },
 // ];
-const RankTable = (props) => {
+const RankTable = props => {
   return (
-    <Table
-      columns={props.columns}
-      dataSource={props.dataSource}
-      pagination={false}
-    />
+    <div>
+      <div style={{ fontSize: '20px', marginBottom: '28px' }}>{props.name}</div>
+      <Table
+        columns={props.columns}
+        dataSource={props.dataSource}
+        pagination={false}
+      />
+    </div>
   );
 };
 

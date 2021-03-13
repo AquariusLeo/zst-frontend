@@ -142,12 +142,7 @@ export const postProvinceTop = (
 };
 
 // analysis platform
-export const postPlatformLine = (
-  startTime,
-  endTime,
-  indicator,
-  product
-) => {
+export const postPlatformLine = (startTime, endTime, indicator, product) => {
   return instance.request({
     url: URL.BASE_URL + URL.PLATFORM_LINE,
     method: 'post',
@@ -155,10 +150,10 @@ export const postPlatformLine = (
       startTime,
       endTime,
       index: indicator,
-      product
-    }
-  })
-}
+      product,
+    },
+  });
+};
 
 export const postPlatformTable = (
   startTime,
@@ -175,18 +170,13 @@ export const postPlatformTable = (
       endTime,
       product,
       pageNum,
-      pageSize
-    }
-  })
-}
+      pageSize,
+    },
+  });
+};
 
 // analysis product
-export const postProductLine = (
-  startTime,
-  endTime,
-  indicator,
-  platform,
-) => {
+export const postProductLine = (startTime, endTime, indicator, platform) => {
   return instance.request({
     url: URL.BASE_URL + URL.PRODUCT_LINE,
     method: 'post',
@@ -194,7 +184,51 @@ export const postProductLine = (
       startTime,
       endTime,
       index: indicator,
-      platform
-    }
-  })
-}
+      platform,
+    },
+  });
+};
+
+export const postProductTable = (
+  startTime,
+  endTime,
+  platform,
+  pageNum,
+  pageSize,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PRODUCT_TABLE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      platform,
+      pageNum,
+      pageSize,
+    },
+  });
+};
+
+export const postTopTenProductSales = (startTime, endTime, platform) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.TOP_TEN_PRODUCT_SALES,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      platform,
+    },
+  });
+};
+
+export const postTopTenProductNumbers = (startTime, endTime, platform) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.TOP_TEN_PRODUCT_NUMBERS,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      platform,
+    },
+  });
+};

@@ -11,12 +11,40 @@ import { actionCreators } from '../store';
 import { productActionCreators } from './store';
 import moment from 'moment';
 
+const columns = [
+  {
+    title: '产品',
+    dataIndex: 'productName',
+    width: '20%',
+  },
+  {
+    title: '销售总金额',
+    dataIndex: 'sales',
+    width: '20%',
+  },
+  {
+    title: '订单总数',
+    dataIndex: 'orders',
+    width: '20%',
+  },
+  {
+    title: '销售总数量',
+    dataIndex: 'numbers',
+    width: '20%',
+  },
+  {
+    title: '买家数',
+    dataIndex: 'consumers',
+    width: '20%',
+  },
+];
+
 const columns1 = [
   {
     title: '排名',
     key: 'ranks',
-    dataIndex: 'key',
-    render: key => (
+    dataIndex: 'id',
+    render: id => (
       <>
         {(key => {
           let color = Number(key) > 3 ? 'geekblue' : 'red';
@@ -25,24 +53,19 @@ const columns1 = [
               {key}
             </Tag>
           );
-        })(key)}
+        })(id)}
       </>
     ),
   },
   {
     title: '商品名称',
-    dataIndex: 'name',
+    dataIndex: 'productName',
     key: 'name',
   },
   {
     title: '销售额',
-    dataIndex: 'sales',
+    dataIndex: 'value',
     key: 'sales',
-  },
-  {
-    title: '占比',
-    dataIndex: 'percent',
-    key: 'percent',
   },
 ];
 
@@ -50,8 +73,8 @@ const columns2 = [
   {
     title: '排名',
     key: 'ranks',
-    dataIndex: 'key',
-    render: key => (
+    dataIndex: 'id',
+    render: id => (
       <>
         {(key => {
           let color = Number(key) > 3 ? 'geekblue' : 'red';
@@ -60,24 +83,19 @@ const columns2 = [
               {key}
             </Tag>
           );
-        })(key)}
+        })(id)}
       </>
     ),
   },
   {
     title: '商品名称',
-    dataIndex: 'name',
+    dataIndex: 'productName',
     key: 'name',
   },
   {
     title: '销售数量',
-    dataIndex: 'numbers',
+    dataIndex: 'value',
     key: 'numbers',
-  },
-  {
-    title: '占比',
-    dataIndex: 'percent',
-    key: 'percent',
   },
 ];
 
@@ -101,9 +119,18 @@ const AnalysisByProduct = props => {
   }, []);
 
   useEffect(() => {
-    const { startTime, endTime, indicator, platform } = props;
+    const { startTime, endTime, indicator, platform, pagination } = props;
     props.getProductLine(startTime, endTime, indicator, platform);
+    props.getTopTenProductNumbers(startTime, endTime, platform);
+    props.getTopTenProductSales(startTime, endTime, platform);
+    handlePageClick(pagination);
   }, [props.startTime, props.endTime, props.indicator, props.platform]);
+
+  const handlePageClick = pagination => {
+    const { startTime, endTime, platform } = props;
+    props.changeTableLoading(true);
+    props.getProductTable(startTime, endTime, platform, pagination);
+  };
 
   return (
     <div
@@ -125,18 +152,37 @@ const AnalysisByProduct = props => {
         </Col>
       </Row>
       <Divider />
-      <Row gutter={24} style={{ margin: '40px 0px' }}>
-        <Col span={8}>
-          <ColumnPlot productLine={props.productLine} columnPlotName={props.indicator}/>
+      <Row gutter={[16, 28]}>
+        <Col span={24}>
+          <ColumnPlot
+            productLine={props.productLine}
+            columnPlotName={props.indicator}
+          />
         </Col>
-        <Col span={8}>
-          <RankTable columns={columns1} dataSource={dataSource} />
+        <Col span={12}>
+          <RankTable
+            columns={columns1}
+            dataSource={props.topTenProductSales}
+            name={'Top10 销售额'}
+          />
         </Col>
-        <Col span={8}>
-          <RankTable columns={columns2} dataSource={dataSource} />
+        <Col span={12}>
+          <RankTable
+            columns={columns2}
+            dataSource={props.topTenProductNumbers}
+            name={'Top10 销售数量'}
+          />
+        </Col>
+        <Col span={24}>
+          <AnalysisTable
+            columns={columns}
+            tableData={props.tableData}
+            pagination={props.pagination}
+            loading={props.loading}
+            handlePageClick={handlePageClick}
+          />
         </Col>
       </Row>
-      <AnalysisTable />
     </div>
   );
 };
@@ -148,6 +194,11 @@ const mapStateToProps = state => {
     indicator: state.analysis.public.indicator,
     platform: state.analysis.public.platform,
     productLine: state.analysis.analysisProduct.productLine,
+    tableData: state.analysis.public.tableData,
+    pagination: state.analysis.public.pagination,
+    loading: state.analysis.public.loading,
+    topTenProductSales: state.analysis.analysisProduct.topTenProductSales,
+    topTenProductNumbers: state.analysis.analysisProduct.topTenProductNumbers,
   };
 };
 
@@ -162,6 +213,37 @@ const mapDispatchToProps = dispatch => {
           startTime,
           endTime,
           indicator,
+          platform,
+        ),
+      );
+    },
+    getProductTable(startTime, endTime, platform, pagination) {
+      dispatch(
+        actionCreators.getProductTable(
+          startTime,
+          endTime,
+          platform,
+          pagination,
+        ),
+      );
+    },
+    changeTableLoading(loadingStatus) {
+      dispatch(actionCreators.changeTableLoading(loadingStatus));
+    },
+    getTopTenProductSales(startTime, endTime, platform) {
+      dispatch(
+        productActionCreators.getTopTenProductSales(
+          startTime,
+          endTime,
+          platform,
+        ),
+      );
+    },
+    getTopTenProductNumbers(startTime, endTime, platform) {
+      dispatch(
+        productActionCreators.getTopTenProductNumbers(
+          startTime,
+          endTime,
           platform,
         ),
       );

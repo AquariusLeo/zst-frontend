@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { analysisTimeReducer } from '../time/store';
 import { analysisAreaReducer } from '../area/store';
 import { analysisPlatformReducer } from '../platform/store';
-import { analysisProductReducer } from '../product/store'
+import { analysisProductReducer } from '../product/store';
 import {
   CHANGE_DATE,
   CLICK_PLATFORMS,
@@ -14,6 +14,7 @@ import {
   INITPICKER,
   GET_TIME_TABLE,
   GET_PLATFORM_TABLE,
+  GET_PRODUCT_TABLE,
   CHANGE_TABLE_LOADING,
 } from './actionTypes';
 
@@ -61,6 +62,13 @@ const analysisReducer = (state = initState, action) => {
         loading: action.loading,
       };
     case GET_PLATFORM_TABLE:
+      return {
+        ...state,
+        tableData: action.tableData,
+        pagination: action.pagination,
+        loading: action.loading,
+      };
+    case GET_PRODUCT_TABLE:
       return {
         ...state,
         tableData: action.tableData,
