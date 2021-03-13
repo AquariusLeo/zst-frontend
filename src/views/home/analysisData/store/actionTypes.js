@@ -9,4 +9,5 @@ export const CLICK_TIME_LEVEL = 'clickTimeLevel';
 export const GET_TIME_TABLE = 'getTimeTable';
 export const GET_PLATFORM_TABLE = 'getPlatformTable';
 export const GET_PRODUCT_TABLE = 'getProductTable';
+export const GET_PROVINCE_TABLE = 'getProvinceTable';
 export const CHANGE_TABLE_LOADING = 'changeTableLoading';

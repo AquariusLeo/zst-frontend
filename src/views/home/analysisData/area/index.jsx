@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Space, Row, Col, Divider } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
@@ -15,7 +15,7 @@ import moment from 'moment';
 const columns = [
   {
     title: '省份',
-    dataIndex: 'province',
+    dataIndex: 'name',
     width: '20%',
   },
   {
@@ -60,11 +60,7 @@ const AnalysisByArea = props => {
   }, []);
 
   useEffect(() => {
-    handleClick();
-  }, [props.times, props.indicator, props.platform, props.searchValue]);
-
-  const handleClick = () => {
-    const { times, indicator, platform, searchValue } = props;
+    const { times, indicator, platform, searchValue, pagination } = props;
     const product = searchValue.map(item => item.key);
     props.getProvinceMap(
       times.startTime,
@@ -80,9 +76,22 @@ const AnalysisByArea = props => {
       platform,
       product,
     );
-  };
+    handlePageClick(pagination);
+    // eslint-disable-next-line
+  }, [props.times, props.indicator, props.platform, props.searchValue]);
 
-  const handlePageClick = () => {};
+  const handlePageClick = pagination => {
+    const { times, platform, searchValue } = props;
+    const product = searchValue.map(item => item.key);
+    props.changeTableLoading(true);
+    props.getProvinceTable(
+      times.startTime,
+      times.endTime,
+      platform,
+      product,
+      pagination,
+    );
+  };
 
   return (
     <>
@@ -103,36 +112,32 @@ const AnalysisByArea = props => {
           padding: '24px',
         }}
       >
-        <Space direction="vertical">
-          <Row gutter={24}>
-            <Col span={8}>
-              <TimePicker />
-            </Col>
-            <Col span={8}>
-              <IndicatorPicker />
-            </Col>
-            <Col span={8}>
-              <ProductsPicker />
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={24}>
-              <PlatformsPicker />
-            </Col>
-          </Row>
-        </Space>
+        <Row gutter={[16, 28]}>
+          <Col span={8}>
+            <TimePicker />
+          </Col>
+          <Col span={8}>
+            <IndicatorPicker />
+          </Col>
+          <Col span={8}>
+            <ProductsPicker />
+          </Col>
+          <Col span={24}>
+            <PlatformsPicker />
+          </Col>
+        </Row>
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
           <Col span={14}>
             <Map provinceMap={props.provinceMap}></Map>
           </Col>
           <Col span={10}>
-            <ColumnPlot />
+            <ColumnPlot provinceTop={props.provinceTop} />
           </Col>
         </Row>
         <AnalysisTable
           columns={columns}
-          tableData={tableData}
+          tableData={props.tableData}
           pagination={props.pagination}
           loading={props.loading}
           handlePageClick={handlePageClick}
@@ -150,6 +155,9 @@ const mapStateToProps = state => {
     indicator: state.analysis.public.indicator,
     platform: state.analysis.public.platform,
     searchValue: state.analysis.public.searchValue,
+    tableData: state.analysis.public.tableData,
+    pagination: state.analysis.public.pagination,
+    loading: state.analysis.public.loading,
   };
 };
 
@@ -179,7 +187,21 @@ const mapDispatchToProps = dispatch => {
           product,
         ),
       );
-    }
+    },
+    getProvinceTable(startTime, endTime, platform, product, pagination) {
+      dispatch(
+        actionCreators.getProvinceTable(
+          startTime,
+          endTime,
+          platform,
+          product,
+          pagination,
+        ),
+      );
+    },
+    changeTableLoading(loadingStatus) {
+      dispatch(actionCreators.changeTableLoading(loadingStatus));
+    },
   };
 };
 

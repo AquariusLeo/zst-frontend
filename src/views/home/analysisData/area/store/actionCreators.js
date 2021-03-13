@@ -19,7 +19,7 @@ export const getProvinceMap = (
     if (res) {
       dispatch({
         type: GET_PROVINCE_MAP,
-        provinceMap: res.data.provinceMap
+        provinceMap: res.data.mapList
       })
     }
   }
@@ -41,10 +41,11 @@ export const getProvinceTop = (
       product,
     );
     if (res) {
+      // console.log(res)
       dispatch({
         type: GET_PROVINCE_TOP,
-        provinceTop: res.data.provinceTop
-      })
+        provinceTop: res.data.topTenProvince,
+      });
     }
   }
 }

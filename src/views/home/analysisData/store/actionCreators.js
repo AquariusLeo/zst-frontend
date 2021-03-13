@@ -10,6 +10,7 @@ import {
   GET_TIME_TABLE,
   GET_PLATFORM_TABLE,
   GET_PRODUCT_TABLE,
+  GET_PROVINCE_TABLE,
   CHANGE_TABLE_LOADING,
 } from './actionTypes';
 import {
@@ -17,6 +18,7 @@ import {
   postTimeTable,
   postPlatformTable,
   postProductTable,
+  postProvinceTable,
 } from '@/api';
 
 export const initPicker = times => ({
@@ -162,6 +164,36 @@ export const getProductTable = (startTime, endTime, platform, pagination) => {
     if (res) {
       dispatch({
         type: GET_PRODUCT_TABLE,
+        tableData: res.data.list.list,
+        pagination: {
+          ...pagination,
+          total: res.data.list.total,
+        },
+        loading: false,
+      });
+    }
+  };
+};
+
+export const getProvinceTable = (
+  startTime,
+  endTime,
+  platform,
+  product,
+  pagination,
+) => {
+  return async dispatch => {
+    const res = await postProvinceTable(
+      startTime,
+      endTime,
+      platform,
+      product,
+      pagination.current,
+      pagination.pageSize,
+    );
+    if (res) {
+      dispatch({
+        type: GET_PROVINCE_TABLE,
         tableData: res.data.list.list,
         pagination: {
           ...pagination,

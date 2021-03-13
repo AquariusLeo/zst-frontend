@@ -141,6 +141,28 @@ export const postProvinceTop = (
   });
 };
 
+export const postProvinceTable = (
+  startTime,
+  endTime,
+  platform,
+  product,
+  pageNum,
+  pageSize,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.PROVINCE_TABLE,
+    method: 'post',
+    data: {
+      startTime,
+      endTime,
+      platform,
+      product,
+      pageNum,
+      pageSize,
+    },
+  });
+}
+
 // analysis platform
 export const postPlatformLine = (startTime, endTime, indicator, product) => {
   return instance.request({

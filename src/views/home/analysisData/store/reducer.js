@@ -15,6 +15,7 @@ import {
   GET_TIME_TABLE,
   GET_PLATFORM_TABLE,
   GET_PRODUCT_TABLE,
+  GET_PROVINCE_TABLE,
   CHANGE_TABLE_LOADING,
 } from './actionTypes';
 
@@ -69,6 +70,13 @@ const analysisReducer = (state = initState, action) => {
         loading: action.loading,
       };
     case GET_PRODUCT_TABLE:
+      return {
+        ...state,
+        tableData: action.tableData,
+        pagination: action.pagination,
+        loading: action.loading,
+      };
+    case GET_PROVINCE_TABLE:
       return {
         ...state,
         tableData: action.tableData,

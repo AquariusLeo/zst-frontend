@@ -47,15 +47,18 @@ const Map = props => {
   }, [props, props.provinceMap]);
 
   return (
-    <div
-      id="map"
-      style={{
-        minHeight: '400px',
-        justifyContent: 'center',
-        position: 'relative',
-        margin: '40px 0',
-      }}
-    ></div>
+    <div>
+      <div style={{ fontSize: '20px' }}>销售额地图</div>
+      <div
+        id="map"
+        style={{
+          minHeight: '400px',
+          justifyContent: 'center',
+          position: 'relative',
+          margin: '40px 0',
+        }}
+      ></div>
+    </div>
   );
 };
 
