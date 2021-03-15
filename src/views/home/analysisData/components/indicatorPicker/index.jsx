@@ -43,7 +43,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handleIndicatorsSelectClick(value) {
-      console.log(value);
+      // console.log(value);
       dispatch(actionCreators.clickIndicators(value));
     },
   };

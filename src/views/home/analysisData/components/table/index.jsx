@@ -22,7 +22,7 @@ const AnalysisTable = props => {
     // request({
     //   pagination,
     // });
-    console.log(props.loading);
+    // console.log(props.loading);
     props.handlePageClick(pagination);
   };
 
@@ -47,7 +47,7 @@ const AnalysisTable = props => {
   return (
     <Table
       columns={props.columns}
-      rowKey={record => record.key}
+      rowKey={record => record.id}
       dataSource={props.tableData}
       pagination={props.pagination}
       loading={props.loading}
