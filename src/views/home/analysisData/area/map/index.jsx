@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Scene } from '@antv/l7';
 import { CountryLayer } from '@antv/l7-district';
 import { Mapbox } from '@antv/l7-maps';
 const colors = ['#B8E1FF', '#7DAAFF', '#3D76DD', '#0047A5', '#001D70'];
 
+const map = {};
+
 const Map = props => {
   useEffect(() => {
-    const scene = new Scene({
+    map.scene = new Scene({
       id: 'map',
       map: new Mapbox({
         center: [116.2825, 39.9],
@@ -18,9 +20,10 @@ const Map = props => {
       }),
       logoVisible: false,
     });
-    scene.on('loaded', () => {
-      new CountryLayer(scene, {
-        data: props.provinceMap,
+
+    map.scene.on('loaded', () => {
+      map.layer = new CountryLayer(map.scene, {
+        data: [],
         joinBy: ['NAME_CHN', 'name'],
         depth: 1,
         provinceStroke: '#fff',
@@ -41,10 +44,17 @@ const Map = props => {
         },
       });
     });
+
     return () => {
-      scene.destroy();
+      map.layer.destroy();
+      map.scene.destroy();
     };
-  }, [props, props.provinceMap]);
+  }, []);
+
+  useMemo(() => {
+    console.log('memo', props.provinceMap);
+    map.layer && map.layer.updateData(props.provinceMap ? props.provinceMap : []) 
+  }, [props.provinceMap]);
 
   return (
     <div>
