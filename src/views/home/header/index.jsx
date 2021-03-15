@@ -1,9 +1,15 @@
-import { Dropdown, Menu, Avatar } from 'antd';
+import { Dropdown, Menu, Avatar, message } from 'antd';
+import { useHistory } from 'react-router-dom'
 import { UserOutlined } from '@ant-design/icons';
 
 const UserHeader = () => {
+  let history = useHistory();
   const handleUserMenuClick = () => {
     localStorage.removeItem('zst-token');
+    message.success('登出成功')
+    setTimeout(() => {
+      history.push('/login');
+    }, 1000)
   };
   const menu = (
     <Menu onClick={handleUserMenuClick}>
