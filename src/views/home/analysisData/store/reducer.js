@@ -3,6 +3,7 @@ import { analysisTimeReducer } from '../time/store';
 import { analysisAreaReducer } from '../area/store';
 import { analysisPlatformReducer } from '../platform/store';
 import { analysisProductReducer } from '../product/store';
+import moment from 'moment';
 import {
   CHANGE_DATE,
   CLICK_PLATFORMS,
@@ -21,8 +22,10 @@ import {
 
 const initState = {
   times: {
-    startTime: '2021-01-01',
-    endTime: '2021-01-02',
+    startTime: moment(moment().subtract(1, 'year').calendar()).format(
+      'YYYY-MM-DD',
+    ),
+    endTime: moment().format('YYYY-MM-DD'),
   },
   indicator: '销售总金额',
   platform: ['天猫', '京东', '微信'],
@@ -33,7 +36,7 @@ const initState = {
   tableData: [],
   pagination: {
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   },
   loading: false,
 };

@@ -33,7 +33,7 @@ export const initPicker = times => ({
   tableData: [],
   pagination: {
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   },
   loading: false,
 });
