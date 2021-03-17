@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col, Divider, Table, Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
 import ProductsPicker from '../components/productsPicker';
 import Map from './map';
 import ColumnPlot from './columnPlot';
-import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
 import { areaActionCreators } from './store';
 import moment from 'moment';
@@ -42,14 +42,11 @@ const columns = [
 
 const AnalysisByArea = props => {
   const setTime = () => {
-    const now = new Date();
     return {
-      startTime: moment(
-        `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
-      ).format('YYYY-MM-DD'),
-      endTime: moment(
-        `${now.getFullYear() - 1}-${now.getMonth() + 1}-${now.getDate()}`,
-      ).format('YYYY-MM-DD'),
+      startTime: moment(moment().subtract(1, 'year').calendar()).format(
+        'YYYY-MM-DD',
+      ),
+      endTime: moment().format('YYYY-MM-DD'),
     };
   };
 
@@ -58,6 +55,19 @@ const AnalysisByArea = props => {
     props.initPicker(times);
     // eslint-disable-next-line
   }, []);
+
+  const handlePageClick = pagination => {
+    const { times, platform, searchValue } = props;
+    const product = searchValue.map(item => item.key);
+    props.changeTableLoading(true);
+    props.getProvinceTable(
+      times.startTime,
+      times.endTime,
+      platform,
+      product,
+      pagination,
+    );
+  };
 
   useEffect(() => {
     const { times, indicator, platform, searchValue, pagination } = props;
@@ -78,19 +88,30 @@ const AnalysisByArea = props => {
     );
     handlePageClick(pagination);
     // eslint-disable-next-line
-  }, [props.times, props.indicator, props.platform, props.searchValue]);
+  }, []);
 
-  const handlePageClick = pagination => {
-    const { times, platform, searchValue } = props;
+  const handleClick = () => {
+    const { times, indicator, platform, searchValue, pagination } = props;
     const product = searchValue.map(item => item.key);
-    props.changeTableLoading(true);
-    props.getProvinceTable(
+    props.getProvinceMap(
       times.startTime,
       times.endTime,
+      indicator,
       platform,
       product,
-      pagination,
     );
+    props.getProvinceTop(
+      times.startTime,
+      times.endTime,
+      indicator,
+      platform,
+      product,
+    );
+    handlePageClick(pagination);
+  };
+
+  const handleDownloadClick = () => {
+    alert('xiazai ');
   };
 
   return (
@@ -100,10 +121,17 @@ const AnalysisByArea = props => {
           backgroundColor: '#fff',
           fontSize: '24px',
           padding: '12px 28px',
+          position: 'relative',
         }}
       >
         地区维度
         <div style={{ fontSize: '16px' }}>根据不同地区的销售情况进行分析</div>
+        <Button
+          style={{ position: 'absolute', right: '24px', top: '24px' }}
+          shape="circle"
+          icon={<DownloadOutlined />}
+          onClick={handleDownloadClick}
+        />
       </div>
       <div
         style={{
@@ -122,10 +150,20 @@ const AnalysisByArea = props => {
           <Col span={8}>
             <ProductsPicker />
           </Col>
-          <Col span={24}>
+          <Col span={8}>
             <PlatformsPicker />
           </Col>
+          <Col span={8}>
+            <Button
+              type="primary"
+              style={{ width: '100px', marginLeft: '200px' }}
+              onClick={handleClick}
+            >
+              查询
+            </Button>
+          </Col>
         </Row>
+
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
           <Col span={14}>
@@ -135,13 +173,14 @@ const AnalysisByArea = props => {
             <ColumnPlot provinceTop={props.provinceTop} />
           </Col>
         </Row>
-        <AnalysisTable
+        <Table
           columns={columns}
-          tableData={props.tableData}
+          rowKey={record => record.id}
+          dataSource={props.tableData}
           pagination={props.pagination}
           loading={props.loading}
-          handlePageClick={handlePageClick}
-        ></AnalysisTable>
+          onChange={handlePageClick}
+        />
       </div>
     </>
   );
@@ -207,85 +246,85 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnalysisByArea);
 
-const tableData = [
-  {
-    key: 1,
-    province: 'hubei',
-    sales: 0,
-    orders: 0,
-    numbers: 10,
-    consumers: 13,
-  },
-  {
-    key: 2,
-    province: 'fujian',
-    sales: 99,
-    orders: 8,
-    numbers: 11,
-    consumers: 26,
-  },
-  {
-    key: 3,
-    province: 'guangdong',
-    sales: 71,
-    orders: 6,
-    numbers: 7,
-    consumers: 21,
-  },
-  {
-    key: 4,
-    province: 'shanghai',
-    sales: 68,
-    orders: 2,
-    numbers: 13,
-    consumers: 45,
-  },
-  {
-    key: 5,
-    province: 'beijing',
-    sales: 36,
-    orders: 6,
-    numbers: 13,
-    consumers: 20,
-  },
-  {
-    key: 6,
-    province: 'hunan',
-    sales: 23,
-    orders: 4,
-    numbers: 0,
-    consumers: 49,
-  },
-  {
-    key: 7,
-    province: 'hebei',
-    sales: 15,
-    orders: 3,
-    numbers: 5,
-    consumers: 22,
-  },
-  {
-    key: 8,
-    province: 'henan',
-    sales: 43,
-    orders: 9,
-    numbers: 8,
-    consumers: 46,
-  },
-  {
-    key: 9,
-    province: 'jiangsu',
-    sales: 3,
-    orders: 0,
-    numbers: 6,
-    consumers: 21,
-  },
-  {
-    key: 10,
-    province: 'xinjiang',
-    sales: 7,
-    orders: 5,
-    numbers: 12,
-    consumers: 23,
-  },
-];
+// const tableData = [
+//   {
+//     key: 1,
+//     province: 'hubei',
+//     sales: 0,
+//     orders: 0,
+//     numbers: 10,
+//     consumers: 13,
+//   },
+//   {
+//     key: 2,
+//     province: 'fujian',
+//     sales: 99,
+//     orders: 8,
+//     numbers: 11,
+//     consumers: 26,
+//   },
+//   {
+//     key: 3,
+//     province: 'guangdong',
+//     sales: 71,
+//     orders: 6,
+//     numbers: 7,
+//     consumers: 21,
+//   },
+//   {
+//     key: 4,
+//     province: 'shanghai',
+//     sales: 68,
+//     orders: 2,
+//     numbers: 13,
+//     consumers: 45,
+//   },
+//   {
+//     key: 5,
+//     province: 'beijing',
+//     sales: 36,
+//     orders: 6,
+//     numbers: 13,
+//     consumers: 20,
+//   },
+//   {
+//     key: 6,
+//     province: 'hunan',
+//     sales: 23,
+//     orders: 4,
+//     numbers: 0,
+//     consumers: 49,
+//   },
+//   {
+//     key: 7,
+//     province: 'hebei',
+//     sales: 15,
+//     orders: 3,
+//     numbers: 5,
+//     consumers: 22,
+//   },
+//   {
+//     key: 8,
+//     province: 'henan',
+//     sales: 43,
+//     orders: 9,
+//     numbers: 8,
+//     consumers: 46,
+//   },
+//   {
+//     key: 9,
+//     province: 'jiangsu',
+//     sales: 3,
+//     orders: 0,
+//     numbers: 6,
+//     consumers: 21,
+//   },
+//   {
+//     key: 10,
+//     province: 'xinjiang',
+//     sales: 7,
+//     orders: 5,
+//     numbers: 12,
+//     consumers: 23,
+//   },
+// ];

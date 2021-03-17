@@ -52,8 +52,9 @@ const Map = props => {
   }, []);
 
   useMemo(() => {
-    console.log('memo', props.provinceMap);
+    // console.log('memo', map.layer);
     map.layer && map.layer.updateData(props.provinceMap ? props.provinceMap : []) 
+    
   }, [props.provinceMap]);
 
   return (
