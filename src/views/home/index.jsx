@@ -65,7 +65,10 @@ const Home = () => {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+        <Header
+          className="site-layout-background"
+          style={{ padding: 0, borderBottom: '1px solid #EDEDED' }}
+        >
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
