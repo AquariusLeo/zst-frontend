@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button, Divider, Row, Col, Table } from 'antd';
+import { Button, Divider, Row, Col, Table, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
@@ -11,6 +11,7 @@ import TimeLine from './line';
 import { actionCreators } from '../store';
 import { timeActionCreators } from './store';
 import moment from 'moment';
+import { download } from '@/api';
 
 const columns = [
   {
@@ -76,10 +77,16 @@ const AnalysisByTime = props => {
     );
     handlePageClick(pagination);
     // eslint-disable-next-line
-  }, [props.times, props.indicator, props.platform, props.timeLevel, props.searchValue]);
+  }, [
+    props.times,
+    props.indicator,
+    props.platform,
+    props.timeLevel,
+    props.searchValue,
+  ]);
 
   const handlePageClick = pagination => {
-    console.log('handlePageClick')
+    console.log('handlePageClick');
     const { times, platform, timeLevel, searchValue } = props;
     // console.log('product', searchValue);
     const product = searchValue.map(item => item.key);
@@ -94,8 +101,45 @@ const AnalysisByTime = props => {
     );
   };
 
-  const handleDownloadClick = () => {
-    alert('xiazai')
+  async function handleDownloadClick() {
+    const { times, platform, timeLevel, searchValue } = props;
+    const product = searchValue.map(item => item.key);
+    const request = {
+      body: JSON.stringify({
+        startTime: times.startTime,
+        endTime: times.endTime,
+        platform,
+        timeLevel,
+        product,
+      }),
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('zst-token'),
+        'content-type': 'application/json',
+      },
+    };
+    try {
+      message.info('下载中,请勿重复点击！');
+      const response = await fetch('/api/downloadTimeTable', request);
+      const filename = response.headers
+        .get('content-disposition')
+        .split(';')[1]
+        .split('=')[1];
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.download = decodeURIComponent(filename);
+      link.style.display = 'none';
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(link.href);
+      document.body.removeChild(link);
+    } catch (e) {
+      message.error('下载失败！');
+      return;
+    }
+
+    message.success('下载成功！');
   }
 
   return (
@@ -116,6 +160,7 @@ const AnalysisByTime = props => {
           icon={<DownloadOutlined />}
           onClick={handleDownloadClick}
         />
+        <div id="downloadDiv"></div>
       </div>
       <div
         style={{

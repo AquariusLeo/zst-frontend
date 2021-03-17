@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Divider, Col, Row, Tag, Table, Button } from 'antd';
+import { Divider, Col, Row, Tag, Table, Button, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
@@ -129,8 +129,42 @@ const AnalysisByProduct = props => {
     props.getProductTable(startTime, endTime, platform, pagination);
   };
 
-  const handleDownloadClick = () => {
-    alert('xiazai')
+  async function handleDownloadClick() {
+    const { startTime, endTime, platform } = props;
+    const request = {
+      body: JSON.stringify({
+        startTime,
+        endTime,
+        platform,
+      }),
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('zst-token'),
+        'content-type': 'application/json',
+      },
+    };
+    try {
+      message.info('下载中,请勿重复点击！');
+      const response = await fetch('/api/downloadProductTable', request);
+      const filename = response.headers
+        .get('content-disposition')
+        .split(';')[1]
+        .split('=')[1];
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.download = decodeURIComponent(filename);
+      link.style.display = 'none';
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(link.href);
+      document.body.removeChild(link);
+    } catch (e) {
+      message.error('下载失败！');
+      return;
+    }
+
+    message.success('下载成功！');
   }
 
   return (
