@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Divider, Col, Row, Tag } from 'antd';
+import { Divider, Col, Row, Tag, Table, Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
 import ColumnPlot from './columnPlot';
 import RankTable from './rankTable';
-import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
 import { productActionCreators } from './store';
 import moment from 'moment';
@@ -101,14 +101,11 @@ const columns2 = [
 
 const AnalysisByProduct = props => {
   const setTime = () => {
-    const now = new Date();
     return {
-      endTime: moment(
-        `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
-      ).format('YYYY-MM-DD'),
-      startTime: moment(
-        `${now.getFullYear() - 1}-${now.getMonth() + 1}-${now.getDate()}`,
-      ).format('YYYY-MM-DD'),
+      startTime: moment(moment().subtract(1, 'year').calendar()).format(
+        'YYYY-MM-DD',
+      ),
+      endTime: moment().format('YYYY-MM-DD'),
     };
   };
 
@@ -132,58 +129,82 @@ const AnalysisByProduct = props => {
     props.getProductTable(startTime, endTime, platform, pagination);
   };
 
+  const handleDownloadClick = () => {
+    alert('xiazai')
+  }
+
   return (
-    <div
-      style={{
-        margin: '24px',
-        backgroundColor: '#fff',
-        padding: '24px',
-      }}
-    >
-      <Row gutter={[16, 28]}>
-        <Col span={8}>
-          <TimePicker />
-        </Col>
-        <Col span={8}>
-          <IndicatorPicker />
-        </Col>
-        <Col span={8}>
-          <PlatformsPicker />
-        </Col>
-      </Row>
-      <Divider />
-      <Row gutter={[16, 28]}>
-        <Col span={24}>
-          <ColumnPlot
-            productLine={props.productLine}
-            columnPlotName={props.indicator}
-          />
-        </Col>
-        <Col span={12}>
-          <RankTable
-            columns={columns1}
-            dataSource={props.topTenProductSales}
-            name={'Top10 销售额'}
-          />
-        </Col>
-        <Col span={12}>
-          <RankTable
-            columns={columns2}
-            dataSource={props.topTenProductNumbers}
-            name={'Top10 销售数量'}
-          />
-        </Col>
-        <Col span={24}>
-          <AnalysisTable
-            columns={columns}
-            tableData={props.tableData}
-            pagination={props.pagination}
-            loading={props.loading}
-            handlePageClick={handlePageClick}
-          />
-        </Col>
-      </Row>
-    </div>
+    <>
+      <div
+        style={{
+          backgroundColor: '#fff',
+          fontSize: '24px',
+          padding: '12px 28px',
+          position: 'relative',
+        }}
+      >
+        产品维度
+        <div style={{ fontSize: '16px' }}>根据不同产品的销售情况进行分析</div>
+        <Button
+          style={{ position: 'absolute', right: '24px', top: '24px' }}
+          shape="circle"
+          icon={<DownloadOutlined />}
+          onClick={handleDownloadClick}
+        />
+      </div>
+      <div
+        style={{
+          margin: '24px',
+          backgroundColor: '#fff',
+          padding: '24px',
+        }}
+      >
+        <Row gutter={[16, 28]}>
+          <Col span={8}>
+            <TimePicker />
+          </Col>
+          <Col span={8}>
+            <IndicatorPicker />
+          </Col>
+          <Col span={8}>
+            <PlatformsPicker />
+          </Col>
+        </Row>
+        <Divider />
+        <Row gutter={[16, 28]}>
+          <Col span={24}>
+            <ColumnPlot
+              productLine={props.productLine}
+              columnPlotName={props.indicator}
+            />
+          </Col>
+          <Col span={12}>
+            <RankTable
+              columns={columns1}
+              dataSource={props.topTenProductSales}
+              name={'Top10 销售额'}
+            />
+          </Col>
+          <Col span={12}>
+            <RankTable
+              columns={columns2}
+              dataSource={props.topTenProductNumbers}
+              name={'Top10 销售数量'}
+            />
+          </Col>
+          <Col span={24}>
+            <Table
+              columns={columns}
+              rowKey={record => record.id}
+              dataSource={props.tableData}
+              pagination={props.pagination}
+              loading={props.loading}
+              onChange={handlePageClick}
+            />
+          </Col>
+        </Row>
+      </div>
+    </>
   );
 };
 
@@ -253,65 +274,65 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnalysisByProduct);
 
-const dataSource = [
-  {
-    key: '1',
-    name: 'John Brown',
-    sales: 32,
-    percent: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    sales: 42,
-    percent: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '5',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '6',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '7',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '8',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '9',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '10',
-    name: 'Joe Black',
-    sales: 32,
-    percent: 'Sidney No. 1 Lake Park',
-  },
-];
+// const dataSource = [
+//   {
+//     key: '1',
+//     name: 'John Brown',
+//     sales: 32,
+//     percent: 'New York No. 1 Lake Park',
+//   },
+//   {
+//     key: '2',
+//     name: 'Jim Green',
+//     sales: 42,
+//     percent: 'London No. 1 Lake Park',
+//   },
+//   {
+//     key: '3',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '4',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '5',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '6',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '7',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '8',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '9',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '10',
+//     name: 'Joe Black',
+//     sales: 32,
+//     percent: 'Sidney No. 1 Lake Park',
+//   },
+// ];

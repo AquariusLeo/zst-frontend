@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Column } from '@antv/g2plot';
 
 const ColumnPlot = props => {
@@ -36,7 +36,7 @@ const ColumnPlot = props => {
     return () => {
       columnPlot.destroy();
     };
-  }, [props.productLine, props.columnPlotName]);
+  }, [props.productLine]);
   return (
     <div>
       <div style={{ fontSize: '20px' }}>{props.columnPlotName}Top 10</div>
@@ -50,47 +50,47 @@ const ColumnPlot = props => {
   );
 };
 
-export default ColumnPlot;
+export default React.memo(ColumnPlot);
 
-const data = [
-  {
-    type: '家具家电',
-    sales: 38,
-  },
-  {
-    type: '粮油副食',
-    sales: 52,
-  },
-  {
-    type: '生鲜水果',
-    sales: 61,
-  },
-  {
-    type: '美容洗护',
-    sales: 145,
-  },
-  {
-    type: '母婴用品',
-    sales: 48,
-  },
-  {
-    type: '进口食品',
-    sales: 38,
-  },
-  {
-    type: '食品饮料',
-    sales: 38,
-  },
-  {
-    type: '家庭清洁1',
-    sales: 38,
-  },
-  {
-    type: '食品饮料1',
-    sales: 38,
-  },
-  {
-    type: '家庭清洁2',
-    sales: 38,
-  },
-];
+// const data = [
+//   {
+//     type: '家具家电',
+//     sales: 38,
+//   },
+//   {
+//     type: '粮油副食',
+//     sales: 52,
+//   },
+//   {
+//     type: '生鲜水果',
+//     sales: 61,
+//   },
+//   {
+//     type: '美容洗护',
+//     sales: 145,
+//   },
+//   {
+//     type: '母婴用品',
+//     sales: 48,
+//   },
+//   {
+//     type: '进口食品',
+//     sales: 38,
+//   },
+//   {
+//     type: '食品饮料',
+//     sales: 38,
+//   },
+//   {
+//     type: '家庭清洁1',
+//     sales: 38,
+//   },
+//   {
+//     type: '食品饮料1',
+//     sales: 38,
+//   },
+//   {
+//     type: '家庭清洁2',
+//     sales: 38,
+//   },
+// ];

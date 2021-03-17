@@ -88,27 +88,7 @@ const AnalysisByArea = props => {
     );
     handlePageClick(pagination);
     // eslint-disable-next-line
-  }, []);
-
-  const handleClick = () => {
-    const { times, indicator, platform, searchValue, pagination } = props;
-    const product = searchValue.map(item => item.key);
-    props.getProvinceMap(
-      times.startTime,
-      times.endTime,
-      indicator,
-      platform,
-      product,
-    );
-    props.getProvinceTop(
-      times.startTime,
-      times.endTime,
-      indicator,
-      platform,
-      product,
-    );
-    handlePageClick(pagination);
-  };
+  }, [props.times, props.indicator, props.platform, props.searchValue]);
 
   const handleDownloadClick = () => {
     alert('xiazai ');
@@ -153,21 +133,12 @@ const AnalysisByArea = props => {
           <Col span={8}>
             <PlatformsPicker />
           </Col>
-          <Col span={8}>
-            <Button
-              type="primary"
-              style={{ width: '100px', marginLeft: '200px' }}
-              onClick={handleClick}
-            >
-              查询
-            </Button>
-          </Col>
         </Row>
 
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
           <Col span={14}>
-            <Map provinceMap={props.provinceMap}></Map>
+            <Map provinceMap={props.provinceMap} name={props.indicator}></Map>
           </Col>
           <Col span={10}>
             <ColumnPlot provinceTop={props.provinceTop} />

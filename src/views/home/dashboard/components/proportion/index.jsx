@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Pie, measureTextWidth } from '@antv/g2plot';
 import './style.scss';
 
@@ -88,7 +88,7 @@ const Proportion = props => {
     return () => {
       piePlot.destroy();
     };
-  }, [props, props.pieData]);
+  }, [props.pieData]);
   return (
     <div className="dashboard-proportion">
       <div className="dashboard-proportion-title">平台占比</div>
@@ -97,4 +97,4 @@ const Proportion = props => {
   );
 };
 
-export default Proportion;
+export default React.memo(Proportion);

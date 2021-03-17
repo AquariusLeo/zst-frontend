@@ -24,12 +24,15 @@ const TimeLine = props => {
     };
   }, [props.timeLine]);
   return (
-    <div
-      id="time-line"
-      style={{
-        margin: '40px 0',
-      }}
-    ></div>
+    <>
+      <div style={{ fontSize: '20px' }}>{props.name}</div>
+      <div
+        id="time-line"
+        style={{
+          margin: '40px 0',
+        }}
+      ></div>
+    </>
   );
 };
 

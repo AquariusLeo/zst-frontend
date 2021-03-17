@@ -59,14 +59,7 @@ const AnalysisByPlatform = props => {
     const product = searchValue.map(item => item.key);
     props.getPlatformLine(startTime, endTime, indicator, product);
     handlePageClick(pagination);
-  }, []);
-
-  const handleClick = () => {
-    const { startTime, endTime, indicator, searchValue, pagination } = props;
-    const product = searchValue.map(item => item.key);
-    props.getPlatformLine(startTime, endTime, indicator, product);
-    handlePageClick(pagination);
-  }
+  }, [props.startTime, props.endTime, props.indicator, props.searchValue]);
 
   const handlePageClick = pagination => {
     const { startTime, endTime, searchValue } = props;
@@ -113,15 +106,6 @@ const AnalysisByPlatform = props => {
           </Col>
           <Col span={8}>
             <IndicatorPicker />
-          </Col>
-          <Col span={8}>
-            <Button
-              type="primary"
-              style={{ width: '100px', marginLeft: '200px' }}
-              onClick={handleClick}
-            >
-              查询
-            </Button>
           </Col>
         </Row>
         <Divider />

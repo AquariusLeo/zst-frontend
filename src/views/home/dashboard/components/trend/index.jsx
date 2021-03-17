@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Line } from '@antv/g2plot';
 import './style.scss';
 
@@ -41,4 +41,4 @@ const Trend = props => {
   );
 };
 
-export default Trend;
+export default React.memo(Trend);

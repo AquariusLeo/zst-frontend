@@ -59,14 +59,14 @@ const Map = props => {
 
   return (
     <div>
-      <div style={{ fontSize: '20px' }}>销售额地图</div>
+      <div style={{ fontSize: '20px' }}>{props.name}地图</div>
       <div
         id="map"
         style={{
-          minHeight: '400px',
+          height: '400px',
           justifyContent: 'center',
+          alignItems: 'center',
           position: 'relative',
-          margin: '40px 0',
         }}
       ></div>
     </div>

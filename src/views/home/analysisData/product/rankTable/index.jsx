@@ -1,3 +1,4 @@
+import React from 'react'
 import { Table } from 'antd';
 
 // const columns = [
@@ -40,6 +41,7 @@ const RankTable = props => {
       <div style={{ fontSize: '20px', marginBottom: '28px' }}>{props.name}</div>
       <Table
         columns={props.columns}
+        rowKey={record => record.id}
         dataSource={props.dataSource}
         pagination={false}
       />
@@ -47,7 +49,7 @@ const RankTable = props => {
   );
 };
 
-export default RankTable;
+export default React.memo(RankTable);
 
 // const data = [
 //   {

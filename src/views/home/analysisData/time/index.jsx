@@ -76,28 +76,7 @@ const AnalysisByTime = props => {
     );
     handlePageClick(pagination);
     // eslint-disable-next-line
-  }, []);
-
-  const handleClick = () => {
-    const {
-      times,
-      indicator,
-      platform,
-      timeLevel,
-      searchValue,
-      pagination,
-    } = props;
-    const product = searchValue.map(item => item.key);
-    props.getTimeLine(
-      times.startTime,
-      times.endTime,
-      indicator,
-      platform,
-      timeLevel,
-      product,
-    );
-    handlePageClick(pagination);
-  }
+  }, [props.times, props.indicator, props.platform, props.timeLevel, props.searchValue]);
 
   const handlePageClick = pagination => {
     console.log('handlePageClick')
@@ -161,18 +140,9 @@ const AnalysisByTime = props => {
           <Col span={8}>
             <TimeLevelPicker />
           </Col>
-          <Col span={8}>
-            <Button
-              type="primary"
-              style={{ width: '100px', marginLeft: '200px' }}
-              onClick={handleClick}
-            >
-              查询
-            </Button>
-          </Col>
         </Row>
         <Divider />
-        <TimeLine timeLine={props.timeLine}></TimeLine>
+        <TimeLine timeLine={props.timeLine} name={props.indicator}></TimeLine>
         <Table
           columns={columns}
           rowKey={record => record.id}
