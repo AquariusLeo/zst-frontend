@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Column } from '@antv/g2plot';
 
 const ColumnPlot = props => {
@@ -37,7 +37,7 @@ const ColumnPlot = props => {
     return () => {
       columnPlot.destroy();
     };
-  }, [props.platformLine, props.indicator]);
+  }, [props.platformLine]);
   return (
     <div>
       <div style={{ fontSize: '20px' }}>{props.indicator}</div>
@@ -51,7 +51,7 @@ const ColumnPlot = props => {
   );
 };
 
-export default ColumnPlot;
+export default React.memo(ColumnPlot);
 
 // const data = [
 //   {
