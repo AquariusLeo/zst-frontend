@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Line } from '@antv/g2plot';
 
 const TimeLine = props => {
@@ -22,7 +22,7 @@ const TimeLine = props => {
     return () => {
       line.destroy();
     };
-  }, [props, props.timeLine]);
+  }, [props.timeLine]);
   return (
     <div
       id="time-line"
@@ -33,4 +33,4 @@ const TimeLine = props => {
   );
 };
 
-export default TimeLine;
+export default React.memo(TimeLine);

@@ -99,7 +99,7 @@ export const getTimeTable = (
   pagination,
 ) => {
   return async dispatch => {
-    // console.log(startTime, endTime, platform, timeLevel, product, pagination);
+    console.log(startTime, endTime, platform, timeLevel, product, pagination);
     const res = await postTimeTable(
       startTime,
       endTime,
@@ -118,8 +118,8 @@ export const getTimeTable = (
         type: GET_TIME_TABLE,
         tableData: res.data.list.list,
         pagination: {
-          total: res.data.list.total,
           ...pagination,
+          total: res.data.list.total,
         },
         loading: false,
       });
@@ -142,8 +142,8 @@ export const getPlatformTable = (startTime, endTime, product, pagination) => {
         type: GET_PLATFORM_TABLE,
         tableData: res.data.list.list,
         pagination: {
-          total: res.data.list.total,
           ...pagination,
+          total: res.data.list.total,
         },
         loading: false,
       });

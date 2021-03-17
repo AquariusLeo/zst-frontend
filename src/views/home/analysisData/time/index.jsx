@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button, Divider, Row, Col } from 'antd';
+import { Button, Divider, Row, Col, Table } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
 import ProductsPicker from '../components/productsPicker';
 import TimeLevelPicker from '../components/timeLevelPicker';
 import TimeLine from './line';
-import AnalysisTable from '../components/table';
 import { actionCreators } from '../store';
-import { timeActionCreators } from './store'
+import { timeActionCreators } from './store';
 import moment from 'moment';
 
 const columns = [
@@ -42,14 +42,11 @@ const columns = [
 
 const AnalysisByTime = props => {
   const setTime = () => {
-    const now = new Date();
     return {
-      endTime: moment(
-        `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
-      ).format('YYYY-MM-DD'),
-      startTime: moment(
-        `${now.getFullYear() - 1}-${now.getMonth() + 1}-${now.getDate()}`,
-      ).format('YYYY-MM-DD'),
+      startTime: moment(moment().subtract(1, 'year').calendar()).format(
+        'YYYY-MM-DD',
+      ),
+      endTime: moment().format('YYYY-MM-DD'),
     };
   };
 
@@ -60,15 +57,26 @@ const AnalysisByTime = props => {
   }, []);
 
   useEffect(() => {
-    handleClick();
+    const {
+      times,
+      indicator,
+      platform,
+      timeLevel,
+      searchValue,
+      pagination,
+    } = props;
+    const product = searchValue.map(item => item.key);
+    props.getTimeLine(
+      times.startTime,
+      times.endTime,
+      indicator,
+      platform,
+      timeLevel,
+      product,
+    );
+    handlePageClick(pagination);
     // eslint-disable-next-line
-  }, [
-    props.timeLevel,
-    props.times,
-    props.indicator,
-    props.platform,
-    props.searchValue,
-  ]);
+  }, []);
 
   const handleClick = () => {
     const {
@@ -89,9 +97,10 @@ const AnalysisByTime = props => {
       product,
     );
     handlePageClick(pagination);
-  };
+  }
 
   const handlePageClick = pagination => {
+    console.log('handlePageClick')
     const { times, platform, timeLevel, searchValue } = props;
     // console.log('product', searchValue);
     const product = searchValue.map(item => item.key);
@@ -106,50 +115,74 @@ const AnalysisByTime = props => {
     );
   };
 
+  const handleDownloadClick = () => {
+    alert('xiazai')
+  }
+
   return (
-    <div
-      style={{
-        margin: '24px',
-        backgroundColor: '#fff',
-        padding: '24px',
-      }}
-    >
-      <Row gutter={[16, 28]}>
-        <Col span={8}>
-          <TimePicker />
-        </Col>
-        <Col span={8}>
-          <IndicatorPicker />
-        </Col>
-        <Col span={8}>
-          <PlatformsPicker />
-        </Col>
-        <Col span={8}>
-          <ProductsPicker />
-        </Col>
-        <Col span={8}>
-          <TimeLevelPicker />
-        </Col>
-        <Col span={8}>
-          <Button
-            type="primary"
-            style={{ width: '100px', marginLeft: '200px' }}
-            onClick={handleClick}
-          >
-            查询
-          </Button>
-        </Col>
-      </Row>
-      <Divider />
-      <TimeLine timeLine={props.timeLine}></TimeLine>
-      <AnalysisTable
-        columns={columns}
-        tableData={props.tableData}
-        pagination={props.pagination}
-        loading={props.loading}
-        handlePageClick={handlePageClick}
-      ></AnalysisTable>
-    </div>
+    <>
+      <div
+        style={{
+          backgroundColor: '#fff',
+          fontSize: '24px',
+          padding: '12px 28px',
+          position: 'relative',
+        }}
+      >
+        时间维度
+        <div style={{ fontSize: '16px' }}>根据不同时间段的销售情况进行分析</div>
+        <Button
+          style={{ position: 'absolute', right: '24px', top: '24px' }}
+          shape="circle"
+          icon={<DownloadOutlined />}
+          onClick={handleDownloadClick}
+        />
+      </div>
+      <div
+        style={{
+          margin: '24px',
+          backgroundColor: '#fff',
+          padding: '24px',
+        }}
+      >
+        <Row gutter={[16, 28]}>
+          <Col span={8}>
+            <TimePicker />
+          </Col>
+          <Col span={8}>
+            <IndicatorPicker />
+          </Col>
+          <Col span={8}>
+            <PlatformsPicker />
+          </Col>
+          <Col span={8}>
+            <ProductsPicker />
+          </Col>
+          <Col span={8}>
+            <TimeLevelPicker />
+          </Col>
+          <Col span={8}>
+            <Button
+              type="primary"
+              style={{ width: '100px', marginLeft: '200px' }}
+              onClick={handleClick}
+            >
+              查询
+            </Button>
+          </Col>
+        </Row>
+        <Divider />
+        <TimeLine timeLine={props.timeLine}></TimeLine>
+        <Table
+          columns={columns}
+          rowKey={record => record.id}
+          dataSource={props.tableData}
+          pagination={props.pagination}
+          loading={props.loading}
+          onChange={handlePageClick}
+        ></Table>
+      </div>
+    </>
   );
 };
 
@@ -184,14 +217,7 @@ const mapDispatchToProps = dispatch => {
         ),
       );
     },
-    getTimeTable(
-      startTime,
-      endTime,
-      platform,
-      timeLevel,
-      product,
-      pagination,
-    ) {
+    getTimeTable(startTime, endTime, platform, timeLevel, product, pagination) {
       dispatch(
         actionCreators.getTimeTable(
           startTime,
