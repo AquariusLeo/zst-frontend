@@ -1,4 +1,4 @@
-import { Upload, Button } from 'antd';
+import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -19,8 +19,7 @@ const UploadData = () => {
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization:
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTA0NTQzMzcsInVzZXJuYW1lIjoiY2FpIn0.Q43t4Wqjvg64j4K0xMFZD7Piv1kfP_hZubxuAfP25DM',
+          Authorization: localStorage.getItem('zst-token'),
         },
       })
       .then(res => {
@@ -31,11 +30,42 @@ const UploadData = () => {
       });
   };
 
+  const onChange = info => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
+  const state = {
+    name: 'file',
+    action: '/api/upload',
+    headers: {
+      authorization: localStorage.getItem('zst-token'),
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   return (
     <div>
       <Upload
-        accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        customRequest={customRequest}
+        // accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        // customRequest={customRequest}
+        {...state}
+        // onChange={onChange}
       >
         <Button icon={<UploadOutlined />}>Click to Upload</Button>
       </Upload>
