@@ -6,7 +6,7 @@ const ColumnPlot = props => {
     // console.log('platformLine', props.platformLine);
     const columnPlot = new Column('platform-columnPlot', {
       data: props.platformLine,
-      xField: 'platformName',
+      xField: 'name',
       yField: 'value',
       label: {
         // 可手动配置 label 数据标签位置

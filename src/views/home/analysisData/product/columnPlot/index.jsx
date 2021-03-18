@@ -5,7 +5,7 @@ const ColumnPlot = props => {
   useEffect(() => {
     const columnPlot = new Column('product-columnPlot', {
       data: props.productLine,
-      xField: 'productName',
+      xField: 'name',
       yField: 'value',
       label: {
         // 可手动配置 label 数据标签位置
