@@ -11,7 +11,8 @@ const Login = props => {
   async function onFinish(values) {
     const { username, password } = values;
     const user = await getLogin({ username, password });
-    if (user) {
+    console.log(user)
+    if (user && user.data && user.data.token) {
       localStorage.setItem('zst-token', user.data.token);
       // localStorage.removeItem('zst-token')
       // const success = await getTest()
