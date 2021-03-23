@@ -1,20 +1,30 @@
-import { Upload, Button, message } from 'antd';
+import { useState } from 'react';
+import { Upload, Button, message, Form, Input } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const UploadData = () => {
-  const customRequest = option => {
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
+  const formItemLayout = {
+    labelCol: {
+      span: 6,
+    },
+    wrapperCol: {
+      span: 14,
+    },
+  };
+
+  const handleUpload = () => {
     const formData = new FormData();
-    const fileUrl = '/api/upload';
-    formData.append('file', option.file);
+    formData.append('file', fileList[0]);
+    setUploading(true);
 
     axios
       .request({
-        /*官网解释：It's AJAX
-                  All over again. Includes support
-                  for xmlHttpRequest, JSONP, CORS,
-                   and CommonJS Promises A.*/
-        url: fileUrl,
+        url: '/api/upload',
         method: 'post',
         data: formData,
         headers: {
@@ -23,53 +33,104 @@ const UploadData = () => {
         },
       })
       .then(res => {
-        console.log('success', res);
+        setFileList([]);
+        setUploading(false);
+        message.success('upload successfully.');
       })
       .catch(err => {
-        console.log('error', err);
+        setUploading(false);
+        message.error('upload failed.');
       });
   };
 
-  const onChange = info => {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
+  const uploadProp = {
+    onRemove: file => {
+      setFileList([]);
+      return {
+        fileList: [],
+      };
+    },
+    beforeUpload: file => {
+      setFileList([file]);
+      return false;
+    },
+    fileList,
   };
 
-  const state = {
-    name: 'file',
-    action: '/api/upload',
-    headers: {
-      authorization: localStorage.getItem('zst-token'),
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+  const onFinish = values => {
+    console.log(values);
+    form.resetFields();
+    handleUpload();
   };
 
   return (
-    <div>
-      <Upload
-        // accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        // customRequest={customRequest}
-        {...state}
-        // onChange={onChange}
+    <>
+      <div
+        style={{
+          backgroundColor: '#fff',
+          fontSize: '24px',
+          padding: '12px 28px',
+          position: 'relative',
+        }}
       >
-        <Button icon={<UploadOutlined />}>Click to Upload</Button>
-      </Upload>
-    </div>
+        上传数据
+        <div style={{ fontSize: '16px' }}>
+          将文件上传到服务器，应用会自动分析
+        </div>
+      </div>
+      <div
+        style={{
+          margin: '24px',
+          backgroundColor: '#fff',
+          padding: '24px',
+        }}
+      >
+        <Form {...formItemLayout} form={form} onFinish={onFinish}>
+          <Form.Item
+            name={'label'}
+            label={'信息'}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={'operator'}
+            label={'操作人'}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="upload" label="选择文件">
+            <Upload {...uploadProp}>
+              <Button icon={<UploadOutlined />}>Select File</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              span: 12,
+              offset: 6,
+            }}
+          >
+            <Button
+              type="primary"
+              disabled={fileList.length === 0}
+              loading={uploading}
+              htmlType="submit"
+            >
+              {uploading ? 'Uploading' : 'Start Upload'}
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
   );
 };
 
