@@ -27,11 +27,13 @@ const Card = props => {
         {(() => {
           switch (title) {
             case '买家总数':
-              return <div className="iconfont t-card-icon">&#xe61f;</div>;
+              return <div className="iconfont t-card-icon">&#58911;</div>;
             case '订单总数':
-              return <div className="iconfont t-card-icon">&#xe613;</div>;
+              return <div className="iconfont t-card-icon">&#58899;</div>;
             case '总销售额':
-              return <div className="iconfont t-card-icon">&#xe61b;</div>;
+              return <div className="iconfont t-card-icon">&#58907;</div>;
+            case '总销售数量':
+              return <div className="iconfont t-card-icon">&#58998;</div>;
             default:
               break;
           }

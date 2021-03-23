@@ -62,9 +62,9 @@ const Dashboard = props => {
         </Col>
         <Col span={6}>
           <Card
-            title="总销售额"
-            nums={infoCard.totalSales}
-            up={Number(infoCard.salesIncrease).toFixed(2)}
+            title="总销售数量"
+            nums={43521}
+            up={Number(0.021).toFixed(2)}
           ></Card>
         </Col>
       </Row>
