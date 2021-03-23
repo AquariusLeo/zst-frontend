@@ -20,7 +20,7 @@ const ProductsPicker = props => {
         mode="multiple"
         labelInValue
         value={props.searchValue}
-        placeholder="Select users"
+        placeholder="Select products"
         notFoundContent={props.fetching ? <Spin size="small" /> : null}
         filterOption={false}
         onSearch={props.searchProduct}
