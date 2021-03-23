@@ -34,7 +34,7 @@ const Home = () => {
   return (
     <Layout className="home">
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo" />
+        {collapsed ? <div className="logo"/> : <div className="title">用户画像系统</div>}
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']}>
           <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
             <Link to={`${url}/dashboard`}>主页</Link>
