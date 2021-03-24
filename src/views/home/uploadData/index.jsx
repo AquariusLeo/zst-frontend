@@ -7,8 +7,13 @@ import { getUploadTable } from '@/api';
 const columns = [
   {
     title: '文件名',
-    dataIndex: 'name',
+    dataIndex: 'file',
     key: 'name',
+  },
+  {
+    title: '上传信息',
+    dataIndex: 'label',
+    key: 'label',
   },
   {
     title: '操作人',
@@ -63,6 +68,7 @@ const UploadData = () => {
 
     const formData = new FormData();
     formData.append('file', fileList[0]);
+    console.log('filename:', values.upload.file.name)
     setUploading(true);
 
     axios

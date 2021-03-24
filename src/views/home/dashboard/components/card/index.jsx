@@ -11,7 +11,7 @@ const Card = props => {
         </div>
         <div className="t-card-up">
           <strong>
-            同比增长{' '}
+            环比增长{' '}
             <span
               className={
                 up > 0 ? 't-card-up-increase-num' : 't-card-up-decrease-num'
