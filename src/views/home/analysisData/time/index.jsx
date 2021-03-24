@@ -11,7 +11,6 @@ import TimeLine from './line';
 import { actionCreators } from '../store';
 import { timeActionCreators } from './store';
 import moment from 'moment';
-import { download } from '@/api';
 
 const columns = [
   {
