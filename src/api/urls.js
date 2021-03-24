@@ -28,3 +28,6 @@ export const PRODUCT_LINE = '/getProductLine'
 export const PRODUCT_TABLE = '/getProductTable'
 export const TOP_TEN_PRODUCT_SALES = '/getTopTenProductSales';
 export const TOP_TEN_PRODUCT_NUMBERS = '/getTopTenProductNumbers';
+
+// upload
+export const UPLOAD_TABLE = '/getUploadTable'

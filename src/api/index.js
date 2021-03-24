@@ -254,3 +254,14 @@ export const postTopTenProductNumbers = (startTime, endTime, platform) => {
     },
   });
 };
+
+export const getUploadTable = (pageNum, pageSize) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.UPLOAD_TABLE,
+    method: 'get',
+    params: {
+      pageNum,
+      pageSize
+    }
+  })
+}
