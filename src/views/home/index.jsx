@@ -15,7 +15,9 @@ import AnalysisByArea from './analysisData/area';
 import AnalysisByPlatform from './analysisData/platform';
 import AnalysisByProduct from './analysisData/product';
 import AnalysisByTime from './analysisData/time';
-import Portrait from './portrait';
+import AddGroup from './portrait/addGroup';
+import Groups from './portrait/groups';
+import GroupAnalysis from './portrait/groupAnalysis';
 import ManageData from './manageData';
 import UploadData from './uploadData';
 import UserHeader from './header';
@@ -34,7 +36,11 @@ const Home = () => {
   return (
     <Layout className="home">
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        {collapsed ? <div className="logo"/> : <div className="title">用户画像系统</div>}
+        {collapsed ? (
+          <div className="logo" />
+        ) : (
+          <div className="title">用户画像系统</div>
+        )}
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']}>
           <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
             <Link to={`${url}/dashboard`}>主页</Link>
@@ -53,9 +59,18 @@ const Home = () => {
               <Link to={`${url}/analysisByTime`}>时间维度</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="portrait" icon={<UsergroupDeleteOutlined />}>
-            <Link to={`${url}/portrait`}>用户画像</Link>
-          </Menu.Item>
+          <SubMenu
+            key="portrait"
+            icon={<UsergroupDeleteOutlined />}
+            title="用户画像"
+          >
+            <Menu.Item key="addGroup">
+              <Link to={`${url}/addGroup`}>用户群添加</Link>
+            </Menu.Item>
+            <Menu.Item key="groups">
+              <Link to={`${url}/groups`}>用户分群</Link>
+            </Menu.Item>
+          </SubMenu>
           <Menu.Item key="manageData" icon={<DatabaseOutlined />}>
             <Link to={`${url}/manageData`}>数据管理</Link>
           </Menu.Item>
@@ -96,8 +111,14 @@ const Home = () => {
             <Route exact path={`${path}/analysisByTime`}>
               <AnalysisByTime />
             </Route>
-            <Route exact path={`${path}/portrait`}>
-              <Portrait />
+            <Route exact path={`${path}/addGroup`}>
+              <AddGroup />
+            </Route>
+            <Route exact path={`${path}/groups`}>
+              <Groups />
+            </Route>
+            <Route exact path={`${path}/groups/:id`}>
+              <GroupAnalysis />
             </Route>
             <Route exact path={`${path}/manageData`}>
               <ManageData />

@@ -31,3 +31,7 @@ export const TOP_TEN_PRODUCT_NUMBERS = '/getTopTenProductNumbers';
 
 // upload
 export const UPLOAD_TABLE = '/getUploadTable'
+
+// group
+export const CREATE_GROUP = '/createGroup'
+export const GROUP_TABLE = '/getGroupTable'

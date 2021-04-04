@@ -265,3 +265,22 @@ export const getUploadTable = (pageNum, pageSize) => {
     }
   })
 }
+
+export const createGroup = () => {
+  return instance.request({
+    url: URL.BASE_URL + URL.CREATE_GROUP,
+    method: 'post',
+    data: {}
+  })
+}
+
+export const getGroupTable = (pageNum, pageSize) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GROUP_TABLE,
+    method: 'get',
+    params: {
+      pageNum,
+      pageSize,
+    }
+  })
+}
