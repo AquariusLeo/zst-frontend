@@ -15,7 +15,6 @@ import AnalysisByArea from './analysisData/area';
 import AnalysisByPlatform from './analysisData/platform';
 import AnalysisByProduct from './analysisData/product';
 import AnalysisByTime from './analysisData/time';
-import AddGroup from './portrait/addGroup';
 import Groups from './portrait/groups';
 import GroupAnalysis from './portrait/groupAnalysis';
 import ManageData from './manageData';
@@ -33,6 +32,24 @@ const Home = () => {
     setCollapsed(!collapsed);
   };
   let { path, url } = useRouteMatch();
+  // const pathArr = [
+  //   'dashboard',
+  //   'analysisByArea',
+  //   'analysisByPlatform',
+  //   'analysisByProduct',
+  //   'analysisByTime',
+  //   'groups',
+  //   'manageData',
+  //   'uploadData',
+  // ];
+  // const getDefaultSelectedKey = (path, pathArr) => {
+  //   return pathArr.filter(route => path.includes(route));
+  // };
+  // console.log(
+  //   'getDefaultSelectedKey',
+  //   path,
+  //   getDefaultSelectedKey(path, pathArr),
+  // );
   return (
     <Layout className="home">
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -64,9 +81,6 @@ const Home = () => {
             icon={<UsergroupDeleteOutlined />}
             title="用户画像"
           >
-            <Menu.Item key="addGroup">
-              <Link to={`${url}/addGroup`}>用户群添加</Link>
-            </Menu.Item>
             <Menu.Item key="groups">
               <Link to={`${url}/groups`}>用户分群</Link>
             </Menu.Item>
@@ -110,9 +124,6 @@ const Home = () => {
             </Route>
             <Route exact path={`${path}/analysisByTime`}>
               <AnalysisByTime />
-            </Route>
-            <Route exact path={`${path}/addGroup`}>
-              <AddGroup />
             </Route>
             <Route exact path={`${path}/groups`}>
               <Groups />
