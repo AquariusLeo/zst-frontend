@@ -1,17 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
-import {
-  Table,
-  Modal,
-  message,
-  Button,
-  Space,
-  Form,
-  Input,
-  InputNumber,
-} from 'antd';
+import { Table, Modal, message, Button, Space } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getGroupTable, createGroup } from '@/api';
+import AddGroup from '../addGroup';
+import { getGroupTable } from '@/api';
 
 function Groups() {
   const { path } = useRouteMatch();
@@ -95,14 +87,6 @@ function Groups() {
     }
   }
 
-  const formItemLayout = {
-    labelCol: {
-      span: 6,
-    },
-    wrapperCol: {
-      span: 14,
-    },
-  };
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -115,11 +99,6 @@ function Groups() {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-  };
-
-  const [form] = Form.useForm();
-  const createGroupClick = values => {
-    console.log('create group', values);
   };
 
   return (
@@ -153,91 +132,9 @@ function Groups() {
           onOk={handleOk}
           onCancel={handleCancel}
           title="新建用户群"
+          width={1000}
         >
-          <Form {...formItemLayout} form={form} onFinish={createGroupClick}>
-            <Form.Item
-              name={'name'}
-              label={'用户群名称'}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={'describe'}
-              label={'用户群描述'}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item label={'总消费金额'}>
-              <Form.Item
-                name="lowSumConsume"
-                style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-              >
-                <InputNumber min={1} style={{ width: 125 }} />
-              </Form.Item>
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '24px',
-                  // lineHeight: '32px',
-                  textAlign: 'center',
-                }}
-              >
-                -
-              </span>
-              <Form.Item
-                name="highSumConsume"
-                style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-              >
-                <InputNumber min={1} style={{ width: 125 }} />
-              </Form.Item>
-            </Form.Item>
-
-            <Form.Item label={'每单平均金额'}>
-              <Form.Item
-                name="lowAveragePrice"
-                style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-              >
-                <InputNumber min={1} style={{ width: 125 }} />
-              </Form.Item>
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '24px',
-                  // lineHeight: '32px',
-                  textAlign: 'center',
-                }}
-              >
-                -
-              </span>
-              <Form.Item
-                name="highAveragePrice"
-                style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-              >
-                <InputNumber min={1} style={{ width: 125 }} />
-              </Form.Item>
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                span: 12,
-                offset: 6,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                新建
-              </Button>
-            </Form.Item>
-          </Form>
+          <AddGroup />
         </Modal>
         <Table
           columns={columns}
