@@ -2,7 +2,7 @@ import { LOGIN, LOGOUT} from './actionTypes';
 
 const initState = {
   isLogin: false,
-  permissionIdList: [4],
+  permissionIdList: [],
 };
 
 const userReducer = (state = initState, action) => {
