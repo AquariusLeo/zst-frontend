@@ -142,12 +142,16 @@ const AnalysisByArea = props => {
       >
         地区维度
         <div style={{ fontSize: '16px' }}>根据不同地区的销售情况进行分析</div>
-        <Button
-          style={{ position: 'absolute', right: '24px', top: '24px' }}
-          shape="circle"
-          icon={<DownloadOutlined />}
-          onClick={handleDownloadClick}
-        />
+        {
+          props.permissionIdList.includes(1) ? (
+            <Button
+              style={{ position: 'absolute', right: '24px', top: '24px' }}
+              shape="circle"
+              icon={<DownloadOutlined />}
+              onClick={handleDownloadClick}
+            />
+          ) : null
+        }
       </div>
       <div
         style={{
@@ -174,7 +178,7 @@ const AnalysisByArea = props => {
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
           <Col span={14}>
-            <Map provinceMap={props.provinceMap} name={props.indicator}></Map>
+            <Map provinceMap={props.provinceMap} name={props.indicator}/>
           </Col>
           <Col span={10}>
             <ColumnPlot provinceTop={props.provinceTop} />
@@ -195,6 +199,7 @@ const AnalysisByArea = props => {
 
 const mapStateToProps = state => {
   return {
+    permissionIdList: state.user.permissionIdList,
     provinceMap: state.analysis.analysisArea.provinceMap,
     provinceTop: state.analysis.analysisArea.provinceTop,
     times: state.analysis.public.times,

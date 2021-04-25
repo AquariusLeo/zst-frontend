@@ -1,4 +1,4 @@
-import { LOGIN } from './actionTypes';
+import { LOGIN, LOGOUT} from './actionTypes';
 
 const initState = {
   isLogin: false,
@@ -13,6 +13,12 @@ const userReducer = (state = initState, action) => {
         isLogin: action.isLogin,
         permissionIdList: action.permissionIdList,
       };
+    case LOGOUT:
+      return  {
+        ...state,
+        isLogin: action.isLogin,
+        permissionIdList: action.permissionIdList,
+      }
     default:
       return { ...state };
   }

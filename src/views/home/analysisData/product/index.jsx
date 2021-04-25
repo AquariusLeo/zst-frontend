@@ -179,12 +179,16 @@ const AnalysisByProduct = props => {
       >
         产品维度
         <div style={{ fontSize: '16px' }}>根据不同产品的销售情况进行分析</div>
-        <Button
-          style={{ position: 'absolute', right: '24px', top: '24px' }}
-          shape="circle"
-          icon={<DownloadOutlined />}
-          onClick={handleDownloadClick}
-        />
+        {
+          props.permissionIdList.includes(1) ? (
+            <Button
+              style={{ position: 'absolute', right: '24px', top: '24px' }}
+              shape="circle"
+              icon={<DownloadOutlined />}
+              onClick={handleDownloadClick}
+            />
+          ) : null
+        }
       </div>
       <div
         style={{
@@ -244,6 +248,7 @@ const AnalysisByProduct = props => {
 
 const mapStateToProps = state => {
   return {
+    permissionIdList: state.user.permissionIdList,
     startTime: state.analysis.public.times.startTime,
     endTime: state.analysis.public.times.endTime,
     indicator: state.analysis.public.indicator,

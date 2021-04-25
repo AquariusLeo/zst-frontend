@@ -153,13 +153,16 @@ const AnalysisByTime = props => {
       >
         时间维度
         <div style={{ fontSize: '16px' }}>根据不同时间段的销售情况进行分析</div>
-        <Button
-          style={{ position: 'absolute', right: '24px', top: '24px' }}
-          shape="circle"
-          icon={<DownloadOutlined />}
-          onClick={handleDownloadClick}
-        />
-        <div id="downloadDiv"></div>
+        {
+          props.permissionIdList.includes(1) ? (
+            <Button
+              style={{ position: 'absolute', right: '24px', top: '24px' }}
+              shape="circle"
+              icon={<DownloadOutlined />}
+              onClick={handleDownloadClick}
+            />
+          ) : null
+        }
       </div>
       <div
         style={{
@@ -186,7 +189,7 @@ const AnalysisByTime = props => {
           </Col>
         </Row>
         <Divider />
-        <TimeLine timeLine={props.timeLine} name={props.indicator}></TimeLine>
+        <TimeLine timeLine={props.timeLine} name={props.indicator}/>
         <Table
           columns={columns}
           rowKey={record => record.id}
@@ -194,7 +197,7 @@ const AnalysisByTime = props => {
           pagination={props.pagination}
           loading={props.loading}
           onChange={handlePageClick}
-        ></Table>
+        />
       </div>
     </>
   );
@@ -202,6 +205,7 @@ const AnalysisByTime = props => {
 
 const mapStateToProps = state => {
   return {
+    permissionIdList: state.user.permissionIdList,
     times: state.analysis.public.times,
     indicator: state.analysis.public.indicator,
     platform: state.analysis.public.platform,

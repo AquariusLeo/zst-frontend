@@ -1,11 +1,19 @@
+import { useSelector, useDispatch } from 'react-redux'
 import { Dropdown, Menu, Avatar, message } from 'antd';
 import { useHistory } from 'react-router-dom'
 import { UserOutlined } from '@ant-design/icons';
 
 const UserHeader = () => {
   let history = useHistory();
+  const isLogin = useSelector(({user}) => user.isLogin)
+  const dispatch = useDispatch()
   const handleUserMenuClick = () => {
     localStorage.removeItem('zst-token');
+    dispatch({
+      type: 'logout',
+      isLogin: false,
+      permissionIdList: [],
+    })
     message.success('登出成功')
     setTimeout(() => {
       history.push('/login');

@@ -1,11 +1,14 @@
 import * as URL from './urls';
 import instance from '@/utils/http/axios';
 
-export const getLogin = data => {
+export const getLogin = (username, password) => {
   return instance.request({
     url: URL.BASE_URL + URL.LOGIN,
     method: 'post',
-    data: data,
+    data: {
+      username,
+      password
+    },
   });
 };
 

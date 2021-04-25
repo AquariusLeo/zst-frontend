@@ -7,7 +7,6 @@ import {
   MenuFoldOutlined,
   DashboardOutlined,
   PieChartOutlined,
-  DatabaseOutlined,
   ContactsOutlined,
   CloudUploadOutlined,
   UsergroupAddOutlined,
@@ -19,13 +18,11 @@ import AnalysisByProduct from './analysisData/product';
 import AnalysisByTime from './analysisData/time';
 import Groups from './portrait/groups';
 import GroupAnalysis from './portrait/groupAnalysis';
-import ManageData from './manageData';
 import ManageUser from './manageUser';
 import UploadData from './uploadData';
 import UserHeader from './header';
 import NotFound from './404';
 import './index.scss';
-import { log } from '@antv/g2plot/lib/utils';
 // import avatar from '@/assets/avatar.svg'
 
 const { Header, Content, Sider, Footer } = Layout;
@@ -57,7 +54,7 @@ const Home = props => {
   // );
 
   const permissionIdList = useSelector(({ user }) => user.permissionIdList);
-  console.log('permissionIdList', permissionIdList);
+  // console.log('permissionIdList', permissionIdList);
   return (
     <Layout className='home'>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -93,17 +90,20 @@ const Home = props => {
               <Link to={`${url}/groups`}>用户分群</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key='manageData' icon={<DatabaseOutlined />}>
-            <Link to={`${url}/manageData`}>数据管理</Link>
-          </Menu.Item>
-          {permissionIdList.includes(4) ? (
-            <Menu.Item key='manageUser' icon={<UsergroupAddOutlined />}>
-              <Link to={`${url}/manageUser`}>权限管理</Link>
-            </Menu.Item>) : null
+          {
+            permissionIdList.includes(2) ? (
+              <Menu.Item key='uploadData' icon={<CloudUploadOutlined />}>
+                <Link to={`${url}/uploadData`}>数据导入</Link>
+              </Menu.Item>
+            ) : null
           }
-          <Menu.Item key='uploadData' icon={<CloudUploadOutlined />}>
-            <Link to={`${url}/uploadData`}>数据导入</Link>
-          </Menu.Item>
+          {
+            permissionIdList.includes(3) ? (
+              <Menu.Item key='manageUser' icon={<UsergroupAddOutlined />}>
+                <Link to={`${url}/manageUser`}>权限管理</Link>
+              </Menu.Item>
+            ) : null
+          }
         </Menu>
       </Sider>
       <Layout className='site-layout'>
@@ -144,16 +144,19 @@ const Home = props => {
             <Route exact path={`${path}/groups/:id`}>
               <GroupAnalysis />
             </Route>
-            <Route exact path={`${path}/manageData`}>
-              <ManageData />
-            </Route>
-            {permissionIdList.includes(4) ? (<Route exact path={`${path}/manageUser`}>
-              <ManageUser />
-            </Route>) : null
+            {
+              permissionIdList.includes(2) ? (
+                <Route exact path={`${path}/uploadData`}>
+                  <UploadData />
+                </Route>
+              ) : null
             }
-            <Route exact path={`${path}/uploadData`}>
-              <UploadData />
-            </Route>
+            {
+              permissionIdList.includes(3) ? (
+                <Route exact path={`${path}/manageUser`}>
+                  <ManageUser />
+                </Route>) : null
+            }
             <Route component={NotFound} />
           </Switch>
           <Footer style={{ textAlign: 'center' }}>
