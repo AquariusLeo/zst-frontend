@@ -35,3 +35,8 @@ export const UPLOAD_TABLE = '/getUploadTable'
 // group
 export const CREATE_GROUP = '/createGroup'
 export const GROUP_TABLE = '/getGroupTable'
+
+// user
+export const ADD_USER = '/addUser'
+export const GET_ALL_USER = '/getAllUser'
+export const DELETE_USER = '/deleteUser'

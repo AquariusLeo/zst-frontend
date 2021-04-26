@@ -7,7 +7,7 @@ export const getLogin = (username, password) => {
     method: 'post',
     data: {
       username,
-      password
+      password,
     },
   });
 };
@@ -164,7 +164,7 @@ export const postProvinceTable = (
       pageSize,
     },
   });
-}
+};
 
 // analysis platform
 export const postPlatformLine = (startTime, endTime, indicator, product) => {
@@ -264,18 +264,18 @@ export const getUploadTable = (pageNum, pageSize) => {
     method: 'get',
     params: {
       pageNum,
-      pageSize
-    }
-  })
-}
+      pageSize,
+    },
+  });
+};
 
 export const createGroup = () => {
   return instance.request({
     url: URL.BASE_URL + URL.CREATE_GROUP,
     method: 'post',
-    data: {}
-  })
-}
+    data: {},
+  });
+};
 
 export const getGroupTable = (pageNum, pageSize) => {
   return instance.request({
@@ -284,6 +284,36 @@ export const getGroupTable = (pageNum, pageSize) => {
     params: {
       pageNum,
       pageSize,
-    }
-  })
-}
+    },
+  });
+};
+
+// user
+export const addUser = (username, password, permissionIdList) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.ADD_USER,
+    method: 'post',
+    data: {
+      username,
+      password,
+      permissionIdList,
+    },
+  });
+};
+
+export const getAllUser = () => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GET_ALL_USER,
+    method: 'get',
+  });
+};
+
+export const deleteUser = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.DELETE_USER,
+    method: 'delete',
+    params: {
+      id,
+    },
+  });
+};
