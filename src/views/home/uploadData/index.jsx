@@ -1,33 +1,69 @@
-import { useState, useEffect } from 'react';
-import { Upload, Button, message, Form, Input, Table, Modal } from 'antd';
+import { useState, useEffect, useMemo } from 'react';
+import {
+  Upload,
+  Button,
+  message,
+  Form,
+  Input,
+  Table,
+  Modal,
+  Popconfirm,
+} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import axios from 'axios';
-import { getUploadTable } from '@/api';
-
-const columns = [
-  {
-    title: '文件名',
-    dataIndex: 'file',
-    key: 'name',
-  },
-  {
-    title: '上传信息',
-    dataIndex: 'label',
-    key: 'label',
-  },
-  {
-    title: '操作人',
-    dataIndex: 'operator',
-    key: 'operator',
-  },
-  {
-    title: '上传时间',
-    dataIndex: 'time',
-    key: 'time',
-  },
-];
+import { getUploadTable, deleteFile } from '@/api';
 
 const UploadData = () => {
+  const columns = useMemo(
+    () => [
+      {
+        title: '文件名',
+        dataIndex: 'file',
+        key: 'name',
+      },
+      {
+        title: '上传信息',
+        dataIndex: 'label',
+        key: 'label',
+      },
+      {
+        title: '操作人',
+        dataIndex: 'operator',
+        key: 'operator',
+      },
+      {
+        title: '上传时间',
+        dataIndex: 'time',
+        key: 'time',
+      },
+      {
+        title: 'Action',
+        dataIndex: '',
+        render: (_, record) =>
+          tableData.length >= 0 ? (
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => handleDelete(record.id)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
+          ) : null,
+      },
+    ],
+    [],
+  );
+
+  async function handleDelete(key) {
+    // TODO
+    console.log(key);
+    const res = await deleteFile(key);
+    if (res && res.status === 200) {
+      message.success('删除成功！');
+      await handleTableChange(pagination);
+    }
+  }
+
   const [form] = Form.useForm();
   const [tableData, setTableData] = useState([]);
   const [pagination, setPagination] = useState({
@@ -64,18 +100,29 @@ const UploadData = () => {
   };
 
   const onFinish = values => {
-    console.log(values);
+    console.log(
+      values.label,
+      values.operator,
+      moment(Date.now()).format('YYYY-MM-DD'),
+      values.upload.file.name,
+    );
 
     const formData = new FormData();
     formData.append('file', fileList[0]);
-    console.log('filename:', values.upload.file.name)
     setUploading(true);
+    message.loading('数据插入中，请不要进行其他操作！');
 
     axios
       .request({
         url: '/api/upload',
         method: 'post',
         data: formData,
+        params: {
+          label: values.label,
+          operator: values.operator,
+          time: moment(Date.now()).format('YYYY-MM-DD'),
+          title: values.upload.file.name,
+        },
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: localStorage.getItem('zst-token'),
@@ -85,13 +132,15 @@ const UploadData = () => {
         setFileList([]);
         setUploading(false);
         message.success('upload successfully.');
+        form.resetFields();
+        handleTableChange(pagination);
       })
       .catch(err => {
         setUploading(false);
         message.error('upload failed.');
+        form.resetFields();
+        // handleTableChange(pagination);
       });
-
-    form.resetFields();
   };
 
   const showModal = () => {
@@ -107,22 +156,22 @@ const UploadData = () => {
   };
 
   useEffect(() => {
-    handleTableChange(pagination)
+    handleTableChange(pagination);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  async function handleTableChange (pagination) {
-    setLoading(true)
-    const res = await getUploadTable(pagination.current, pagination.pageSize)
+  async function handleTableChange(pagination) {
+    setLoading(true);
+    const res = await getUploadTable(pagination.current, pagination.pageSize);
     if (res) {
-      setTableData(res.data.list.list)
+      setTableData(res.data.list.list);
       setPagination({
         ...pagination,
-        total: res.data.list.total
-      })
-      setLoading(false)
+        total: res.data.list.total,
+      });
+      setLoading(false);
     }
-  };
+  }
 
   return (
     <>
@@ -181,7 +230,11 @@ const UploadData = () => {
             >
               <Input />
             </Form.Item>
-            <Form.Item name="upload" label="选择文件">
+            <Form.Item
+              name="upload"
+              label="选择文件"
+              extra="1000条数据上传大约需要1min"
+            >
               <Upload {...uploadProp}>
                 <Button icon={<UploadOutlined />}>Select File</Button>
               </Upload>
@@ -210,7 +263,7 @@ const UploadData = () => {
           pagination={pagination}
           loading={loading}
           onChange={handleTableChange}
-        ></Table>
+        />
       </div>
     </>
   );
