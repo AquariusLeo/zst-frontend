@@ -3,7 +3,7 @@ import { message } from 'antd';
 const checkLoginStatus = data => {
   switch (data.status) {
     case 400:
-      message.error('身份认证失败或过期，请重新登陆');
+      message.error('身份认证失败');
       console.log();
       break;
     case 401:
