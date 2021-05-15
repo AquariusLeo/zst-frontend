@@ -88,6 +88,7 @@ const Proportion = props => {
     return () => {
       piePlot.destroy();
     };
+    //eslint-disable-next-line
   }, [props.pieData]);
   return (
     <div className="dashboard-proportion">

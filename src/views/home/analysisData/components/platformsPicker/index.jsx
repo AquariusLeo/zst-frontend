@@ -17,6 +17,8 @@ const PlatformsPicker = props => {
       </span>
       <Select
         mode="multiple"
+        disabled={props.disabled}
+        onClick={props.click}
         defaultValue={['天猫', '京东', '微信']}
         style={{ width: 200 }}
         onChange={props.handlePlatformsMenuClick}

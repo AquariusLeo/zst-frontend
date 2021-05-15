@@ -7,6 +7,7 @@ export const getProvinceMap = (
   indicator,
   platform,
   product,
+  shop,
 ) => {
   return async dispatch => {
     const res = await postProvinceMap(
@@ -15,6 +16,7 @@ export const getProvinceMap = (
       indicator,
       platform,
       product,
+      shop,
     );
     if (res) {
       dispatch({
@@ -31,6 +33,7 @@ export const getProvinceTop = (
   indicator,
   platform,
   product,
+  shop,
 ) => {
   return async dispatch => {
     const res = await postProvinceTop(
@@ -39,6 +42,7 @@ export const getProvinceTop = (
       indicator,
       platform,
       product,
+      shop,
     );
     if (res) {
       // console.log(res)

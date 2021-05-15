@@ -1,7 +1,9 @@
-import { LOGIN, LOGOUT} from './actionTypes';
+import { LOGIN, LOGOUT, CHANGE_PASSWORD } from './actionTypes';
 
 const initState = {
+  username: '',
   isLogin: false,
+  // TODO
   permissionIdList: [],
 };
 
@@ -10,12 +12,21 @@ const userReducer = (state = initState, action) => {
     case LOGIN:
       return {
         ...state,
+        username: action.username,
         isLogin: action.isLogin,
         permissionIdList: action.permissionIdList,
       };
     case LOGOUT:
-      return  {
+      return {
         ...state,
+        username: action.username,
+        isLogin: action.isLogin,
+        permissionIdList: action.permissionIdList,
+      };
+    case CHANGE_PASSWORD:
+      return {
+        ...state,
+        username: action.username,
         isLogin: action.isLogin,
         permissionIdList: action.permissionIdList,
       }

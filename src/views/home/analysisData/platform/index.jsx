@@ -59,6 +59,7 @@ const AnalysisByPlatform = props => {
     const product = searchValue.map(item => item.key);
     props.getPlatformLine(startTime, endTime, indicator, product);
     handlePageClick(pagination);
+    // eslint-disable-next-line
   }, [props.startTime, props.endTime, props.indicator, props.searchValue]);
 
   const handlePageClick = pagination => {
@@ -119,16 +120,14 @@ const AnalysisByPlatform = props => {
       >
         平台维度
         <div style={{ fontSize: '16px' }}>根据不同平台的销售情况进行分析</div>
-        {
-          props.permissionIdList.includes(1) ? (
-            <Button
-              style={{ position: 'absolute', right: '24px', top: '24px' }}
-              shape="circle"
-              icon={<DownloadOutlined />}
-              onClick={handleDownloadClick}
-            />
-          ) : null
-        }
+        {props.permissionIdList.includes(1) ? (
+          <Button
+            style={{ position: 'absolute', right: '24px', top: '24px' }}
+            shape="circle"
+            icon={<DownloadOutlined />}
+            onClick={handleDownloadClick}
+          />
+        ) : null}
       </div>
       <div
         style={{

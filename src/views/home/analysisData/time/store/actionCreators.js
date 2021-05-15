@@ -8,6 +8,7 @@ export const getTimeLine = (
   platform,
   timeLevel,
   product,
+  shop
 ) => {
   return async dispatch => {
     // console.log(startTime, endTime, indicator, platform, timeLevel, product)
@@ -18,6 +19,7 @@ export const getTimeLine = (
       platform,
       timeLevel,
       product,
+      shop
     );
     // console.log(res)
     if (res) {

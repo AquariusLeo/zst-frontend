@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Divider, Table, Button, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -6,6 +6,7 @@ import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
 import ProductsPicker from '../components/productsPicker';
+import ShopsPicker from '../components/shopPicker';
 import Map from './map';
 import ColumnPlot from './columnPlot';
 import { actionCreators } from '../store';
@@ -56,50 +57,117 @@ const AnalysisByArea = props => {
     // eslint-disable-next-line
   }, []);
 
+  const [platformDisabled, setPlatformDisabled] = useState(false);
+  const [shopDisabled, setShopDisabled] = useState(true);
+
   const handlePageClick = pagination => {
-    const { times, platform, searchValue } = props;
+    const { times, platform, searchValue, searchShopValue } = props;
     const product = searchValue.map(item => item.key);
-    props.changeTableLoading(true);
-    props.getProvinceTable(
-      times.startTime,
-      times.endTime,
-      platform,
-      product,
-      pagination,
-    );
+    const shop = searchShopValue.map(item => item.key);
+    if (platformDisabled) {
+      props.changeTableLoading(true);
+      props.getProvinceTable(
+        times.startTime,
+        times.endTime,
+        [],
+        product,
+        pagination,
+        shop,
+      );
+    } else if (shopDisabled) {
+      props.changeTableLoading(true);
+      props.getProvinceTable(
+        times.startTime,
+        times.endTime,
+        platform,
+        product,
+        pagination,
+        [],
+      );
+    }
   };
 
   useEffect(() => {
-    const { times, indicator, platform, searchValue, pagination } = props;
+    const {
+      times,
+      indicator,
+      platform,
+      searchValue,
+      pagination,
+      searchShopValue,
+    } = props;
     const product = searchValue.map(item => item.key);
-    props.getProvinceMap(
-      times.startTime,
-      times.endTime,
-      indicator,
-      platform,
-      product,
-    );
-    props.getProvinceTop(
-      times.startTime,
-      times.endTime,
-      indicator,
-      platform,
-      product,
-    );
+    const shop = searchShopValue.map(item => item.key);
+    if (platformDisabled) {
+      props.getProvinceMap(
+        times.startTime,
+        times.endTime,
+        indicator,
+        [],
+        product,
+        shop,
+      );
+      props.getProvinceTop(
+        times.startTime,
+        times.endTime,
+        indicator,
+        [],
+        product,
+        shop,
+      );
+    } else if (shopDisabled) {
+      props.getProvinceMap(
+        times.startTime,
+        times.endTime,
+        indicator,
+        platform,
+        product,
+        [],
+      );
+      props.getProvinceTop(
+        times.startTime,
+        times.endTime,
+        indicator,
+        platform,
+        product,
+        [],
+      );
+    }
+
     handlePageClick(pagination);
     // eslint-disable-next-line
-  }, [props.times, props.indicator, props.platform, props.searchValue]);
+  }, [
+    props.times,
+    props.indicator,
+    props.platform,
+    props.searchValue,
+    props.searchShopValue,
+  ]);
 
   async function handleDownloadClick() {
-    const { times, platform, searchValue } = props;
+    const { times, platform, searchValue, searchShopValue } = props;
     const product = searchValue.map(item => item.key);
-    const request = {
-      body: JSON.stringify({
+    const shop = searchShopValue.map(item => item.key);
+    let bodyObj;
+    if (platformDisabled) {
+      bodyObj = {
+        startTime: times.startTime,
+        endTime: times.endTime,
+        platform: [],
+        product,
+        shop,
+      };
+    } else if (shopDisabled) {
+      bodyObj = {
         startTime: times.startTime,
         endTime: times.endTime,
         platform,
         product,
-      }),
+        shop: [],
+      };
+    }
+    const request = {
+      body: JSON.stringify(bodyObj),
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('zst-token'),
@@ -130,6 +198,16 @@ const AnalysisByArea = props => {
     message.success('下载成功！');
   }
 
+  function handlePlatformClick() {
+    setPlatformDisabled(false);
+    setShopDisabled(true);
+  }
+
+  function handleShopClick() {
+    setPlatformDisabled(true);
+    setShopDisabled(false);
+  }
+
   return (
     <>
       <div
@@ -142,16 +220,16 @@ const AnalysisByArea = props => {
       >
         地区维度
         <div style={{ fontSize: '16px' }}>根据不同地区的销售情况进行分析</div>
-        {
-          props.permissionIdList.includes(1) ? (
-            <Button
-              style={{ position: 'absolute', right: '24px', top: '24px' }}
-              shape="circle"
-              icon={<DownloadOutlined />}
-              onClick={handleDownloadClick}
-            />
-          ) : null
-        }
+        {props.permissionIdList.includes(1) ? (
+          <Button
+            style={{ position: 'absolute', right: '24px', top: '24px' }}
+            // shape="circle"
+            icon={<DownloadOutlined />}
+            onClick={handleDownloadClick}
+          >
+            下载
+          </Button>
+        ) : null}
       </div>
       <div
         style={{
@@ -171,14 +249,20 @@ const AnalysisByArea = props => {
             <ProductsPicker />
           </Col>
           <Col span={8}>
-            <PlatformsPicker />
+            <PlatformsPicker
+              disabled={platformDisabled}
+              click={handlePlatformClick}
+            />
+          </Col>
+          <Col span={8}>
+            <ShopsPicker disabled={shopDisabled} click={handleShopClick} />
           </Col>
         </Row>
 
         <Divider />
         <Row gutter={16} style={{ margin: '40px 0px' }}>
           <Col span={14}>
-            <Map provinceMap={props.provinceMap} name={props.indicator}/>
+            <Map provinceMap={props.provinceMap} name={props.indicator} />
           </Col>
           <Col span={10}>
             <ColumnPlot provinceTop={props.provinceTop} />
@@ -206,6 +290,7 @@ const mapStateToProps = state => {
     indicator: state.analysis.public.indicator,
     platform: state.analysis.public.platform,
     searchValue: state.analysis.public.searchValue,
+    searchShopValue: state.analysis.public.searchShopValue,
     tableData: state.analysis.public.tableData,
     pagination: state.analysis.public.pagination,
     loading: state.analysis.public.loading,
@@ -217,7 +302,7 @@ const mapDispatchToProps = dispatch => {
     initPicker(times) {
       dispatch(actionCreators.initPicker(times));
     },
-    getProvinceMap(startTime, endTime, indicator, platform, product) {
+    getProvinceMap(startTime, endTime, indicator, platform, product, shop) {
       dispatch(
         areaActionCreators.getProvinceMap(
           startTime,
@@ -225,10 +310,11 @@ const mapDispatchToProps = dispatch => {
           indicator,
           platform,
           product,
+          shop,
         ),
       );
     },
-    getProvinceTop(startTime, endTime, indicator, platform, product) {
+    getProvinceTop(startTime, endTime, indicator, platform, product, shop) {
       dispatch(
         areaActionCreators.getProvinceTop(
           startTime,
@@ -236,10 +322,11 @@ const mapDispatchToProps = dispatch => {
           indicator,
           platform,
           product,
+          shop,
         ),
       );
     },
-    getProvinceTable(startTime, endTime, platform, product, pagination) {
+    getProvinceTable(startTime, endTime, platform, product, pagination, shop) {
       dispatch(
         actionCreators.getProvinceTable(
           startTime,
@@ -247,6 +334,7 @@ const mapDispatchToProps = dispatch => {
           platform,
           product,
           pagination,
+          shop,
         ),
       );
     },

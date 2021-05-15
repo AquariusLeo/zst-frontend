@@ -22,7 +22,7 @@ const TimeLine = props => {
     return () => {
       line.destroy();
     };
-  }, [props.timeLine]);
+  }, [props, props.timeLine]);
   return (
     <>
       <div style={{ fontSize: '20px' }}>{props.name}</div>

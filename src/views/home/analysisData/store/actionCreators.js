@@ -5,6 +5,9 @@ import {
   SEARCH_PRODUCT,
   SELECT_PRODUCT,
   CHANGE_FETCH_STATUS,
+  SEARCH_SHOP,
+  SELECT_SHOP,
+  CHANGE_SHOP_FETCH_STATUS,
   CLICK_TIME_LEVEL,
   INITPICKER,
   GET_TIME_TABLE,
@@ -19,6 +22,7 @@ import {
   postPlatformTable,
   postProductTable,
   postProvinceTable,
+  shopSearch,
 } from '@/api';
 
 export const initPicker = times => ({
@@ -30,6 +34,9 @@ export const initPicker = times => ({
   fetching: false,
   searchValue: [],
   searchData: [],
+  shopFetching: false,
+  searchShopValue: [],
+  searchShopData: [],
   tableData: [],
   pagination: {
     current: 1,
@@ -53,10 +60,11 @@ export const clickPlatforms = platform => ({
   platform,
 });
 
+
 export const searchProduct = str => {
   return async dispatch => {
     const res = await getProducts(str);
-    console.log(res);
+    // console.log(res);
     if (res) {
       dispatch({
         type: SEARCH_PRODUCT,
@@ -80,6 +88,31 @@ export const changeFetchStatus = fetchStatus => ({
   fetching: fetchStatus,
 });
 
+export const searchShop = str => {
+  return async dispatch => {
+    const res = await shopSearch(str)
+    if (res) {
+      dispatch({
+        type: SEARCH_SHOP,
+        searchShopData: res.data.shopList.map(value => ({
+          value: value,
+          key: value
+        }))
+      })
+    }
+  }
+}
+
+export const selectShop = list => ({
+  type: SELECT_SHOP,
+  searchShopValue: list.map(item => ({ key: item.key, value: item.value })),
+})
+
+export const changeShopFetchStatus = fetchStatus => ({
+  type: CHANGE_SHOP_FETCH_STATUS,
+  shopFetching: fetchStatus,
+})
+
 export const clickTimeLevel = level => ({
   type: CLICK_TIME_LEVEL,
   level,
@@ -97,9 +130,10 @@ export const getTimeTable = (
   timeLevel,
   product,
   pagination,
+  shop
 ) => {
   return async dispatch => {
-    console.log(startTime, endTime, platform, timeLevel, product, pagination);
+    // console.log(startTime, endTime, platform, timeLevel, product, pagination);
     const res = await postTimeTable(
       startTime,
       endTime,
@@ -108,6 +142,7 @@ export const getTimeTable = (
       product,
       pagination.current,
       pagination.pageSize,
+      shop
     );
     // console.log(res);
     if (res) {
@@ -151,7 +186,7 @@ export const getPlatformTable = (startTime, endTime, product, pagination) => {
   };
 };
 
-export const getProductTable = (startTime, endTime, platform, pagination) => {
+export const getProductTable = (startTime, endTime, platform, pagination, shop) => {
   return async dispatch => {
     const res = await postProductTable(
       startTime,
@@ -159,6 +194,7 @@ export const getProductTable = (startTime, endTime, platform, pagination) => {
       platform,
       pagination.current,
       pagination.pageSize,
+      shop
     );
     // console.log('res', res);
     if (res) {
@@ -181,6 +217,7 @@ export const getProvinceTable = (
   platform,
   product,
   pagination,
+  shop,
 ) => {
   return async dispatch => {
     const res = await postProvinceTable(
@@ -190,6 +227,7 @@ export const getProvinceTable = (
       product,
       pagination.current,
       pagination.pageSize,
+      shop,
     );
     if (res) {
       dispatch({

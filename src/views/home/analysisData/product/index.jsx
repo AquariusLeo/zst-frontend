@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Divider, Col, Row, Tag, Table, Button, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
+import ShopsPicker from '../components/shopPicker';
 import ColumnPlot from './columnPlot';
 import RankTable from './rankTable';
 import { actionCreators } from '../store';
@@ -115,28 +116,83 @@ const AnalysisByProduct = props => {
     // eslint-disable-next-line
   }, []);
 
+  const [platformDisabled, setPlatformDisabled] = useState(false);
+  const [shopDisabled, setShopDisabled] = useState(true);
+
+  function handlePlatformClick() {
+    setPlatformDisabled(false);
+    setShopDisabled(true);
+  }
+
+  function handleShopClick() {
+    setPlatformDisabled(true);
+    setShopDisabled(false);
+  }
+
   useEffect(() => {
-    const { startTime, endTime, indicator, platform, pagination } = props;
-    props.getProductLine(startTime, endTime, indicator, platform);
-    props.getTopTenProductNumbers(startTime, endTime, platform);
-    props.getTopTenProductSales(startTime, endTime, platform);
-    handlePageClick(pagination);
-  }, [props.startTime, props.endTime, props.indicator, props.platform]);
+    const {
+      startTime,
+      endTime,
+      indicator,
+      platform,
+      pagination,
+      searchShopValue,
+    } = props;
+    const shop = searchShopValue.map(item => item.key);
+    if (platformDisabled) {
+      props.getProductLine(startTime, endTime, indicator, [], shop);
+      props.getTopTenProductNumbers(startTime, endTime, [], shop);
+      props.getTopTenProductSales(startTime, endTime, [], shop);
+      handlePageClick(pagination);
+    } else if (shopDisabled) {
+      props.getProductLine(startTime, endTime, indicator, platform, []);
+      props.getTopTenProductNumbers(startTime, endTime, platform, []);
+      props.getTopTenProductSales(startTime, endTime, platform, []);
+      handlePageClick(pagination);
+    }
+
+    // eslint-disable-next-line
+  }, [
+    props.startTime,
+    props.endTime,
+    props.indicator,
+    props.platform,
+    props.searchShopValue,
+  ]);
 
   const handlePageClick = pagination => {
-    const { startTime, endTime, platform } = props;
-    props.changeTableLoading(true);
-    props.getProductTable(startTime, endTime, platform, pagination);
+    const { startTime, endTime, platform, searchShopValue } = props;
+    const shop = searchShopValue.map(item => item.key);
+    if (platformDisabled) {
+      props.changeTableLoading(true);
+      props.getProductTable(startTime, endTime, [], pagination, shop);
+    } else if (shopDisabled) {
+      props.changeTableLoading(true);
+      props.getProductTable(startTime, endTime, platform, pagination, []);
+    }
   };
 
   async function handleDownloadClick() {
-    const { startTime, endTime, platform } = props;
-    const request = {
-      body: JSON.stringify({
+    const { startTime, endTime, platform, searchShopValue } = props;
+    const shop = searchShopValue.map(item => item.key);
+    let bodyObj;
+    if (platformDisabled) {
+      bodyObj = {
+        startTime,
+        endTime,
+        platform: [],
+        shop,
+      };
+    } else if (shopDisabled) {
+      bodyObj = {
         startTime,
         endTime,
         platform,
-      }),
+        shop: [],
+      };
+    }
+    const request = {
+      body: JSON.stringify(bodyObj),
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('zst-token'),
@@ -179,16 +235,15 @@ const AnalysisByProduct = props => {
       >
         产品维度
         <div style={{ fontSize: '16px' }}>根据不同产品的销售情况进行分析</div>
-        {
-          props.permissionIdList.includes(1) ? (
-            <Button
-              style={{ position: 'absolute', right: '24px', top: '24px' }}
-              shape="circle"
-              icon={<DownloadOutlined />}
-              onClick={handleDownloadClick}
-            />
-          ) : null
-        }
+        {props.permissionIdList.includes(1) ? (
+          <Button
+            style={{ position: 'absolute', right: '24px', top: '24px' }}
+            icon={<DownloadOutlined />}
+            onClick={handleDownloadClick}
+          >
+            下载
+          </Button>
+        ) : null}
       </div>
       <div
         style={{
@@ -205,7 +260,13 @@ const AnalysisByProduct = props => {
             <IndicatorPicker />
           </Col>
           <Col span={8}>
-            <PlatformsPicker />
+            <PlatformsPicker
+              disabled={platformDisabled}
+              click={handlePlatformClick}
+            />
+          </Col>
+          <Col span={8}>
+            <ShopsPicker disabled={shopDisabled} click={handleShopClick} />
           </Col>
         </Row>
         <Divider />
@@ -248,6 +309,7 @@ const AnalysisByProduct = props => {
 
 const mapStateToProps = state => {
   return {
+    searchShopValue: state.analysis.public.searchShopValue,
     permissionIdList: state.user.permissionIdList,
     startTime: state.analysis.public.times.startTime,
     endTime: state.analysis.public.times.endTime,
@@ -267,44 +329,48 @@ const mapDispatchToProps = dispatch => {
     initPicker(times) {
       dispatch(actionCreators.initPicker(times));
     },
-    getProductLine(startTime, endTime, indicator, platform) {
+    getProductLine(startTime, endTime, indicator, platform, shop) {
       dispatch(
         productActionCreators.getProductLine(
           startTime,
           endTime,
           indicator,
           platform,
+          shop,
         ),
       );
     },
-    getProductTable(startTime, endTime, platform, pagination) {
+    getProductTable(startTime, endTime, platform, pagination, shop) {
       dispatch(
         actionCreators.getProductTable(
           startTime,
           endTime,
           platform,
           pagination,
+          shop,
         ),
       );
     },
     changeTableLoading(loadingStatus) {
       dispatch(actionCreators.changeTableLoading(loadingStatus));
     },
-    getTopTenProductSales(startTime, endTime, platform) {
+    getTopTenProductSales(startTime, endTime, platform, shop) {
       dispatch(
         productActionCreators.getTopTenProductSales(
           startTime,
           endTime,
           platform,
+          shop,
         ),
       );
     },
-    getTopTenProductNumbers(startTime, endTime, platform) {
+    getTopTenProductNumbers(startTime, endTime, platform, shop) {
       dispatch(
         productActionCreators.getTopTenProductNumbers(
           startTime,
           endTime,
           platform,
+          shop,
         ),
       );
     },

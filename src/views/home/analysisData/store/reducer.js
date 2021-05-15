@@ -11,6 +11,9 @@ import {
   SEARCH_PRODUCT,
   SELECT_PRODUCT,
   CHANGE_FETCH_STATUS,
+  SEARCH_SHOP,
+  SELECT_SHOP,
+  CHANGE_SHOP_FETCH_STATUS,
   CLICK_TIME_LEVEL,
   INITPICKER,
   GET_TIME_TABLE,
@@ -32,6 +35,9 @@ const initState = {
   fetching: false,
   searchValue: [],
   searchData: [],
+  shopFetching: false,
+  searchShopValue: [],
+  searchShopData: [],
   timeLevel: '月度',
   tableData: [],
   pagination: {
@@ -52,6 +58,9 @@ const analysisReducer = (state = initState, action) => {
         fetching: action.fetching,
         searchValue: action.searchValue,
         searchData: action.searchData,
+        shopFetching: action.shopFetching,
+        searchShopValue: action.searchShopValue,
+        searchShopData: action.searchShopData,
         tableData: action.tableData,
         pagination: action.pagination,
         loading: action.loading,
@@ -94,6 +103,12 @@ const analysisReducer = (state = initState, action) => {
       return { ...state, searchValue: action.searchValue, searchData: [] };
     case SEARCH_PRODUCT:
       return { ...state, searchData: action.searchData };
+    case CHANGE_SHOP_FETCH_STATUS:
+      return { ...state, shopFetching: action.shopFetching }
+    case SELECT_SHOP:
+      return { ...state, searchShopValue: action.searchShopValue, searchShopData: [] }
+    case SEARCH_SHOP:
+      return { ...state, searchShopData: action.searchShopData }
     case CLICK_PLATFORMS:
       return { ...state, platform: action.platform };
     case CLICK_INDICATORS:

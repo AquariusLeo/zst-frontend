@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button, Divider, Row, Col, Table, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -7,6 +7,7 @@ import IndicatorPicker from '../components/indicatorPicker';
 import PlatformsPicker from '../components/platformsPicker';
 import ProductsPicker from '../components/productsPicker';
 import TimeLevelPicker from '../components/timeLevelPicker';
+import ShopsPicker from '../components/shopPicker';
 import TimeLine from './line';
 import { actionCreators } from '../store';
 import { timeActionCreators } from './store';
@@ -56,6 +57,19 @@ const AnalysisByTime = props => {
     // eslint-disable-next-line
   }, []);
 
+  const [platformDisabled, setPlatformDisabled] = useState(false);
+  const [shopDisabled, setShopDisabled] = useState(true);
+
+  function handlePlatformClick() {
+    setPlatformDisabled(false);
+    setShopDisabled(true);
+  }
+
+  function handleShopClick() {
+    setPlatformDisabled(true);
+    setShopDisabled(false);
+  }
+
   useEffect(() => {
     const {
       times,
@@ -64,16 +78,32 @@ const AnalysisByTime = props => {
       timeLevel,
       searchValue,
       pagination,
+      searchShopValue,
     } = props;
+    const shop = searchShopValue.map(item => item.key);
     const product = searchValue.map(item => item.key);
-    props.getTimeLine(
-      times.startTime,
-      times.endTime,
-      indicator,
-      platform,
-      timeLevel,
-      product,
-    );
+    if (platformDisabled) {
+      props.getTimeLine(
+        times.startTime,
+        times.endTime,
+        indicator,
+        [],
+        timeLevel,
+        product,
+        shop,
+      );
+    } else if (shopDisabled) {
+      props.getTimeLine(
+        times.startTime,
+        times.endTime,
+        indicator,
+        platform,
+        timeLevel,
+        product,
+        [],
+      );
+    }
+
     handlePageClick(pagination);
     // eslint-disable-next-line
   }, [
@@ -82,35 +112,66 @@ const AnalysisByTime = props => {
     props.platform,
     props.timeLevel,
     props.searchValue,
+    props.searchShopValue,
   ]);
 
   const handlePageClick = pagination => {
-    console.log('handlePageClick');
-    const { times, platform, timeLevel, searchValue } = props;
+    // console.log('handlePageClick');
+    const { times, platform, timeLevel, searchValue, searchShopValue } = props;
     // console.log('product', searchValue);
+    const shop = searchShopValue.map(item => item.key);
     const product = searchValue.map(item => item.key);
-    props.changeTableLoading(true);
-    props.getTimeTable(
-      times.startTime,
-      times.endTime,
-      platform,
-      timeLevel,
-      product,
-      pagination,
-    );
+    if (platformDisabled) {
+      props.changeTableLoading(true);
+      props.getTimeTable(
+        times.startTime,
+        times.endTime,
+        [],
+        timeLevel,
+        product,
+        pagination,
+        shop,
+      );
+    } else if (shopDisabled) {
+      props.changeTableLoading(true);
+      props.getTimeTable(
+        times.startTime,
+        times.endTime,
+        platform,
+        timeLevel,
+        product,
+        pagination,
+        [],
+      );
+    }
   };
 
   async function handleDownloadClick() {
-    const { times, platform, timeLevel, searchValue } = props;
+    const { times, platform, timeLevel, searchValue, searchShopValue } = props;
+    const shop = searchShopValue.map(item => item.key);
     const product = searchValue.map(item => item.key);
-    const request = {
-      body: JSON.stringify({
+    let bodyObj;
+    if (platformDisabled) {
+      bodyObj = {
+        startTime: times.startTime,
+        endTime: times.endTime,
+        platform: [],
+        timeLevel,
+        product,
+        shop,
+      };
+    } else if (shopDisabled) {
+      bodyObj = {
         startTime: times.startTime,
         endTime: times.endTime,
         platform,
         timeLevel,
         product,
-      }),
+        shop: [],
+      };
+    }
+    const request = {
+      body: JSON.stringify(bodyObj),
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('zst-token'),
@@ -153,16 +214,15 @@ const AnalysisByTime = props => {
       >
         时间维度
         <div style={{ fontSize: '16px' }}>根据不同时间段的销售情况进行分析</div>
-        {
-          props.permissionIdList.includes(1) ? (
-            <Button
-              style={{ position: 'absolute', right: '24px', top: '24px' }}
-              shape="circle"
-              icon={<DownloadOutlined />}
-              onClick={handleDownloadClick}
-            />
-          ) : null
-        }
+        {props.permissionIdList.includes(1) ? (
+          <Button
+            style={{ position: 'absolute', right: '24px', top: '24px' }}
+            icon={<DownloadOutlined />}
+            onClick={handleDownloadClick}
+          >
+            下载
+          </Button>
+        ) : null}
       </div>
       <div
         style={{
@@ -179,7 +239,10 @@ const AnalysisByTime = props => {
             <IndicatorPicker />
           </Col>
           <Col span={8}>
-            <PlatformsPicker />
+            <PlatformsPicker
+              disabled={platformDisabled}
+              click={handlePlatformClick}
+            />
           </Col>
           <Col span={8}>
             <ProductsPicker />
@@ -187,9 +250,12 @@ const AnalysisByTime = props => {
           <Col span={8}>
             <TimeLevelPicker />
           </Col>
+          <Col span={8}>
+            <ShopsPicker disabled={shopDisabled} click={handleShopClick} />
+          </Col>
         </Row>
         <Divider />
-        <TimeLine timeLine={props.timeLine} name={props.indicator}/>
+        <TimeLine timeLine={props.timeLine} name={props.indicator} />
         <Table
           columns={columns}
           rowKey={record => record.id}
@@ -211,6 +277,7 @@ const mapStateToProps = state => {
     platform: state.analysis.public.platform,
     timeLevel: state.analysis.public.timeLevel,
     searchValue: state.analysis.public.searchValue,
+    searchShopValue: state.analysis.public.searchShopValue,
     timeLine: state.analysis.analysisTime.timeLine,
     tableData: state.analysis.public.tableData,
     pagination: state.analysis.public.pagination,
@@ -223,7 +290,15 @@ const mapDispatchToProps = dispatch => {
     initPicker(times) {
       dispatch(actionCreators.initPicker(times));
     },
-    getTimeLine(startTime, endTime, indicator, platform, timeLevel, product) {
+    getTimeLine(
+      startTime,
+      endTime,
+      indicator,
+      platform,
+      timeLevel,
+      product,
+      shop,
+    ) {
       dispatch(
         timeActionCreators.getTimeLine(
           startTime,
@@ -232,10 +307,19 @@ const mapDispatchToProps = dispatch => {
           platform,
           timeLevel,
           product,
+          shop,
         ),
       );
     },
-    getTimeTable(startTime, endTime, platform, timeLevel, product, pagination) {
+    getTimeTable(
+      startTime,
+      endTime,
+      platform,
+      timeLevel,
+      product,
+      pagination,
+      shop,
+    ) {
       dispatch(
         actionCreators.getTimeTable(
           startTime,
@@ -244,6 +328,7 @@ const mapDispatchToProps = dispatch => {
           timeLevel,
           product,
           pagination,
+          shop,
         ),
       );
     },

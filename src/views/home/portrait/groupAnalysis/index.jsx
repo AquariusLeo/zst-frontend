@@ -156,43 +156,43 @@ export default GroupAnalysis;
 
 const data = [
   {
-    type: '家具家电',
+    type: '湖北省',
     sales: 38,
   },
   {
-    type: '粮油副食',
+    type: '福建省',
     sales: 52,
   },
   {
-    type: '生鲜水果',
+    type: '河南省',
     sales: 61,
   },
   {
-    type: '美容洗护',
+    type: '广东省',
     sales: 145,
   },
   {
-    type: '母婴用品',
+    type: '黑龙江省',
     sales: 48,
   },
   {
-    type: '进口食品',
-    sales: 38,
+    type: '广西省',
+    sales: 24,
   },
   {
-    type: '食品饮料',
-    sales: 38,
+    type: '江苏省',
+    sales: 150,
   },
   {
-    type: '家庭清洁1',
-    sales: 38,
+    type: '四川省',
+    sales: 120,
   },
   {
-    type: '食品饮料1',
-    sales: 38,
+    type: '青海省',
+    sales: 68,
   },
   {
-    type: '家庭清洁2',
-    sales: 38,
+    type: '辽宁省',
+    sales: 98,
   },
 ];

@@ -58,9 +58,9 @@ function Groups() {
     {
       id: 0,
       time: '2020-03-24',
-      name: '111',
-      describe: '111',
-      operator: '111',
+      name: '最近消费超过300',
+      describe: '最近消费超过300',
+      operator: 'admin',
     },
   ]);
   const [pagination, setPagination] = useState({

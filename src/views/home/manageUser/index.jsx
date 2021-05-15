@@ -1,5 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Table, Modal, Space, Form, Input, Checkbox, message, Popconfirm, Tag } from 'antd';
+import {
+  Button,
+  Table,
+  Modal,
+  Form,
+  Input,
+  Checkbox,
+  message,
+  Popconfirm,
+  Tag,
+} from 'antd';
 import { addUser, getAllUser, deleteUser } from '@/api';
 
 const formItemLayout = {
@@ -20,18 +30,18 @@ const options = [
 const ManageUser = () => {
   const [tableData, setTableData] = useState([]);
 
-  const columns = useMemo(() => [
-    {
-      title: '用户名',
-      dataIndex: 'username',
-    },
-    {
-      title: '权限',
-      dataIndex: 'permissionIdList',
-      render: permissionIdList => (
-        <>
-          {
-            permissionIdList.map(permission => {
+  const columns = useMemo(
+    () => [
+      {
+        title: '用户名',
+        dataIndex: 'username',
+      },
+      {
+        title: '权限',
+        dataIndex: 'permissionIdList',
+        render: permissionIdList => (
+          <>
+            {permissionIdList.map(permission => {
               let color = 'geekblue';
               switch (permission) {
                 case 1:
@@ -55,23 +65,30 @@ const ManageUser = () => {
                     </Tag>
                   );
                 default:
-                  return;
+                  return null;
               }
             })}
-        </>
-      ),
-    },
-    {
-      title: 'Action',
-      dataIndex: '',
-      render: (_, record) =>
-        tableData.length >= 0 ? (
-          <Popconfirm title='Sure to delete?' onConfirm={() => handleDelete(record.id)}>
-            <a>Delete</a>
-          </Popconfirm>
-        ) : null,
-    },
-  ], []);
+          </>
+        ),
+      },
+      {
+        title: 'Action',
+        dataIndex: '',
+        render: (_, record) =>
+          tableData.length >= 0 ? (
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => handleDelete(record.id)}
+            >
+              {/* eslint-disable-next-line */}
+              <a>Delete</a>
+            </Popconfirm>
+          ) : null,
+      },
+    ],
+    // eslint-disable-next-line
+    [],
+  );
 
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -89,14 +106,22 @@ const ManageUser = () => {
   };
 
   async function submit(values) {
-    console.log(values.username, values.password, values.permissionIdList);
-    const res = await addUser(values.username, values.password, values.permissionIdList);
+    console.log(
+      values.username,
+      values.password,
+      values.permissionIdList || [],
+    );
+    const res = await addUser(
+      values.username,
+      values.password,
+      values.permissionIdList || [],
+    );
     if (res && res.status === 200) {
       message.success('新建用户成功');
       form.resetFields();
       getFormList();
     }
-  };
+  }
 
   useEffect(() => {
     getFormList();
@@ -109,7 +134,7 @@ const ManageUser = () => {
     }
   }
 
-  const handleDelete = async (key) => {
+  const handleDelete = async key => {
     const res = await deleteUser(key);
     if (res && res.status === 200) {
       message.success('用户删除成功!');
@@ -127,14 +152,14 @@ const ManageUser = () => {
         }}
       >
         权限管理
-        <div style={{ fontSize: '16px' }}>
-          分配用户权限
-        </div>
+        <div style={{ fontSize: '16px' }}>分配用户权限</div>
         <Button
           style={{ position: 'absolute', right: '24px', top: '24px' }}
           type={'primary'}
           onClick={showModal}
-        >新建用户</Button>
+        >
+          新建用户
+        </Button>
       </div>
       <div
         style={{
@@ -143,14 +168,21 @@ const ManageUser = () => {
           padding: '24px',
         }}
       >
-        <Modal title='新建用户' visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Modal
+          title="新建用户"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
           <Form onFinish={submit} {...formItemLayout} form={form}>
             <Form.Item
               name={'username'}
               label={'用户名'}
-              rules={[{
-                required: true,
-              }]}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
             >
               <Input />
             </Form.Item>
@@ -158,17 +190,16 @@ const ManageUser = () => {
             <Form.Item
               name={'password'}
               label={'密  码'}
-              rules={[{
-                required: true,
-              }]}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
             >
               <Input />
             </Form.Item>
 
-            <Form.Item
-              name={'permissionIdList'}
-              label={'用户权限'}
-            >
+            <Form.Item name={'permissionIdList'} label={'用户权限'}>
               <Checkbox.Group options={options} />
             </Form.Item>
 
@@ -178,7 +209,7 @@ const ManageUser = () => {
                 offset: 6,
               }}
             >
-              <Button type='primary' htmlType='submit'>
+              <Button type="primary" htmlType="submit">
                 新建
               </Button>
             </Form.Item>

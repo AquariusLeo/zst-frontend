@@ -64,6 +64,7 @@ export const postTimeLine = (
   platform,
   timeLevel,
   product,
+  shop,
 ) => {
   return instance.request({
     url: URL.BASE_URL + URL.TIMELINE,
@@ -75,6 +76,7 @@ export const postTimeLine = (
       platform,
       timeLevel,
       product,
+      shop
     },
   });
 };
@@ -87,6 +89,7 @@ export const postTimeTable = (
   product,
   pageNum,
   pageSize,
+  shop,
 ) => {
   return instance.request({
     url: URL.BASE_URL + URL.TIMETABLE,
@@ -99,6 +102,7 @@ export const postTimeTable = (
       platform,
       timeLevel,
       product,
+      shop
     },
   });
 };
@@ -110,6 +114,7 @@ export const postProvinceMap = (
   indicator,
   platform,
   product,
+  shop,
 ) => {
   return instance.request({
     url: URL.BASE_URL + URL.PROVINCE_MAP,
@@ -120,6 +125,7 @@ export const postProvinceMap = (
       index: indicator,
       platform,
       product,
+      shop
     },
   });
 };
@@ -130,6 +136,7 @@ export const postProvinceTop = (
   indicator,
   platform,
   product,
+  shop,
 ) => {
   return instance.request({
     url: URL.BASE_URL + URL.TOP_PROVINCE,
@@ -140,6 +147,7 @@ export const postProvinceTop = (
       index: indicator,
       platform,
       product,
+      shop
     },
   });
 };
@@ -151,6 +159,7 @@ export const postProvinceTable = (
   product,
   pageNum,
   pageSize,
+  shop,
 ) => {
   return instance.request({
     url: URL.BASE_URL + URL.PROVINCE_TABLE,
@@ -162,6 +171,7 @@ export const postProvinceTable = (
       product,
       pageNum,
       pageSize,
+      shop
     },
   });
 };
@@ -201,7 +211,7 @@ export const postPlatformTable = (
 };
 
 // analysis product
-export const postProductLine = (startTime, endTime, indicator, platform) => {
+export const postProductLine = (startTime, endTime, indicator, platform, shop) => {
   return instance.request({
     url: URL.BASE_URL + URL.PRODUCT_LINE,
     method: 'post',
@@ -210,6 +220,7 @@ export const postProductLine = (startTime, endTime, indicator, platform) => {
       endTime,
       index: indicator,
       platform,
+      shop
     },
   });
 };
@@ -220,6 +231,7 @@ export const postProductTable = (
   platform,
   pageNum,
   pageSize,
+  shop,
 ) => {
   return instance.request({
     url: URL.BASE_URL + URL.PRODUCT_TABLE,
@@ -230,11 +242,12 @@ export const postProductTable = (
       platform,
       pageNum,
       pageSize,
+      shop
     },
   });
 };
 
-export const postTopTenProductSales = (startTime, endTime, platform) => {
+export const postTopTenProductSales = (startTime, endTime, platform, shop) => {
   return instance.request({
     url: URL.BASE_URL + URL.TOP_TEN_PRODUCT_SALES,
     method: 'post',
@@ -242,11 +255,12 @@ export const postTopTenProductSales = (startTime, endTime, platform) => {
       startTime,
       endTime,
       platform,
+      shop
     },
   });
 };
 
-export const postTopTenProductNumbers = (startTime, endTime, platform) => {
+export const postTopTenProductNumbers = (startTime, endTime, platform, shop) => {
   return instance.request({
     url: URL.BASE_URL + URL.TOP_TEN_PRODUCT_NUMBERS,
     method: 'post',
@@ -254,10 +268,12 @@ export const postTopTenProductNumbers = (startTime, endTime, platform) => {
       startTime,
       endTime,
       platform,
+      shop
     },
   });
 };
 
+// upload
 export const getUploadTable = (pageNum, pageSize) => {
   return instance.request({
     url: URL.BASE_URL + URL.UPLOAD_TABLE,
@@ -269,6 +285,18 @@ export const getUploadTable = (pageNum, pageSize) => {
   });
 };
 
+export const deleteFile = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.DELETE_FILE,
+    method: 'delete',
+    params: {
+      id
+    }
+  })
+}
+
+
+// group
 export const createGroup = () => {
   return instance.request({
     url: URL.BASE_URL + URL.CREATE_GROUP,
@@ -317,3 +345,27 @@ export const deleteUser = id => {
     },
   });
 };
+
+// add
+export const shopSearch = shop => {
+  return instance.request({
+    url: URL.BASE_URL + URL.SHOP_SEARCH,
+    method: 'get',
+    params: {
+      shop
+    }
+  })
+}
+
+// changePassword
+export const changePassword = (username, oldPassword, newPassword) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.CHANGE_PASSWORD,
+    method: 'get',
+    params: {
+      username,
+      oldPassword,
+      newPassword
+    }
+  })
+}

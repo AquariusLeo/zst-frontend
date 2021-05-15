@@ -72,7 +72,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'总消费金额'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name="lowSumConsume"
+                name='lowSumConsume'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -88,7 +88,7 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name="highSumConsume"
+                name='highSumConsume'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -98,7 +98,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'每单平均金额'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name="lowAveragePrice"
+                name='lowAveragePrice'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -114,7 +114,7 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name="highAveragePrice"
+                name='highAveragePrice'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -124,7 +124,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'用户件单价'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name="lowUp"
+                name='lowUp'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -140,7 +140,7 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name="highUp"
+                name='highUp'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -150,7 +150,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'订单数'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name="lowOrderNumbers"
+                name='lowOrderNumbers'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -166,7 +166,7 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name="highOrderNumbers"
+                name='highOrderNumbers'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -176,7 +176,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'近30天消费金额'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name="lowRecentConsume"
+                name='lowRecentConsume'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -192,7 +192,7 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name="highRecentConsume"
+                name='highRecentConsume'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -202,7 +202,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'近30天订单数'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name="lowRecentOrderNumbers"
+                name='lowRecentOrderNumbers'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -218,7 +218,7 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name="highRecentOrderNumbers"
+                name='highRecentOrderNumbers'
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
@@ -226,26 +226,26 @@ function AddGroup() {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={'首单距今天数大于'} name="firstOrderTime">
+            <Form.Item label={'首单距今天数大于'} name='firstOrderTime'>
               <InputNumber style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={'尾单距今天数大于'} name="lastOrderTime">
+            <Form.Item label={'尾单距今天数大于'} name='lastOrderTime'>
               <InputNumber style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={'最常购买商品'} name="recentProduct">
+            <Form.Item label={'最常购买商品'} name='recentProduct'>
               <Select
-                mode="multiple"
+                mode='multiple'
                 labelInValue
-                placeholder="Select products"
+                placeholder='Select products'
               ></Select>
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={'高频下单时间段'} name="time?">
+            <Form.Item label={'高频下单时间段'} name='time?'>
               <Select />
             </Form.Item>
           </Col>
@@ -253,7 +253,7 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item
               label={'操作人'}
-              name="operator"
+              name='operator'
               rules={[
                 {
                   required: true,
@@ -271,7 +271,7 @@ function AddGroup() {
           >
             <Form.Item>
               <Space>
-                <Button type="primary" htmlType="submit">
+                <Button type='primary' htmlType='submit'>
                   新建
                 </Button>
                 <Button onClick={onReset}>reset</Button>

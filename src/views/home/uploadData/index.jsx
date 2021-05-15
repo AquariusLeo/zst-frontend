@@ -46,11 +46,13 @@ const UploadData = () => {
               title="Sure to delete?"
               onConfirm={() => handleDelete(record.id)}
             >
+              {/* eslint-disable-next-line */}
               <a>Delete</a>
             </Popconfirm>
           ) : null,
       },
     ],
+    // eslint-disable-next-line
     [],
   );
 

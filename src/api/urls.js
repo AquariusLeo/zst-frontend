@@ -17,26 +17,34 @@ export const TIMETABLE = '/getTimeTable';
 // analysis area
 export const PROVINCE_MAP = '/getProvinceMap';
 export const TOP_PROVINCE = '/getTopProvince';
-export const PROVINCE_TABLE = '/getProvinceTable'
+export const PROVINCE_TABLE = '/getProvinceTable';
 
 // analysis platform
-export const PLATFORM_LINE = '/getPlatformLine'
-export const PLATFORM_TABLE = '/getPlatformTable'
+export const PLATFORM_LINE = '/getPlatformLine';
+export const PLATFORM_TABLE = '/getPlatformTable';
 
 // analysis product
-export const PRODUCT_LINE = '/getProductLine'
-export const PRODUCT_TABLE = '/getProductTable'
+export const PRODUCT_LINE = '/getProductLine';
+export const PRODUCT_TABLE = '/getProductTable';
 export const TOP_TEN_PRODUCT_SALES = '/getTopTenProductSales';
 export const TOP_TEN_PRODUCT_NUMBERS = '/getTopTenProductNumbers';
 
 // upload
-export const UPLOAD_TABLE = '/getUploadTable'
+export const UPLOAD_TABLE = '/getUploadTable';
+export const DELETE_FILE = '/deleteFile';
 
 // group
-export const CREATE_GROUP = '/createGroup'
-export const GROUP_TABLE = '/getGroupTable'
+export const CREATE_GROUP = '/createGroup';
+export const GROUP_TABLE = '/getGroupTable';
 
 // user
-export const ADD_USER = '/addUser'
-export const GET_ALL_USER = '/getAllUser'
-export const DELETE_USER = '/deleteUser'
+export const ADD_USER = '/addUser';
+export const GET_ALL_USER = '/getAllUser';
+export const DELETE_USER = '/deleteUser';
+
+
+// add
+export const SHOP_SEARCH = '/shopSearch'
+
+// changePassword
+export const CHANGE_PASSWORD = '/changePassword'
