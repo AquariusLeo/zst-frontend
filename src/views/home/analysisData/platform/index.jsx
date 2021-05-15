@@ -123,10 +123,11 @@ const AnalysisByPlatform = props => {
         {props.permissionIdList.includes(1) ? (
           <Button
             style={{ position: 'absolute', right: '24px', top: '24px' }}
-            shape="circle"
             icon={<DownloadOutlined />}
             onClick={handleDownloadClick}
-          />
+          >
+            下载
+          </Button>
         ) : null}
       </div>
       <div
