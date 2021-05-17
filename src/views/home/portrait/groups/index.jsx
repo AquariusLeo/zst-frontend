@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
-import { Table, Modal, message, Button, Space } from 'antd';
+import { Table, Modal, Button, Space, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import AddGroup from '../addGroup';
 import { getGroupTable } from '@/api';
@@ -41,8 +41,42 @@ function Groups() {
             <Button
               type="primary"
               key="download"
-              onClick={() => {
-                console.log(record);
+              onClick={async () => {
+                const request = {
+                  body: JSON.stringify({
+                    id: record.id,
+                  }),
+                  method: 'POST',
+                  headers: {
+                    Authorization: localStorage.getItem('zst-token'),
+                    'content-type': 'application/json',
+                  },
+                };
+                try {
+                  message.info('下载中,请勿重复点击！');
+                  const response = await fetch(
+                    '/api/downloadGroupUser',
+                    request,
+                  );
+                  const filename = response.headers
+                    .get('content-disposition')
+                    .split(';')[1]
+                    .split('=')[1];
+                  const blob = await response.blob();
+                  const link = document.createElement('a');
+                  link.download = decodeURIComponent(filename);
+                  link.style.display = 'none';
+                  link.href = URL.createObjectURL(blob);
+                  document.body.appendChild(link);
+                  link.click();
+                  URL.revokeObjectURL(link.href);
+                  document.body.removeChild(link);
+                } catch (e) {
+                  message.error('下载失败！');
+                  return;
+                }
+
+                message.success('下载成功！');
               }}
             >
               导出名单
@@ -51,18 +85,11 @@ function Groups() {
         ),
       },
     ],
+    // eslint-disable-next-line
     [],
   );
 
-  const [tableData, setTableData] = useState([
-    {
-      id: 0,
-      time: '2020-03-24',
-      name: '最近消费超过300',
-      describe: '最近消费超过300',
-      operator: 'admin',
-    },
-  ]);
+  const [tableData, setTableData] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -70,7 +97,7 @@ function Groups() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // handleTableChange(pagination);
+    handleTableChange(pagination);
     // eslint-disable-next-line
   }, []);
 
@@ -85,6 +112,10 @@ function Groups() {
       });
       setLoading(false);
     }
+  }
+
+  function addGroupFresh() {
+    handleTableChange(pagination);
   }
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -134,7 +165,7 @@ function Groups() {
           title="新建用户群"
           width={1000}
         >
-          <AddGroup />
+          <AddGroup addGroupFresh={addGroupFresh} />
         </Modal>
         <Table
           columns={columns}

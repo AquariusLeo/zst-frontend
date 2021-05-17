@@ -76,7 +76,7 @@ export const postTimeLine = (
       platform,
       timeLevel,
       product,
-      shop
+      shop,
     },
   });
 };
@@ -102,7 +102,7 @@ export const postTimeTable = (
       platform,
       timeLevel,
       product,
-      shop
+      shop,
     },
   });
 };
@@ -125,7 +125,7 @@ export const postProvinceMap = (
       index: indicator,
       platform,
       product,
-      shop
+      shop,
     },
   });
 };
@@ -147,7 +147,7 @@ export const postProvinceTop = (
       index: indicator,
       platform,
       product,
-      shop
+      shop,
     },
   });
 };
@@ -171,7 +171,7 @@ export const postProvinceTable = (
       product,
       pageNum,
       pageSize,
-      shop
+      shop,
     },
   });
 };
@@ -211,7 +211,13 @@ export const postPlatformTable = (
 };
 
 // analysis product
-export const postProductLine = (startTime, endTime, indicator, platform, shop) => {
+export const postProductLine = (
+  startTime,
+  endTime,
+  indicator,
+  platform,
+  shop,
+) => {
   return instance.request({
     url: URL.BASE_URL + URL.PRODUCT_LINE,
     method: 'post',
@@ -220,7 +226,7 @@ export const postProductLine = (startTime, endTime, indicator, platform, shop) =
       endTime,
       index: indicator,
       platform,
-      shop
+      shop,
     },
   });
 };
@@ -242,7 +248,7 @@ export const postProductTable = (
       platform,
       pageNum,
       pageSize,
-      shop
+      shop,
     },
   });
 };
@@ -255,12 +261,17 @@ export const postTopTenProductSales = (startTime, endTime, platform, shop) => {
       startTime,
       endTime,
       platform,
-      shop
+      shop,
     },
   });
 };
 
-export const postTopTenProductNumbers = (startTime, endTime, platform, shop) => {
+export const postTopTenProductNumbers = (
+  startTime,
+  endTime,
+  platform,
+  shop,
+) => {
   return instance.request({
     url: URL.BASE_URL + URL.TOP_TEN_PRODUCT_NUMBERS,
     method: 'post',
@@ -268,7 +279,7 @@ export const postTopTenProductNumbers = (startTime, endTime, platform, shop) => 
       startTime,
       endTime,
       platform,
-      shop
+      shop,
     },
   });
 };
@@ -290,18 +301,43 @@ export const deleteFile = id => {
     url: URL.BASE_URL + URL.DELETE_FILE,
     method: 'delete',
     params: {
-      id
-    }
-  })
-}
-
+      id,
+    },
+  });
+};
 
 // group
-export const createGroup = () => {
+export const createGroup = (
+  name,
+  describe,
+  lowSumConsume,
+  highSumConsume,
+  lowAveragePrice,
+  highAveragePrice,
+  lowUp,
+  highUp,
+  lowOrderNumbers,
+  highOrderNumbers,
+  createTime,
+  operator,
+) => {
   return instance.request({
     url: URL.BASE_URL + URL.CREATE_GROUP,
     method: 'post',
-    data: {},
+    data: {
+      name,
+      describe,
+      lowSumConsume,
+      highSumConsume,
+      lowAveragePrice,
+      highAveragePrice,
+      lowUp,
+      highUp,
+      lowOrderNumbers,
+      highOrderNumbers,
+      createTime,
+      operator,
+    },
   });
 };
 
@@ -312,6 +348,56 @@ export const getGroupTable = (pageNum, pageSize) => {
     params: {
       pageNum,
       pageSize,
+    },
+  });
+};
+
+export const getGroupDetail = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GET_GROUP_DETAIL,
+    method: 'get',
+    params: {
+      id,
+    },
+  });
+};
+
+export const getGeographicalDistribution = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GET_GEO_GRAPHICAL_DISTRIBUTION,
+    method: 'get',
+    params: {
+      id,
+    },
+  });
+};
+
+export const getPlatformDistribution = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GET_PLATFORM_DISTRIBUTION,
+    method: 'get',
+    params: {
+      id,
+    },
+  });
+};
+
+export const getProductDistribution = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GET_PRODUCT_DISTRIBUTION,
+    method: 'get',
+    params: {
+      id,
+    },
+  });
+};
+
+export const getTimeDistribution = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.GET_TIME_DISTRIBUTION,
+    method: 'get',
+    params: {
+      id,
     },
   });
 };
@@ -352,10 +438,10 @@ export const shopSearch = shop => {
     url: URL.BASE_URL + URL.SHOP_SEARCH,
     method: 'get',
     params: {
-      shop
-    }
-  })
-}
+      shop,
+    },
+  });
+};
 
 // changePassword
 export const changePassword = (username, oldPassword, newPassword) => {
@@ -365,7 +451,7 @@ export const changePassword = (username, oldPassword, newPassword) => {
     params: {
       username,
       oldPassword,
-      newPassword
-    }
-  })
-}
+      newPassword,
+    },
+  });
+};

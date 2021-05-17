@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Form,
   Input,
-  message,
   InputNumber,
   Button,
-  Select,
-  Empty,
-  Spin,
   Col,
   Row,
   Space,
+  message,
 } from 'antd';
+import moment from 'moment';
 import { createGroup } from '@/api';
 
-const { Option } = Select;
+// const { Option } = Select;
 
-function AddGroup() {
-  const [fetching, changeFetchStatus] = useState(false);
-  const [searchData, searchProduct] = useState([]);
-  const [selectValue, selectProduct] = useState([]);
+function AddGroup({ addGroupFresh }) {
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -29,9 +24,46 @@ function AddGroup() {
     },
   };
   const [form] = Form.useForm();
-  const createGroupClick = values => {
+  async function createGroupClick(values) {
     console.log('create group', values);
-  };
+    const {
+      name,
+      describe,
+      lowSumConsume,
+      highSumConsume,
+      lowAveragePrice,
+      highAveragePrice,
+      lowUp,
+      highUp,
+      lowOrderNumbers,
+      highOrderNumbers,
+      operator,
+    } = values;
+    const createTime = moment().format('YYYY-MM-DD');
+    // console.log('createTime', createTime);
+    const res = await createGroup(
+      name,
+      describe,
+      lowSumConsume,
+      highSumConsume,
+      lowAveragePrice,
+      highAveragePrice,
+      lowUp,
+      highUp,
+      lowOrderNumbers,
+      highOrderNumbers,
+      createTime,
+      operator,
+    );
+
+    if (res && res.data) {
+      message.success('新建用户群成功！');
+      form.resetFields();
+      addGroupFresh();
+    } else {
+      message.error('新建用户群失败！');
+    }
+  }
 
   const onReset = () => {
     form.resetFields();
@@ -48,6 +80,7 @@ function AddGroup() {
               rules={[
                 {
                   required: true,
+                  message: '请输入用户群名称！',
                 },
               ]}
             >
@@ -62,6 +95,7 @@ function AddGroup() {
               rules={[
                 {
                   required: true,
+                  message: '请输入用户群描述！',
                 },
               ]}
             >
@@ -72,8 +106,14 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'总消费金额'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name='lowSumConsume'
+                name="lowSumConsume"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入总消费金额下限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -88,8 +128,14 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name='highSumConsume'
+                name="highSumConsume"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入总消费金额上限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -98,8 +144,14 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'每单平均金额'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name='lowAveragePrice'
+                name="lowAveragePrice"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入每单平均金额下限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -114,8 +166,14 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name='highAveragePrice'
+                name="highAveragePrice"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入每单平均金额上限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -124,8 +182,14 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'用户件单价'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name='lowUp'
+                name="lowUp"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户件单价下限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -140,8 +204,14 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name='highUp'
+                name="highUp"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户件单价上限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -150,8 +220,14 @@ function AddGroup() {
           <Col span={12}>
             <Form.Item label={'订单数'} style={{ marginBottom: 0 }}>
               <Form.Item
-                name='lowOrderNumbers'
+                name="lowOrderNumbers"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入订单数下限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
@@ -166,14 +242,20 @@ function AddGroup() {
                 -
               </span>
               <Form.Item
-                name='highOrderNumbers'
+                name="highOrderNumbers"
                 style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入订单数上限！',
+                  },
+                ]}
               >
                 <InputNumber min={1} style={{ width: '100%' }} />
               </Form.Item>
             </Form.Item>
           </Col>
-          <Col span={12}>
+          {/* <Col span={12}>
             <Form.Item label={'近30天消费金额'} style={{ marginBottom: 0 }}>
               <Form.Item
                 name='lowRecentConsume'
@@ -248,15 +330,16 @@ function AddGroup() {
             <Form.Item label={'高频下单时间段'} name='time?'>
               <Select />
             </Form.Item>
-          </Col>
+          </Col> */}
 
           <Col span={12}>
             <Form.Item
               label={'操作人'}
-              name='operator'
+              name="operator"
               rules={[
                 {
                   required: true,
+                  message: '请输入操作人！',
                 },
               ]}
             >
@@ -271,7 +354,7 @@ function AddGroup() {
           >
             <Form.Item>
               <Space>
-                <Button type='primary' htmlType='submit'>
+                <Button type="primary" htmlType="submit">
                   新建
                 </Button>
                 <Button onClick={onReset}>reset</Button>

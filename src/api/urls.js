@@ -36,15 +36,19 @@ export const DELETE_FILE = '/deleteFile';
 // group
 export const CREATE_GROUP = '/createGroup';
 export const GROUP_TABLE = '/getGroupTable';
+export const GET_GROUP_DETAIL = '/getGroupDetail';
+export const GET_GEO_GRAPHICAL_DISTRIBUTION = '/getGeographicalDistribution';
+export const GET_PLATFORM_DISTRIBUTION = '/getPlatformDistribution';
+export const GET_PRODUCT_DISTRIBUTION = '/getProductDistribution';
+export const GET_TIME_DISTRIBUTION = '/getTimeDistribution';
 
 // user
 export const ADD_USER = '/addUser';
 export const GET_ALL_USER = '/getAllUser';
 export const DELETE_USER = '/deleteUser';
 
-
 // add
-export const SHOP_SEARCH = '/shopSearch'
+export const SHOP_SEARCH = '/shopSearch';
 
 // changePassword
-export const CHANGE_PASSWORD = '/changePassword'
+export const CHANGE_PASSWORD = '/changePassword';
