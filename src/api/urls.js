@@ -52,3 +52,7 @@ export const SHOP_SEARCH = '/shopSearch';
 
 // changePassword
 export const CHANGE_PASSWORD = '/changePassword';
+
+// userinfo
+export const USERINFO_BY_NICKNAME = '/getUserOverviewByNickname';
+export const USERINFO_TABLE = '/getPurchaseHistoryByNickname';

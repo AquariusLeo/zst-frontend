@@ -455,3 +455,26 @@ export const changePassword = (username, oldPassword, newPassword) => {
     },
   });
 };
+
+// userinfo
+export const userinfoByNickname = nickname => {
+  return instance.request({
+    url: URL.BASE_URL + URL.USERINFO_BY_NICKNAME,
+    method: 'get',
+    params: {
+      nickname,
+    },
+  });
+};
+
+export const userInfoTable = (nickname, pageNum, pageSize) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.USERINFO_TABLE,
+    method: 'get',
+    params: {
+      nickname,
+      pageNum,
+      pageSize,
+    },
+  });
+};
