@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Input, Button, Form, Descriptions, Row, Col, Table } from 'antd';
-import { userinfoByNickname, userInfoTable } from '@/api';
+import {
+  userinfoByNickname,
+  userInfoTable,
+  userInfoByTelephone,
+  userInfoTableByPhone,
+} from '@/api';
 
 const columns = [
   {
@@ -58,6 +63,20 @@ const UserInfo = () => {
         setLoading(false);
       }
     } else if (telephone) {
+      setLoading(true);
+      const res = await userInfoTableByPhone(
+        telephone,
+        pagination.current,
+        pagination.pageSize,
+      );
+      if (res) {
+        setTableData(res.data.list.list);
+        setPagination({
+          ...pagination,
+          total: res.data.list.total,
+        });
+        setLoading(false);
+      }
     }
   }
 
@@ -69,10 +88,15 @@ const UserInfo = () => {
       if (res && res.data && res.data.userOverviewByNickname) {
         setUserInfo({ ...res.data.userOverviewByNickname });
       }
-      console.log(username);
+      // console.log(username);
     } else if (telephone) {
-      console.log(telephone);
+      const res = await userInfoByTelephone(telephone);
+      if (res && res.data && res.data.userOverviewByPhone) {
+        setUserInfo({ ...res.data.userOverviewByPhone });
+      }
+      // console.log(telephone);
     }
+    handleTableChange(pagination);
   }
 
   return (

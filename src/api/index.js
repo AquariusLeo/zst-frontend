@@ -478,3 +478,25 @@ export const userInfoTable = (nickname, pageNum, pageSize) => {
     },
   });
 };
+
+export const userInfoByTelephone = phone => {
+  return instance.request({
+    url: URL.BASE_URL + URL.USERINFO_BY_TELEPHONE,
+    method: 'get',
+    params: {
+      phone,
+    },
+  });
+};
+
+export const userInfoTableByPhone = (phone, pageNum, pageSize) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.USERINFO_TABLE_TELEPHONE,
+    method: 'get',
+    params: {
+      phone,
+      pageNum,
+      pageSize,
+    },
+  });
+};

@@ -4,7 +4,7 @@ const initState = {
   username: '',
   isLogin: false,
   // TODO
-  permissionIdList: [],
+  permissionIdList: [1, 2, 3],
 };
 
 const userReducer = (state = initState, action) => {
@@ -29,7 +29,7 @@ const userReducer = (state = initState, action) => {
         username: action.username,
         isLogin: action.isLogin,
         permissionIdList: action.permissionIdList,
-      }
+      };
     default:
       return { ...state };
   }
