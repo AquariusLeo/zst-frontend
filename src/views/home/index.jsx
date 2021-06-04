@@ -10,6 +10,7 @@ import {
   ContactsOutlined,
   CloudUploadOutlined,
   UsergroupAddOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import Dashboard from './dashboard';
 import AnalysisByArea from './analysisData/area';
@@ -23,6 +24,7 @@ import UploadData from './uploadData';
 import UserHeader from './header';
 import NotFound from './404';
 import ChangePassword from './changePassword';
+import UserInfo from './userInfo';
 import './index.scss';
 // import PrivateRoute from '../../routes/PrivateRoute';
 // import avatar from '@/assets/avatar.svg'
@@ -101,6 +103,9 @@ const Home = () => {
               <Link to={`${url}/manageUser`}>权限管理</Link>
             </Menu.Item>
           ) : null}
+          <Menu.Item key="userInfo" icon={<UserOutlined />}>
+            <Link to={`${url}/userInfo`}>查询用户</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -154,6 +159,9 @@ const Home = () => {
                 <ManageUser />
               </Route>
             ) : null}
+            <Route exact path={`${path}/userInfo`}>
+              <UserInfo />
+            </Route>
             <Route component={NotFound} />
           </Switch>
           <Footer style={{ textAlign: 'center' }}>
