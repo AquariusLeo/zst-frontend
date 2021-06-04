@@ -11,6 +11,7 @@ import {
   CloudUploadOutlined,
   UsergroupAddOutlined,
   UserOutlined,
+  StarOutlined,
 } from '@ant-design/icons';
 import Dashboard from './dashboard';
 import AnalysisByArea from './analysisData/area';
@@ -25,6 +26,7 @@ import UserHeader from './header';
 import NotFound from './404';
 import ChangePassword from './changePassword';
 import UserInfo from './userInfo';
+import KOCPage from './koc';
 import './index.scss';
 // import PrivateRoute from '../../routes/PrivateRoute';
 // import avatar from '@/assets/avatar.svg'
@@ -105,6 +107,9 @@ const Home = () => {
           <Menu.Item key="userInfo" icon={<UserOutlined />}>
             <Link to={`${url}/userInfo`}>查询用户</Link>
           </Menu.Item>
+          <Menu.Item key="koc" icon={<StarOutlined />}>
+            <Link to={`${url}/koc`}>KOC</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -160,6 +165,9 @@ const Home = () => {
             ) : null}
             <Route exact path={`${path}/userInfo`}>
               <UserInfo />
+            </Route>
+            <Route exact path={`${path}/koc`}>
+              <KOCPage />
             </Route>
             <Route component={NotFound} />
           </Switch>
