@@ -42,41 +42,40 @@ function Groups() {
               type="primary"
               key="download"
               onClick={async () => {
-                const request = {
-                  body: JSON.stringify({
-                    id: record.id,
-                  }),
-                  method: 'POST',
-                  headers: {
-                    Authorization: localStorage.getItem('zst-token'),
-                    'content-type': 'application/json',
-                  },
-                };
-                try {
-                  message.info('下载中,请勿重复点击！');
-                  const response = await fetch(
-                    '/api/downloadGroupUser',
-                    request,
-                  );
-                  const filename = response.headers
-                    .get('content-disposition')
-                    .split(';')[1]
-                    .split('=')[1];
-                  const blob = await response.blob();
-                  const link = document.createElement('a');
-                  link.download = decodeURIComponent(filename);
-                  link.style.display = 'none';
-                  link.href = URL.createObjectURL(blob);
-                  document.body.appendChild(link);
-                  link.click();
-                  URL.revokeObjectURL(link.href);
-                  document.body.removeChild(link);
-                } catch (e) {
-                  message.error('下载失败！');
-                  return;
-                }
-
-                message.success('下载成功！');
+                // const request = {
+                //   body: JSON.stringify({
+                //     id: record.id,
+                //   }),
+                //   method: 'POST',
+                //   headers: {
+                //     Authorization: localStorage.getItem('zst-token'),
+                //     'content-type': 'application/json',
+                //   },
+                // };
+                // try {
+                //   message.info('下载中,请勿重复点击！');
+                //   const response = await fetch(
+                //     '/api/downloadGroupUser',
+                //     request,
+                //   );
+                //   const filename = response.headers
+                //     .get('content-disposition')
+                //     .split(';')[1]
+                //     .split('=')[1];
+                //   const blob = await response.blob();
+                //   const link = document.createElement('a');
+                //   link.download = decodeURIComponent(filename);
+                //   link.style.display = 'none';
+                //   link.href = URL.createObjectURL(blob);
+                //   document.body.appendChild(link);
+                //   link.click();
+                //   URL.revokeObjectURL(link.href);
+                //   document.body.removeChild(link);
+                // } catch (e) {
+                //   message.error('下载失败！');
+                //   return;
+                // }
+                // message.success('下载成功！');
               }}
             >
               导出名单

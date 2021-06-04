@@ -8,7 +8,7 @@ export const login = (username, password) => {
       localStorage.setItem('zst-token', res.data.token);
       dispatch({
         type: LOGIN,
-        username: res.data.username || 'unkonw',
+        username: res.data.username || 'unknown',
         isLogin: true,
         permissionIdList: res.data.permissionIdList,
       });
@@ -18,21 +18,21 @@ export const login = (username, password) => {
 
 export const change = (username, oldPassword, newPassword) => {
   return async dispatch => {
-    const res = await changePassword(username, oldPassword, newPassword)
+    const res = await changePassword(username, oldPassword, newPassword);
     if (res && res.status === 200) {
-      localStorage.removeItem('zst-token')
+      localStorage.removeItem('zst-token');
       dispatch({
         type: CHANGE_PASSWORD,
         username: '',
         isLogin: false,
-        permissionIdList: []
-      })
-      console.log('success')
-      return true
+        permissionIdList: [],
+      });
+      console.log('success');
+      return true;
     } else if (res && res.status === 400) {
-      console.log('fail')
+      console.log('fail');
 
-      return false
+      return false;
     }
-  }
-}
+  };
+};
