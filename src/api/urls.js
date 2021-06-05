@@ -61,3 +61,6 @@ export const USERINFO_TABLE_TELEPHONE = '/getPurchaseHistoryByPhone';
 
 // koc
 export const KOC = '/getKocTable';
+
+// aipl
+export const AIPL_LINE = '/getChangesInSales';

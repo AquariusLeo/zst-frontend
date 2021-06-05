@@ -526,3 +526,16 @@ export const koc = (
     },
   });
 };
+
+// aipl
+export const getAIPLLine = (product, startTime, endTime) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.AIPL_LINE,
+    method: 'post',
+    data: {
+      product,
+      startTime,
+      endTime,
+    },
+  });
+};

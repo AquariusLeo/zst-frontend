@@ -12,6 +12,7 @@ import {
   UsergroupAddOutlined,
   UserOutlined,
   StarOutlined,
+  UserSwitchOutlined,
 } from '@ant-design/icons';
 import Dashboard from './dashboard';
 import AnalysisByArea from './analysisData/area';
@@ -27,6 +28,7 @@ import NotFound from './404';
 import ChangePassword from './changePassword';
 import UserInfo from './userInfo';
 import KOCPage from './koc';
+import AIPL from './aipl';
 import './index.scss';
 // import PrivateRoute from '../../routes/PrivateRoute';
 // import avatar from '@/assets/avatar.svg'
@@ -111,6 +113,9 @@ const Home = () => {
           <Menu.Item key="koc" icon={<StarOutlined />}>
             <Link to={`${url}/koc`}>KOC</Link>
           </Menu.Item>
+          <Menu.Item key="aipl" icon={<UserSwitchOutlined />}>
+            <Link to={`${url}/aipl`}>用户流转</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -169,6 +174,9 @@ const Home = () => {
             </Route>
             <Route exact path={`${path}/koc`}>
               <KOCPage />
+            </Route>
+            <Route exact path={`${path}/aipl`}>
+              <AIPL />
             </Route>
             <Route component={NotFound} />
           </Switch>
