@@ -36,7 +36,7 @@ const KOCPage = () => {
   const searchProduct = debounce(async value => {
     setFetching(true);
     const res = await getProducts(value);
-    if (res && res.data && res.productList) {
+    if (res && res.data && res.data.productList) {
       setData(
         res.data.productList.map(value => ({
           value: value,
