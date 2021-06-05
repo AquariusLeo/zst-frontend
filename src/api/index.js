@@ -500,3 +500,29 @@ export const userInfoTableByPhone = (phone, pageNum, pageSize) => {
     },
   });
 };
+
+export const koc = (
+  product,
+  lowSales,
+  highSales,
+  orders,
+  lowAtv,
+  highAtv,
+  pageNum,
+  pageSize,
+) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.KOC,
+    method: 'post',
+    data: {
+      product,
+      lowSales,
+      highSales,
+      orders,
+      lowAtv,
+      highAtv,
+      pageNum,
+      pageSize,
+    },
+  });
+};

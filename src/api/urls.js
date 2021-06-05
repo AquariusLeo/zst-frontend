@@ -58,3 +58,6 @@ export const USERINFO_BY_NICKNAME = '/getUserOverviewByNickname';
 export const USERINFO_TABLE = '/getPurchaseHistoryByNickname';
 export const USERINFO_BY_TELEPHONE = '/getUserOverviewByPhone';
 export const USERINFO_TABLE_TELEPHONE = '/getPurchaseHistoryByPhone';
+
+// koc
+export const KOC = '/getKocTable';
