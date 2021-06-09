@@ -82,9 +82,12 @@ const AIPL = () => {
       colorField: 'type',
       radius: 0.9,
       label: {
-        type: 'inner',
+        type: 'outer',
         offset: '-30%',
-        content: ({ value }) => `${value}人`,
+        content: ({ sales }) => {
+          // console.log(value);
+          return `${sales}人`;
+        },
         style: {
           fontSize: 14,
           textAlign: 'center',
@@ -138,7 +141,7 @@ const AIPL = () => {
     }
     const pie = await getAIPLPie(product, times[0], times[1], days);
     if (pie && pie.data && pie.data.pieData) {
-      setPieData(res.data.pieData);
+      setPieData(pie.data.pieData);
     }
     const colunm = await getAIPLColunm(product, times[0], times[1], days);
     if (colunm && colunm.data && colunm.data.list) {
