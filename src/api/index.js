@@ -539,3 +539,29 @@ export const getAIPLLine = (product, startTime, endTime) => {
     },
   });
 };
+
+export const getAIPLPie = (product, startTime, endTime, days) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.AIPL_PIE,
+    method: 'post',
+    data: {
+      product,
+      startTime,
+      endTime,
+      days,
+    },
+  });
+};
+
+export const getAIPLColunm = (product, startTime, endTime, days) => {
+  return instance.request({
+    url: URL.BASE_URL + URL.AIPL_COLUNM,
+    method: 'post',
+    data: {
+      product,
+      startTime,
+      endTime,
+      days,
+    },
+  });
+};

@@ -8,11 +8,12 @@ import {
   Empty,
   Button,
   Descriptions,
+  InputNumber,
 } from 'antd';
 import moment from 'moment';
-import { Line } from '@antv/g2plot';
+import { Line, Pie, Column } from '@antv/g2plot';
 import { debounce } from 'lodash';
-import { getProducts, getAIPLLine } from '@/api';
+import { getProducts, getAIPLLine, getAIPLPie, getAIPLColunm } from '@/api';
 
 const { Option } = Select;
 
@@ -52,6 +53,8 @@ const AIPL = () => {
     setValue(value.map(item => ({ key: item.key, value: item.value })));
   };
 
+  const [days, setDays] = useState(0);
+
   const [lineData, setLineData] = useState([]);
 
   useEffect(() => {
@@ -69,11 +72,77 @@ const AIPL = () => {
     };
   }, [lineData]);
 
+  const [pieData, setPieData] = useState([]);
+
+  useEffect(() => {
+    const piePlot = new Pie('pie', {
+      appendPadding: 10,
+      data: pieData,
+      angleField: 'sales',
+      colorField: 'type',
+      radius: 0.9,
+      label: {
+        type: 'inner',
+        offset: '-30%',
+        content: ({ value }) => `${value}人`,
+        style: {
+          fontSize: 14,
+          textAlign: 'center',
+        },
+      },
+      interactions: [{ type: 'element-active' }],
+    });
+
+    piePlot.render();
+    return () => {
+      piePlot.destroy();
+    };
+  }, [pieData]);
+
+  const [columnData, setColumnData] = useState([]);
+
+  useEffect(() => {
+    const columnPlot = new Column('column', {
+      data: columnData,
+      xField: 'name',
+      yField: 'value',
+      label: {
+        // 可手动配置 label 数据标签位置
+        position: 'middle', // 'top', 'bottom', 'middle',
+        // 配置样式
+        style: {
+          fill: '#FFFFFF',
+          opacity: 0.6,
+        },
+      },
+      xAxis: {
+        label: {
+          autoHide: true,
+          autoRotate: false,
+        },
+      },
+    });
+
+    columnPlot.render();
+
+    return () => {
+      columnPlot.destroy();
+    };
+  }, [columnData]);
+
   async function onFinish() {
     const product = value.map(item => item.key);
     const res = await getAIPLLine(product, times[0], times[1]);
     if (res && res.data && res.data.list) {
       setLineData(res.data.list);
+    }
+    const pie = await getAIPLPie(product, times[0], times[1], days);
+    if (pie && pie.data && pie.data.pieData) {
+      setPieData(res.data.pieData);
+    }
+    const colunm = await getAIPLColunm(product, times[0], times[1], days);
+    if (colunm && colunm.data && colunm.data.list) {
+      setColumnData(colunm.data.list);
     }
   }
 
@@ -157,7 +226,19 @@ const AIPL = () => {
             </Select>
           </Col>
 
-          <Col span={8}>
+          <Col span={4}>
+            <span
+              style={{
+                display: 'inline-block',
+                width: '100px',
+              }}
+            >
+              流失标准(天)：
+            </span>
+            <InputNumber onChange={value => setDays(value)} />
+          </Col>
+
+          <Col span={4}>
             <Button onClick={onFinish} type="primary">
               查询
             </Button>
@@ -166,6 +247,16 @@ const AIPL = () => {
           <Col span={24}>
             <Descriptions title="购买记录" />
             <div id="line"></div>
+          </Col>
+
+          <Col span={8}>
+            <Descriptions title="用户流向" />
+            <div id="pie"></div>
+          </Col>
+
+          <Col span={16}>
+            <Descriptions title="流向产品分布" />
+            <div id="column"></div>
           </Col>
         </Row>
       </div>

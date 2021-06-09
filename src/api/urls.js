@@ -64,3 +64,5 @@ export const KOC = '/getKocTable';
 
 // aipl
 export const AIPL_LINE = '/getChangesInSales';
+export const AIPL_PIE = '/getChurnPieChart';
+export const AIPL_COLUNM = '/getChurnDistribution';
