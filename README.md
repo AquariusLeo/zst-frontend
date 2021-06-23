@@ -42,6 +42,7 @@ axios请求封装，拦截器等等
 
 - 编译前端代码：在项目根目录中运行`npm run build`，会生成build文件夹，其中的文件就是编译好的文件
 - 目前项目部署在59.77.7.58，通过nginx进行了代理，nginx已经设置好，后续部署只需要将build文件夹下编译好的文件拷贝到服务器的`/usr/local/nginx/html/`目录下，再转到`/usr/local/nginx/sbin/`目录下用命令`./nginx -s reload`重启nginx，即可完成部署。对nginx的安装有兴趣可以参考[链接](https://lwrench.github.io/blog/article/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97/nginx%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE.html)
+- 可以使用`ps aux | grep nginx`和`netstat -ntlp | grep nginx`命令查看运行状态和端口状态
 
 ### tips
 
