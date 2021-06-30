@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import { DatePicker } from 'antd';
 import moment from 'moment';
 import { actionCreators } from '../../store';
+import 'moment/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 
 const { RangePicker } = DatePicker;
 
@@ -17,6 +19,7 @@ const TimePicker = props => {
         时间范围：
       </span>
       <RangePicker
+        locale={locale}
         style={{ width: '300px' }}
         onChange={props.handleChange}
         defaultValue={[

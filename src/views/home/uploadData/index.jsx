@@ -191,10 +191,12 @@ const UploadData = () => {
         </div>
         <Button
           style={{ position: 'absolute', right: '24px', top: '24px' }}
-          shape="circle"
+          shape="round"
           icon={<UploadOutlined />}
           onClick={showModal}
-        />
+        >
+          上传数据
+        </Button>
       </div>
       <div
         style={{

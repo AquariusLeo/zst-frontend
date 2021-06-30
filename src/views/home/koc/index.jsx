@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Select, Row, Col, Spin, Empty, Table, Button } from 'antd';
+import { Select, Row, Col, Spin, Empty, Table, Button, DatePicker, message, Radio } from 'antd';
 import { debounce } from 'lodash';
 import { getProducts, koc } from '@/api';
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 
 const { Option } = Select;
+
+const { RangePicker } = DatePicker;
 
 const columns = [
   {
@@ -29,6 +35,17 @@ const columns = [
 ];
 
 const KOCPage = () => {
+  const [times, setTimes] = useState(['2020-01-01', '2021-01-01']);
+
+  const handleTimeChange = value => {
+    if (value !== null) {
+      setTimes([
+        moment(value[0]).format('YYYY-MM-DD'),
+        moment(value[1]).format('YYYY-MM-DD'),
+      ]);
+    }
+  };
+
   const [value, setValue] = useState([]);
   const [data, setData] = useState([]);
   const [fetching, setFetching] = useState(false);
@@ -81,7 +98,7 @@ const KOCPage = () => {
     }
   };
 
-  const [orders, setOrders] = useState(0);
+  const [orders, setOrders] = useState(1);
 
   const handleOrdersChange = value => {
     switch (value) {
@@ -126,6 +143,42 @@ const KOCPage = () => {
     }
   };
 
+  const [sortBy, setSortBy] = useState('sales');
+
+  const handleSortByChange = value => {
+    switch (value) {
+      case 'sales':
+        setSortBy('sales');
+        break;
+      case 'orders':
+        setSortBy('orders');
+        break;
+      case 'items':
+        setSortBy('items');
+        break;
+      case 'atv':
+        setSortBy('atv');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const handleSortOrderChange = e => {
+    switch (e.target.value) {
+      case 1:
+        setSortOrder('asc');
+        break;
+      case 2:
+        setSortOrder('desc');
+        break;
+      default:
+        break;
+    }
+  };
+
   const [tableData, setTableData] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -138,13 +191,18 @@ const KOCPage = () => {
     const product = value.map(item => item.key);
     const [lowSales, highSales] = [...sales];
     const [lowAtv, highAtv] = [...atv];
+    console.log(orders);
     const res = await koc(
+      times[0],
+      times[1],
       product,
       lowSales,
       highSales,
       orders,
       lowAtv,
       highAtv,
+      sortBy,
+      sortOrder,
       pagination.current,
       pagination.pageSize,
     );
@@ -160,6 +218,56 @@ const KOCPage = () => {
 
   async function onFinish() {
     handleTableChange(pagination);
+  }
+
+  async function handleDownloadClick() {
+    const product = value.map(item => item.key);
+    const [lowSales, highSales] = [...sales];
+    const [lowAtv, highAtv] = [...atv];
+    const bodyObj = {
+      startTime: times[0],
+      endTime: times[1],
+      product,
+      lowSales,
+      highSales,
+      orders,
+      lowAtv,
+      highAtv,
+      sortBy,
+      sortOrder,
+      pageNum: pagination.current,
+      pageSize: pagination.pageSize,
+    };
+    const request = {
+      body: JSON.stringify(bodyObj), 
+      method: 'POST', 
+      headers: {
+        Authorization: localStorage.getItem('zst-token'),
+        'content-type': 'application/json',
+      },
+    };
+    try {
+      message.info('下载中,请勿重复点击！');
+      const response = await fetch('/api/downloadKocTable', request);
+      const filename = response.headers
+        .get('content-disposition')
+        .split(';')[1]
+        .split('=')[1];
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.download = decodeURIComponent(filename);
+      link.style.display = 'none';
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(link.href);
+      document.body.removeChild(link);
+    } catch (e) {
+      message.error('下载失败！');
+      return;
+    }
+
+    message.success('下载成功！');
   }
 
   return (
@@ -183,6 +291,27 @@ const KOCPage = () => {
         }}
       >
         <Row gutter={[16, 28]}>
+          <Col span={8}>
+            <span
+              style={{
+                display: 'inline-block',
+                width: '100px',
+              }}
+            >
+              时间范围：
+            </span>
+            <RangePicker
+              locale={locale}
+              style={{ width: '300px' }}
+              onChange={handleTimeChange}
+              defaultValue={[
+                moment(times[0], 'YYYY-MM-DD'),
+                moment(times[1], 'YYYY-MM-DD'),
+              ]}
+              format={'YYYY/MM/DD'}
+            />
+          </Col>
+
           <Col span={8}>
             <span
               style={{
@@ -287,9 +416,52 @@ const KOCPage = () => {
             </Select>
           </Col>
 
-          <Col span={8}>
-            <Button onClick={onFinish} type="primary">
+          <Col span={4}>
+            <span
+              style={{
+                display: 'inline-block',
+                width: '100px',
+              }}
+            >
+              排序方式：
+            </span>
+            <Select
+              defaultValue="sales"
+              onChange={handleSortByChange}
+            >
+              <Option value="sales">消费金额</Option>
+              <Option value="orders">消费频次</Option>
+              <Option value="items">产品种类</Option>
+              <Option value="atv">客单价</Option>
+            </Select>
+          </Col>
+
+          <Col span={4}>
+            <Radio.Group onChange={handleSortOrderChange} defaultValue={2}>
+              <Radio.Button value={1}>升序</Radio.Button>
+              <Radio.Button value={2}>降序</Radio.Button>
+            </Radio.Group>          
+          </Col>
+
+          {/* <Col span={20}></Col> */}
+
+          <Col span={2}>
+            <Button 
+              type="primary" 
+              icon={<SearchOutlined />}
+              onClick={onFinish} 
+            >
               查询
+            </Button>
+          </Col>
+
+          <Col span={2}>
+            <Button
+              type="primary"
+              icon={<DownloadOutlined />}
+              onClick={handleDownloadClick}
+            >
+              下载
             </Button>
           </Col>
 

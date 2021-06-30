@@ -37,6 +37,7 @@ export const DELETE_FILE = '/deleteFile';
 export const CREATE_GROUP = '/createGroup';
 export const GROUP_TABLE = '/getGroupTable';
 export const GET_GROUP_DETAIL = '/getGroupDetail';
+export const DELETE_GROUP = '/deleteGroup';
 export const GET_GEO_GRAPHICAL_DISTRIBUTION = '/getGeographicalDistribution';
 export const GET_PLATFORM_DISTRIBUTION = '/getPlatformDistribution';
 export const GET_PRODUCT_DISTRIBUTION = '/getProductDistribution';

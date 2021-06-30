@@ -9,11 +9,15 @@ import {
   Button,
   Descriptions,
   InputNumber,
+  message,
+  Modal,
 } from 'antd';
 import moment from 'moment';
 import { Line, Pie, Column } from '@antv/g2plot';
 import { debounce } from 'lodash';
 import { getProducts, getAIPLLine, getAIPLPie, getAIPLColunm } from '@/api';
+import 'moment/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 
 const { Option } = Select;
 
@@ -82,8 +86,7 @@ const AIPL = () => {
       colorField: 'type',
       radius: 0.9,
       label: {
-        type: 'outer',
-        offset: '-30%',
+        type: 'spider',
         content: ({ sales }) => {
           // console.log(value);
           return `${sales}人`;
@@ -93,7 +96,26 @@ const AIPL = () => {
           textAlign: 'center',
         },
       },
+      legend: {
+        layout: 'vertical',
+        position: 'bottom',
+      },
       interactions: [{ type: 'element-active' }],
+      color: ({type}) => {
+        if (type === '已流失用户'){
+          return '#E74C3C';
+        };
+        if (type === '未流失用户'){
+          return '#2ECC71';
+        };
+        if (type === '流向价格更高产品'){
+          return '#F4D03F';
+        };
+        if (type === '流向价格更低产品'){
+          return '#3498DB';
+        };
+        return 'silver'
+      },
     });
 
     piePlot.render();
@@ -120,9 +142,11 @@ const AIPL = () => {
       },
       xAxis: {
         label: {
-          autoHide: true,
-          autoRotate: false,
+          autoRotate: true,
         },
+      },
+      scrollbar: {
+        type: 'horizontal',
       },
     });
 
@@ -134,6 +158,10 @@ const AIPL = () => {
   }, [columnData]);
 
   async function onFinish() {
+    Modal.warning({
+      title: '注意：',
+      content: '数据正在加载中，请勿操作！'
+    });
     const product = value.map(item => item.key);
     const res = await getAIPLLine(product, times[0], times[1]);
     if (res && res.data && res.data.list) {
@@ -147,6 +175,11 @@ const AIPL = () => {
     if (colunm && colunm.data && colunm.data.list) {
       setColumnData(colunm.data.list);
     }
+    Modal.destroyAll();
+    Modal.success({
+      title: '提示：',
+      content: '数据加载成功！'
+    });
   }
 
   return (
@@ -182,6 +215,7 @@ const AIPL = () => {
               时间范围：
             </span>
             <RangePicker
+              locale={locale}
               style={{ width: '300px' }}
               onChange={handleTimeChange}
               defaultValue={[
@@ -241,24 +275,28 @@ const AIPL = () => {
             <InputNumber onChange={value => setDays(value)} />
           </Col>
 
-          <Col span={4}>
+          <Col span={1}></Col>
+
+          <Col span={3}>
             <Button onClick={onFinish} type="primary">
               查询
             </Button>
           </Col>
 
           <Col span={24}>
-            <Descriptions title="购买记录" />
+            <Descriptions title="销量变化趋势" />
             <div id="line"></div>
           </Col>
 
-          <Col span={8}>
+          <Col span={10}>
             <Descriptions title="用户流向" />
             <div id="pie"></div>
           </Col>
 
-          <Col span={16}>
-            <Descriptions title="流向产品分布" />
+          <Col span={14}>
+            <Descriptions title="流向产品分布">
+              <Descriptions.Item>单位：人</Descriptions.Item>
+            </Descriptions>
             <div id="column"></div>
           </Col>
         </Row>

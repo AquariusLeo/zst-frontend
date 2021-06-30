@@ -362,6 +362,16 @@ export const getGroupDetail = id => {
   });
 };
 
+export const deleteGroup = id => {
+  return instance.request({
+    url: URL.BASE_URL + URL.DELETE_GROUP,
+    method: 'delete',
+    params: {
+      id,
+    },
+  });
+};
+
 export const getGeographicalDistribution = id => {
   return instance.request({
     url: URL.BASE_URL + URL.GET_GEO_GRAPHICAL_DISTRIBUTION,
@@ -502,12 +512,16 @@ export const userInfoTableByPhone = (phone, pageNum, pageSize) => {
 };
 
 export const koc = (
+  startTime,
+  endTime,
   product,
   lowSales,
   highSales,
   orders,
   lowAtv,
   highAtv,
+  sortBy,
+  sortOrder,
   pageNum,
   pageSize,
 ) => {
@@ -515,12 +529,16 @@ export const koc = (
     url: URL.BASE_URL + URL.KOC,
     method: 'post',
     data: {
+      startTime,
+      endTime,
       product,
       lowSales,
       highSales,
       orders,
       lowAtv,
       highAtv,
+      sortBy,
+      sortOrder,
       pageNum,
       pageSize,
     },

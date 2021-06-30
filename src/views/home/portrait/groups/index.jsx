@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
-import { Table, Modal, Button, Space } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Table, Modal, Button, Space, Popconfirm, message } from 'antd';
+import { UsergroupAddOutlined } from '@ant-design/icons';
 import AddGroup from '../addGroup';
-import { getGroupTable } from '@/api';
+import { getGroupTable, deleteGroup } from '@/api';
 
 function Groups() {
   const { path } = useRouteMatch();
@@ -26,8 +26,8 @@ function Groups() {
       },
       {
         title: '创建时间',
-        dataIndex: 'time',
-        key: 'time',
+        dataIndex: 'createTime',
+        key: 'createTime',
       },
       {
         title: 'Action',
@@ -42,44 +42,47 @@ function Groups() {
               type="primary"
               key="download"
               onClick={async () => {
-                // const request = {
-                //   body: JSON.stringify({
-                //     id: record.id,
-                //   }),
-                //   method: 'POST',
-                //   headers: {
-                //     Authorization: localStorage.getItem('zst-token'),
-                //     'content-type': 'application/json',
-                //   },
-                // };
-                // try {
-                //   message.info('下载中,请勿重复点击！');
-                //   const response = await fetch(
-                //     '/api/downloadGroupUser',
-                //     request,
-                //   );
-                //   const filename = response.headers
-                //     .get('content-disposition')
-                //     .split(';')[1]
-                //     .split('=')[1];
-                //   const blob = await response.blob();
-                //   const link = document.createElement('a');
-                //   link.download = decodeURIComponent(filename);
-                //   link.style.display = 'none';
-                //   link.href = URL.createObjectURL(blob);
-                //   document.body.appendChild(link);
-                //   link.click();
-                //   URL.revokeObjectURL(link.href);
-                //   document.body.removeChild(link);
-                // } catch (e) {
-                //   message.error('下载失败！');
-                //   return;
-                // }
-                // message.success('下载成功！');
+                const request = {
+                  body: JSON.stringify({
+                    id: record.id,
+                  }),
+                  method: 'POST',
+                  headers: {
+                    Authorization: localStorage.getItem('zst-token'),
+                    'content-type': 'application/json',
+                  },
+                };
+                try {
+                  message.info('下载中,请勿重复点击！');
+                  const response = await fetch(
+                    '/api/downloadGroupTable',
+                    request,
+                  );
+                  const filename = response.headers
+                    .get('content-disposition')
+                    .split(';')[1]
+                    .split('=')[1];
+                  const blob = await response.blob();
+                  const link = document.createElement('a');
+                  link.download = decodeURIComponent(filename);
+                  link.style.display = 'none';
+                  link.href = URL.createObjectURL(blob);
+                  document.body.appendChild(link);
+                  link.click();
+                  URL.revokeObjectURL(link.href);
+                  document.body.removeChild(link);
+                } catch (e) {
+                  message.error('下载失败！');
+                  return;
+                }
+                message.success('下载成功！');
               }}
             >
               导出名单
             </Button>
+            <Popconfirm title="是否确认删除?" onConfirm={() => handleDelete(record.id)} >
+              <Button type="primary">删除用户群</Button>
+            </Popconfirm>
           </Space>
         ),
       },
@@ -113,6 +116,14 @@ function Groups() {
     }
   }
 
+  const handleDelete = async key => {
+    const res = await deleteGroup(key);
+    if (res && res.status === 200) {
+      message.success('用户群删除成功!');
+      handleTableChange(pagination);
+    }
+  };
+
   function addGroupFresh() {
     handleTableChange(pagination);
   }
@@ -145,10 +156,12 @@ function Groups() {
         <div style={{ fontSize: '16px' }}>通过不同的指标来划分不同的用户群</div>
         <Button
           style={{ position: 'absolute', right: '24px', top: '24px' }}
-          shape="circle"
-          icon={<UploadOutlined />}
+          shape="round"
+          icon={<UsergroupAddOutlined />}
           onClick={showModal}
-        />
+        >
+          新建用户群  
+        </Button>
       </div>
       <div
         style={{

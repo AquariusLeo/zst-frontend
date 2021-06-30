@@ -43,7 +43,7 @@ const Login = props => {
     <div className="login">
       <div className="login-form-wrap">
         <header>
-          <img src={logo} alt="logo" className="logo" />
+          {/* <img src={logo} alt="logo" className="logo" /> */}
           <h1>正山堂</h1>
         </header>
         <Form

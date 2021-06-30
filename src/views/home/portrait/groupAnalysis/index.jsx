@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import { Button, Descriptions } from 'antd';
+import { Button, Descriptions, Divider } from 'antd';
 import { Column, Line } from '@antv/g2plot';
 import {
   getGroupDetail,
@@ -46,6 +46,7 @@ function GroupAnalysis() {
       const res = await getGroupDetail(match.params.id);
       if (res && res.data) {
         setGroupDetail({ ...res.data });
+        console.log(res.data);
       }
     }
     async function getGeographicalDistributionData() {
@@ -167,6 +168,7 @@ function GroupAnalysis() {
         >
           返回上页
         </Button>
+        <Divider />
         <Descriptions title="用户群信息">
           <Descriptions.Item label="用户群名称">
             {groupDetail.name}
@@ -175,9 +177,26 @@ function GroupAnalysis() {
             {groupDetail.describe}
           </Descriptions.Item>
           <Descriptions.Item label="触达用户量">
-            {groupDetail.userNumber}
+            {groupDetail.userNumber} 人
           </Descriptions.Item>
         </Descriptions>
+        <Descriptions title="用户群约束条件" column={2}>
+          <Descriptions.Item label="总消费金额">
+              {groupDetail.lowSumConsume} ~ {groupDetail.highSumConsume} 元
+            </Descriptions.Item>
+            <Descriptions.Item label="每单平均金额">
+              {groupDetail.lowAveragePrice} ~ {groupDetail.highAveragePrice} 元
+            </Descriptions.Item>
+            <Descriptions.Item label="用户件单价">
+              {groupDetail.lowUp} ~ {groupDetail.highUp} 元
+            </Descriptions.Item>
+            <Descriptions.Item label="订单数">
+              {groupDetail.lowOrderNumbers} ~ {groupDetail.highOrderNumbers} 单
+            </Descriptions.Item>
+        </Descriptions>
+
+        <Divider />
+
         <div>
           <div style={{ fontSize: '20px' }}>地域分布</div>
           <div

@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { message,  notification } from 'antd';
 
 const checkHttpStatus = status => {
   switch (status) {
@@ -9,10 +9,18 @@ const checkHttpStatus = status => {
       message.error('请求的数据不存在！');
       break;
     case 500:
-      message.error('服务器错误，请稍后再试！');
+      notification['error']({
+        message:'服务器错误，请稍后再试！',
+        duration: null
+      });
+      // message.error('服务器错误，请稍后再试！');
       break;
     case 504:
-      message.error('服务器错误，请稍后再试！');
+      notification['error']({
+        message:'服务器错误，请稍后再试！',
+        duration: null
+      });
+      // message.error('服务器错误，请稍后再试！');
       break;
     default:
       break;

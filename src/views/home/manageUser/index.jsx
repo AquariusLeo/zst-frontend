@@ -11,6 +11,7 @@ import {
   Tag,
 } from 'antd';
 import { addUser, getAllUser, deleteUser } from '@/api';
+import { UserAddOutlined } from '@ant-design/icons';
 
 const formItemLayout = {
   labelCol: {
@@ -23,7 +24,7 @@ const formItemLayout = {
 
 const options = [
   { label: '下载表格', value: 1 },
-  { label: '上传表格', value: 2 },
+  { label: '上传文件', value: 2 },
   { label: '管理账户', value: 3 },
 ];
 
@@ -33,7 +34,7 @@ const ManageUser = () => {
   const columns = useMemo(
     () => [
       {
-        title: '用户名',
+        title: '账户名',
         dataIndex: 'username',
       },
       {
@@ -54,14 +55,14 @@ const ManageUser = () => {
                   color = 'green';
                   return (
                     <Tag color={color} key={permission}>
-                      {'上传表格'}
+                      {'上传文件'}
                     </Tag>
                   );
                 case 3:
                   color = 'volcano';
                   return (
                     <Tag color={color} key={permission}>
-                      {'添加或删除用户'}
+                      {'添加或删除账户'}
                     </Tag>
                   );
                 default:
@@ -77,7 +78,7 @@ const ManageUser = () => {
         render: (_, record) =>
           tableData.length >= 0 ? (
             <Popconfirm
-              title="Sure to delete?"
+              title="是否确认删除?"
               onConfirm={() => handleDelete(record.id)}
             >
               {/* eslint-disable-next-line */}
@@ -117,7 +118,7 @@ const ManageUser = () => {
       values.permissionIdList || [],
     );
     if (res && res.status === 200) {
-      message.success('新建用户成功');
+      message.success('新建账户成功');
       form.resetFields();
       getFormList();
     }
@@ -137,7 +138,7 @@ const ManageUser = () => {
   const handleDelete = async key => {
     const res = await deleteUser(key);
     if (res && res.status === 200) {
-      message.success('用户删除成功!');
+      message.success('账户删除成功!');
       getFormList();
     }
   };
@@ -152,13 +153,14 @@ const ManageUser = () => {
         }}
       >
         权限管理
-        <div style={{ fontSize: '16px' }}>分配用户权限</div>
+        <div style={{ fontSize: '16px' }}>分配账户权限</div>
         <Button
           style={{ position: 'absolute', right: '24px', top: '24px' }}
-          type={'primary'}
+          shape="round" 
+          icon={<UserAddOutlined />}
           onClick={showModal}
         >
-          新建用户
+          新建账户
         </Button>
       </div>
       <div
@@ -169,15 +171,17 @@ const ManageUser = () => {
         }}
       >
         <Modal
-          title="新建用户"
+          title="新建账户"
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
+          okText='确认'
+          cancelText='取消'
         >
           <Form onFinish={submit} {...formItemLayout} form={form}>
             <Form.Item
               name={'username'}
-              label={'用户名'}
+              label={'账户名'}
               rules={[
                 {
                   required: true,
@@ -199,7 +203,7 @@ const ManageUser = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item name={'permissionIdList'} label={'用户权限'}>
+            <Form.Item name={'permissionIdList'} label={'账户权限'}>
               <Checkbox.Group options={options} />
             </Form.Item>
 
@@ -209,7 +213,7 @@ const ManageUser = () => {
                 offset: 6,
               }}
             >
-              <Button type="primary" htmlType="submit">
+              <Button type={'primary'} htmlType="submit">
                 新建
               </Button>
             </Form.Item>

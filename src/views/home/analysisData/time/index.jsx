@@ -217,6 +217,7 @@ const AnalysisByTime = props => {
         {props.permissionIdList.includes(1) ? (
           <Button
             style={{ position: 'absolute', right: '24px', top: '24px' }}
+            shape="round"
             icon={<DownloadOutlined />}
             onClick={handleDownloadClick}
           >

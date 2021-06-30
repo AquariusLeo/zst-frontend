@@ -92,11 +92,15 @@ const Home = () => {
               <Link to={`${url}/analysisByTime`}>时间维度</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="portrait" icon={<ContactsOutlined />} title="用户画像">
+          <Menu.Item key="groups" icon={<ContactsOutlined />}>
+            <Link to={`${url}/groups`}>用户分群</Link>
+          </Menu.Item>
+
+          {/* <SubMenu key="portrait" icon={<ContactsOutlined />} title="用户画像">
             <Menu.Item key="groups">
               <Link to={`${url}/groups`}>用户分群</Link>
             </Menu.Item>
-          </SubMenu>
+          </SubMenu> */}
           {permissionIdList.includes(2) ? (
             <Menu.Item key="uploadData" icon={<CloudUploadOutlined />}>
               <Link to={`${url}/uploadData`}>数据导入</Link>
