@@ -164,7 +164,7 @@ const KOCPage = () => {
     }
   };
 
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const handleSortOrderChange = e => {
     switch (e.target.value) {
