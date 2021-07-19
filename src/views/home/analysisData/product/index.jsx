@@ -116,8 +116,8 @@ const AnalysisByProduct = props => {
     // eslint-disable-next-line
   }, []);
 
-  const [platformDisabled, setPlatformDisabled] = useState(false);
-  const [shopDisabled, setShopDisabled] = useState(true);
+  const [platformDisabled, setPlatformDisabled] = useState(true);
+  const [shopDisabled, setShopDisabled] = useState(false);
 
   function handlePlatformClick() {
     setPlatformDisabled(false);

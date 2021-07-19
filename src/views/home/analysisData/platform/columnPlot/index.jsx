@@ -10,17 +10,16 @@ const ColumnPlot = props => {
       yField: 'value',
       label: {
         // 可手动配置 label 数据标签位置
-        position: 'middle', // 'top', 'bottom', 'middle',
+        position: 'top', // 'top', 'bottom', 'middle',
         // 配置样式
         style: {
-          fill: '#FFFFFF',
+          fill: '#000000',
           opacity: 0.6,
         },
       },
       xAxis: {
         label: {
-          autoHide: true,
-          autoRotate: false,
+          autoRotate: true,
         },
       },
       meta: {
