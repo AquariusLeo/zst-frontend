@@ -78,6 +78,9 @@ const Home = () => {
             <Link to={`${url}/dashboard`}>主页</Link>
           </Menu.Item>
           <SubMenu key="analysis" icon={<PieChartOutlined />} title="数据中心">
+            <Menu.Item key="analysisByTime">
+              <Link to={`${url}/analysisByTime`}>时间维度</Link>
+            </Menu.Item>
             <Menu.Item key="analysisByProduct">
               <Link to={`${url}/analysisByProduct`}>产品维度</Link>
             </Menu.Item>
@@ -86,10 +89,6 @@ const Home = () => {
             </Menu.Item>
             <Menu.Item key="analysisByPlatform">
               <Link to={`${url}/analysisByPlatform`}>平台维度</Link>
-            </Menu.Item>
-
-            <Menu.Item key="analysisByTime">
-              <Link to={`${url}/analysisByTime`}>时间维度</Link>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="groups" icon={<ContactsOutlined />}>

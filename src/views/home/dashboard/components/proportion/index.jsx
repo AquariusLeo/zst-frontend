@@ -66,14 +66,14 @@ const Proportion = props => {
         content: {
           offsetY: 4,
           style: {
-            fontSize: '32px',
+            fontSize: '28px',
           },
           customHtml: (container, view, datum, data) => {
             const { width } = container.getBoundingClientRect();
             const text = datum
-              ? `¥ ${datum.value}`
+              ? `¥ ${datum.sales}`
               : `¥ ${data.reduce((r, d) => r + d.sales, 0)}`;
-            return renderStatistic(width, text, { fontSize: 32 });
+            return renderStatistic(width, text, { fontSize: 28 });
           },
         },
       },

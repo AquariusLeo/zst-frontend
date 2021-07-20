@@ -9,7 +9,6 @@ import {
   Button,
   Descriptions,
   InputNumber,
-  message,
   Modal,
 } from 'antd';
 import moment from 'moment';

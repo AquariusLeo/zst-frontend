@@ -13,13 +13,14 @@ export const getLogin = (username, password) => {
 };
 
 // dashboard
-export const getDashboardInfoCard = (year, month) => {
+export const getDashboardInfoCard = (year, month, date) => {
   return instance.request({
     url: URL.BASE_URL + URL.DASHBOARD_INFO_CARD,
     method: 'get',
     params: {
       year,
       month,
+      date,
     },
   });
 };

@@ -7,7 +7,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { actionCreators } from './store';
 // import { getLogin } from '@/api';
 import './index.scss';
-import logo from '@/assets/logo.png';
+// import logo from '@/assets/logo.png';
 
 const Login = props => {
   let history = useHistory();

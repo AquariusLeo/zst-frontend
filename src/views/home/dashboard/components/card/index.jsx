@@ -1,4 +1,5 @@
 import './style.scss';
+import { Statistic, } from 'antd';
 
 const Card = props => {
   const { title, nums, up } = props;
@@ -7,11 +8,11 @@ const Card = props => {
       <div className="t-card-left">
         <div className="t-card-title">{title}</div>
         <div className="t-card-amount">
-          <strong>{nums}</strong>
+          <Statistic value={nums}></Statistic>
         </div>
         <div className="t-card-up">
           <strong>
-            环比增长{' '}
+            近一个月环比增长{' '}
             <span
               className={
                 up > 0 ? 't-card-up-increase-num' : 't-card-up-decrease-num'

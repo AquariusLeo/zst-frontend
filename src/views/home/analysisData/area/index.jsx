@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Divider, Table, Button, message } from 'antd';
+import { Row, Col, Divider, Table, Button, message, Modal, } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
@@ -57,8 +57,8 @@ const AnalysisByArea = props => {
     // eslint-disable-next-line
   }, []);
 
-  const [platformDisabled, setPlatformDisabled] = useState(false);
-  const [shopDisabled, setShopDisabled] = useState(true);
+  const [platformDisabled, setPlatformDisabled] = useState(true);
+  const [shopDisabled, setShopDisabled] = useState(false);
 
   const handlePageClick = pagination => {
     const { times, platform, searchValue, searchShopValue } = props;
@@ -96,6 +96,10 @@ const AnalysisByArea = props => {
       pagination,
       searchShopValue,
     } = props;
+    Modal.warning({
+      title: '注意：',
+      content: '数据正在加载中，请勿操作！'
+    });
     const product = searchValue.map(item => item.key);
     const shop = searchShopValue.map(item => item.key);
     if (platformDisabled) {

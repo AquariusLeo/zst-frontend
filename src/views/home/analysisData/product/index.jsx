@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Divider, Col, Row, Tag, Table, Button, message } from 'antd';
+import { Divider, Col, Row, Tag, Table, Button, message, Modal, } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
@@ -138,6 +138,10 @@ const AnalysisByProduct = props => {
       pagination,
       searchShopValue,
     } = props;
+    Modal.warning({
+      title: '注意：',
+      content: '数据正在加载中，请勿操作！'
+    });
     const shop = searchShopValue.map(item => item.key);
     if (platformDisabled) {
       props.getProductLine(startTime, endTime, indicator, [], shop);

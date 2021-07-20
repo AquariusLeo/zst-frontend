@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Divider, Row, Col, Table, Button, message } from 'antd';
+import { Divider, Row, Col, Table, Button, message, Modal } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import TimePicker from '../components/timePicker';
 import IndicatorPicker from '../components/indicatorPicker';
@@ -56,6 +56,10 @@ const AnalysisByPlatform = props => {
 
   useEffect(() => {
     const { startTime, endTime, indicator, searchValue, pagination } = props;
+    Modal.warning({
+      title: '注意：',
+      content: '数据正在加载中，请勿操作！'
+    });
     const product = searchValue.map(item => item.key);
     props.getPlatformLine(startTime, endTime, indicator, product);
     handlePageClick(pagination);

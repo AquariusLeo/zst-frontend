@@ -9,6 +9,16 @@ const ColumnPlot = props => {
       xField: 'name',
       yField: 'value',
       label: {
+        // 配置标签文本，小于1的设为百分数
+        content: (originData) => {
+          if (originData.value <= 1.0) {
+            const val = parseFloat(originData.value);
+            return (val * 100).toFixed(2) + '%';
+          }
+          else{
+            return originData.value;
+          }
+        },
         // 可手动配置 label 数据标签位置
         position: 'top', // 'top', 'bottom', 'middle',
         // 配置样式
@@ -21,6 +31,28 @@ const ColumnPlot = props => {
         label: {
           autoRotate: true,
         },
+      },
+      yAxis: {
+        label: {
+          formatter: (originData) => {
+            if (originData <= 1.0 && originData > 0) {
+              return (originData * 100).toFixed(2) + '%';
+            }
+            else{
+              return originData;
+            }
+          },    
+        },
+      },
+      tooltip: {
+        formatter: (originData) => {
+          if (originData.value <= 1.0) {
+            return {name: 'value', value: (originData.value * 100).toFixed(2) + '%'};
+          }
+          else{
+            return {name: 'value', value: originData.value};
+          }
+        }
       },
       meta: {
         type: {

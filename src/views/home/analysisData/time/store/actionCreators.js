@@ -1,5 +1,6 @@
 import { GET_TIME_LINE } from './actionTypes';
 import { postTimeLine } from '@/api';
+import { message, Modal } from 'antd';
 
 export const getTimeLine = (
   startTime,
@@ -27,6 +28,8 @@ export const getTimeLine = (
         type: GET_TIME_LINE,
         timeLine: res.data.timeLine,
       });
+      Modal.destroyAll();
+      message.success('数据加载成功！');
     }
   };
 };

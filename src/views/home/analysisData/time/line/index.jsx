@@ -11,11 +11,34 @@ const TimeLine = props => {
       xField: 'date',
       yField: 'value',
       xAxis: {
-        tickCount: 5,
+        tickCount: 10,
       },
+      yAxis: {
+        label: {
+          formatter: (originData) => {
+            if (originData <= 1.0 && originData > 0) {
+              return (originData * 100).toFixed(2) + '%';
+            }
+            else{
+              return originData;
+            }
+          },    
+        },
+      },
+      tooltip: {
+        formatter: (originData) => {
+          if (originData.value <= 1.0) {
+            return {name: 'value', value: (originData.value * 100).toFixed(2) + '%'};
+          }
+          else{
+            return {name: 'value', value: originData.value};
+          }
+        }
+      },
+      // smooth: true,
       slider: {
-        start: 0.1,
-        end: 0.5,
+        start: 0,
+        end: 1,
       },
     });
     line.render();

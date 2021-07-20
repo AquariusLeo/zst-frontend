@@ -4,17 +4,20 @@ import {
   getDashboardTrend,
   getDashboardPie,
 } from '@/api';
+import { message } from 'antd';
 
 export const initInfoCardAction = infoCardData => ({
   type: INITINFOCARD,
   infoCardData,
 });
 
-export const getInfoCard = (year, month) => {
+export const getInfoCard = (year, month, date) => {
   return async dispatch => {
-    const infoCardData = await getDashboardInfoCard(year, month);
+    const infoCardData = await getDashboardInfoCard(year, month, date);
     if (infoCardData) {
       dispatch(initInfoCardAction(infoCardData.data));
+      message.destroy();
+      message.success('数据加载成功！');
     }
   };
 };

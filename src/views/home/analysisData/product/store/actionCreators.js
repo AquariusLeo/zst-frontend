@@ -1,5 +1,6 @@
 import { GET_PRODUCT_LINE, GET_TOP_TEN_PRODUCT_NUMBERS, GET_TOP_TEN_PRODUCT_SALES } from './actionTypes';
 import { postProductLine, postTopTenProductNumbers, postTopTenProductSales } from '@/api';
+import { message, Modal } from 'antd';
 
 export const getProductLine = (startTime, endTime, indicator, platform, shop) => {
   return async dispatch => {
@@ -10,6 +11,8 @@ export const getProductLine = (startTime, endTime, indicator, platform, shop) =>
         type: GET_PRODUCT_LINE,
         productLine: res.data.list,
       });
+      Modal.destroyAll();
+      message.success('数据加载成功！');
     }
   };
 };
